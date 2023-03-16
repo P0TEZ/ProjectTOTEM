@@ -1,5 +1,6 @@
 import React from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import './assets/globalStyle/main.scss'; 
 import { ThemeContext } from './context/AppTheme';
 
 function App() {
