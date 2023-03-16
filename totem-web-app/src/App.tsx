@@ -1,24 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Routes, Route, useNavigate} from 'react-router-dom';
+import { ThemeContext } from './context/AppTheme';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        {/* TODO: INSTALL Sass, Route */}
+        <Routes>
+            <Route path="/" element={<p>HOME</p>} />
+            <Route path="/:id" element={<p>PAGE Config</p>}/>
+            <Route path="/admin" element={<p>PAGE Admin</p>}/>
+            <Route path="*" element={<p>404</p>}/>
+        </Routes>
     </div>
   );
 }
