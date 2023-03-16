@@ -6,7 +6,6 @@ import './assets/globalStyle/main.scss';
 function App() {
   return (
     <div className="App">
-        {/* TODO: INSTALL Sass, Route */}
         <Routes>
             <Route path="/" element={<p>HOME</p>} />
             <Route path="/:id" element={<p>PAGE Config</p>}/>
