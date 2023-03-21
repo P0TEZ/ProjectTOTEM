@@ -12,7 +12,7 @@ CREATE TABLE SETTINGS(
 );
 
 CREATE TABLE Admin(
-   admin_password VARCHAR(50),
+   admin_password VARCHAR(100),
    PRIMARY KEY(admin_password)
 );
 
