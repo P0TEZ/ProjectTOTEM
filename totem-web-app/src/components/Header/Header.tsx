@@ -3,7 +3,7 @@ import './Header.scss'
 
 export default function Header() {
   return (
-    <div className='header fs-subtitle-1 monument c-onBackground'>
+    <div className='header fs-headline-5 monument c-onBackground'>
       <p>TOTEM</p>
     </div>
   )
