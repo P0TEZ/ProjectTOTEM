@@ -31,7 +31,6 @@ def read_root():
 
 @app.get("/admin/{password}")
 async def admin(password: str):
-    print("eeeeeeeeeeaaaa")
 
     if not isinstance(password, str):
         raise HTTPException(status_code=400, detail="The password must be a string")
