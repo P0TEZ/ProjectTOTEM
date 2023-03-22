@@ -19,6 +19,7 @@ export default function Onboarding() {
             Cliquez sur le bouton ci-dessous pour commencer
             </p>
           </div>
+          <button>test</button>
         </div>
 
     </>
