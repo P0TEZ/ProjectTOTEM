@@ -1,6 +1,6 @@
 :root {  
     --black-color: hsl(239, 55%, 5%);
-    --white-color: hsl(239, 55%, 90%);
+    --white-color: #ededed;
     --grey-color: hsl(239, 5%, 55%);
     --lightGrey-color: hsl(239, 5%, 85%);
 
@@ -10,8 +10,8 @@
 .darkTheme {
     --background-color: var(--black-color);
     --onBackgroud-color: var(--white-color);
-    --surface-color: var(--primary);
     --onSurface-color: var(--white-color);
+    --primary-color: var(--blue-color-500);
 }
 
 .lightTheme {

@@ -1,4 +1,16 @@
 @import "reset.scss";
+@import "variables.scss";
+
+// import monument font
+@font-face {
+    font-family: 'Monument-Regular';
+    src: url("./../fonts/Monument/MonumentExtended-Regular.otf");
+}
+@font-face {
+    font-family: "Monument-ExtraBold";
+    src: url("./../fonts/Monument/MonumentExtended-Ultrabold.otf");
+}
+
 
 body {
     margin: 0;
@@ -7,6 +19,7 @@ body {
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
 }
 
 code {
@@ -32,7 +45,7 @@ html, body, #root, .App {
 }
 
 /////////////////////////////////////////////////
-
+// Font sizes
 .fs{
     &-headline{
         &-1{
@@ -105,4 +118,50 @@ html, body, #root, .App {
         letter-spacing: 1.25px;
         font-weight: 500;
     }
+}
+
+// font color
+.c{
+    &-primary{
+        color: var(--primary-color);
+    }
+    &-background{
+        color: var(--background-color);
+    }
+    &-onBackground{
+        color: var(--onBackgroud-color);
+    }
+    &-onSurface{
+        color: var(--onSurface-color);
+    }
+    &-grey{
+        color: var(--grey-color);
+    }
+}
+// background color
+.b{
+    &-primary{
+        background-color: var(--primary-color);
+    }
+    &-background{
+        background-color: var(--background-color);
+    }
+    &-onBackground{
+        background-color: var(--onBackgroud-color);
+    }
+    &-onSurface{
+        background-color: var(--onSurface-color);
+    }
+}
+
+strong{
+    color: var(--primary-color);
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.monument{
+    font-family: "Monument-ExtraBold";
 }
