@@ -16,7 +16,6 @@ function App() {
     else{
       setAnimation("moveToLeftFromRight");
     }
-    //console.log(animation)
   }, [location.pathname]);
 
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);

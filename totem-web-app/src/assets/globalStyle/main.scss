@@ -44,6 +44,17 @@ html, body, #root, .App {
     color: var(--onBackgroud-color);
 }
 
+.PAGE_CONTAINER{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: var(--header-height);
+    
+    height: 100dvh;
+    width: 100dvw;
+}
+
 /////////////////////////////////////////////////
 // Font sizes
 .fs{

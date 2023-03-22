@@ -1,5 +1,13 @@
 .header{
+    position: absolute;
+
     width:100dvw;
     text-align: center;
-    padding:1rem 0
+
+    height: var(--header-height);
+
+    // horizontal center
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
