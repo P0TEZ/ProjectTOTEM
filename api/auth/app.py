@@ -10,7 +10,7 @@ import uvicorn
 app = FastAPI(
     title="AuthTotemAPi",
     description="",
-    version="0.0.1",
+    version="1.0.0",
     terms_of_service="",
     contact={
         "name": "P0TEZ",
