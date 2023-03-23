@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import characterImg from "./../../assets/images/character.png"
 //import arrow right icon from react-icons fontawesome
 import { FaArrowRight } from 'react-icons/fa'
@@ -9,6 +9,10 @@ import './Onboarding.scss'
 import Button from "./../../components/Button/Button"
 
 export default function Onboarding() {
+  useEffect(() => {
+    document.title = "TOTEM - Bienvenue"
+  }, [])
+  
   return (
     <>
         <div id="OnboardingPage" className='PAGE_CONTAINER'>
@@ -21,7 +25,7 @@ export default function Onboarding() {
             <h1 className='catchPhrase fs-headline-4 bold' data-aos="zoom-out" data-aos-delay={400}>
               <strong>Totem</strong><br/>La magie de la musique, pour tous.
             </h1>
-            <p className='fs-body-1 c-grey' data-aos="zoom-out" data-aos-delay={600}>
+            <p className='fs-body-1 c-lightGrey' data-aos="zoom-out" data-aos-delay={600}>
               Cliquez sur le bouton ci-dessous pour commencer
             </p>
           </div>

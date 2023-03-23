@@ -5,6 +5,7 @@ import { ThemeContext } from './context/AppTheme';
 import { PageTransition } from "@steveeeie/react-page-transition";
 
 import Onboarding from './pages/Onboarding/Onboarding';
+import Code from './pages/Code/Code';
 import Redirect from './utils/Redirect';
 import Header from './components/Header/Header';
 
@@ -15,7 +16,7 @@ function App() {
   useEffect(() => {
     AOS.init();
   }, [])
-  
+
   const location = useLocation();
   const [animation, setAnimation] = useState("moveToLeftFromRight");
   useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
           <Routes>
               <Route path="/" element={<Redirect to="welcome" />} />
               <Route path="/welcome" element={<Onboarding />}/>
+              <Route path="/code" element={<Code />}/>
               <Route path="/:id" element={<p>PAGE Config</p>}/>
               <Route path="/admin" element={<p className='admin'>Page ADMINNN</p>} />
               <Route path="/*" element={<p>404</p>}/>

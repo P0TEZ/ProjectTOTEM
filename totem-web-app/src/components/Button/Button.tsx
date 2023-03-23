@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, children }) => 
     }
     return (
         <button 
-            className="btn fs-body-1" 
+            className="btn fs-body-1 s-far" 
             onClick={handleClick} 
             data-aos={aos?aos.anim:""}
             data-aos-offset={aos?aos.offset:0}

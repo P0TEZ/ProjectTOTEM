@@ -156,6 +156,12 @@ input,
 textarea,
 button,
 select,
-a {
+a,
+svg {
     -webkit-tap-highlight-color: transparent;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
 }
