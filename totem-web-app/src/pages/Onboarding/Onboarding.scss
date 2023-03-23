@@ -1,7 +1,6 @@
 #OnboardingPage{
-    justify-content: space-around;
-
-    gap: 1rem;
+    justify-content: space-evenly;
+    //gap: 1rem;
 }
 
 .characterContainer {
@@ -11,14 +10,13 @@
     justify-content: center;
 
     height: 1rem;
-    flex-grow: 1;
+    flex-grow: .7;
     
     & img{
         height: 100%;
-        max-width: 90dvw;
+        max-width: 70dvw;
         object-fit: contain;
     }
-
 }
 
 .textContainer{

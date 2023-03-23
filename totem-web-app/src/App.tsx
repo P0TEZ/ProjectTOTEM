@@ -8,7 +8,14 @@ import Onboarding from './pages/Onboarding/Onboarding';
 import Redirect from './utils/Redirect';
 import Header from './components/Header/Header';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 function App() {
+  useEffect(() => {
+    AOS.init();
+  }, [])
+  
   const location = useLocation();
   const [animation, setAnimation] = useState("moveToLeftFromRight");
   useEffect(() => {
