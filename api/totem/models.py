@@ -101,3 +101,32 @@ class Bdd:
             print(e)
             return None
     
+    # add a function that totem id and return if it exists
+    def checkTotemID(self, totemID):
+        """
+        It checks if the totem with the ID specified by the parameter exists.
+        
+        :param totemID: The ID of the totem
+        :return: The function checkTotemID() is returning a boolean value.
+        """
+        try:
+            self.cursor.execute("SELECT totem_id FROM Totem WHERE totem_id = %s", (totemID,))
+            return self.cursor.fetchone()[0] is not None
+        except Exception as e:
+            print(e)
+            return None
+        
+    def getParamsDetails(self):
+        """
+        It gets the details of the parameters.
+        
+        :return: The function getParamsDetails() is returning a list of tuples.
+        """
+        try:
+            self.cursor.execute("SELECT * FROM Settings")
+            params = self.cursor.fetchall()
+            params = [dict(zip(['param_name', 'param_min_value', 'param_max_value', 'param_default_value'], param)) for param in params]
+            return params
+        except Exception as e:
+            print(e)
+            return None
