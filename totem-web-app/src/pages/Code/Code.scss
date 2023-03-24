@@ -30,26 +30,29 @@
             justify-content: space-around;
             align-items: center;
     
-    
-            // TODO : Style the inputs for laptop display sizes (make it not width based ?)
-            // BUG : The font sizes is hidden by the input border sometimes :/
-            // NOTE : Is the keyboard input overlapping the inputs ? :/
             & input{
-                width:12vw;
-                text-align: center;
-                height: 18vw;
-    
+                appearance: textfield;
+
+                aspect-ratio: 2/3;
+                padding:.5ch;
+                
                 font-size: 28 * 0.0625rem;
+                text-align: center;
                 font-weight: bold;
                 font-family: "Monument-Regular";
     
                 background: transparent;
                 color:var(--onBackgroud-color);
-                border:.15rem solid var(--primary-color);
+                border:.15rem solid var(--onBackgroud-color);
                 outline: none;
     
                 &:focus{
-                    box-shadow: 0 0 0 .2rem var(--primary-color);
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 0 .3rem var(--primary-color);
+                }
+                &:not(:placeholder-shown){
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 0 .3rem var(--primary-color);
                 }
             }
         }

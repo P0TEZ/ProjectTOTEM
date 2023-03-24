@@ -161,7 +161,7 @@ svg {
     -webkit-tap-highlight-color: transparent;
 }
 
-a{
-    text-decoration: none;
-    color: inherit;
+a {
+    text-decoration: underline;
+    color: var(--primary-color);
 }

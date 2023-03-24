@@ -3,6 +3,7 @@ import {Routes, Route, useLocation} from 'react-router-dom';
 import './assets/globalStyle/main.scss'; 
 import { ThemeContext } from './context/AppTheme';
 import { PageTransition } from "@steveeeie/react-page-transition";
+import { Toaster } from 'react-hot-toast';
 
 import Onboarding from './pages/Onboarding/Onboarding';
 import Code from './pages/Code/Code';
@@ -27,12 +28,12 @@ function App() {
   }, [location.pathname]);
 
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
-  console.log(isDarkMode)
+  console.log("Dark mode : "+isDarkMode)
 
   return (
     <div className={"App ".concat(isDarkMode ? "darkTheme":"lightTheme")}>
+      <Toaster position='top-center'/>
       <Header/>
-
         <PageTransition preset={animation} transitionKey={location.pathname} enterAnimation="" exitAnimation="">
 
           <Routes>

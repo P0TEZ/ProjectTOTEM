@@ -6,5 +6,6 @@ export const inputStyle = {
     inputStyleInvalid: {
         margin:  '.5rem',
         borderRadius: 'var(--small-radius)',
+        borderColor: 'var(--danger-color)',
     }
 };

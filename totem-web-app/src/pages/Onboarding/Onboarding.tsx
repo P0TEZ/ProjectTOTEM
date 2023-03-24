@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import characterImg from "./../../assets/images/character.png"
-//import arrow right icon from react-icons fontawesome
 import { FaArrowRight } from 'react-icons/fa'
 
 
 import './Onboarding.scss'
 
 import Button from "./../../components/Button/Button"
+import Blob from "./../../components/Blob/Blob"
 
 export default function Onboarding() {
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function Onboarding() {
   return (
     <>
         <div id="OnboardingPage" className='PAGE_CONTAINER'>
-
+          {/*<Blob color={{color1: "var(--primary-color)", color2:"hsl(239, 85%, 80%)"}} speed={3} opacity={.3}/>*/}
           <div className='characterContainer' data-aos="zoom-in" data-aos-delay={200}>
             <img src={characterImg} alt="A woman walking forward to the right" aria-label='A woman walking forward to the right' className='character'/>
           </div>
