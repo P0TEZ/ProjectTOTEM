@@ -1,33 +1,32 @@
 #OnboardingPage{
     justify-content: space-evenly;
     //gap: 1rem;
-}
-
-.characterContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    height: 1rem;
-    flex-grow: .7;
+    .characterContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     
-    & img{
-        height: 100%;
-        max-width: 70dvw;
-        object-fit: contain;
+        height: 1rem;
+        flex-grow: .7;
+        
+        & img{
+            height: 100%;
+            max-width: 70dvw;
+            object-fit: contain;
+        }
     }
-}
-
-.textContainer{
-    width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-
-    gap: 1rem;
-
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    
+    .textContainer{
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    
+        gap: 1rem;
+    
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
