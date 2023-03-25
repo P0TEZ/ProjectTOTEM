@@ -50,6 +50,9 @@ export default function Code() {
                 // If the connection is successful, redirect the user to his settings page
                 navigate("/"+code)
             })
+            .catch((error)=>{
+                toast.error(error.message);
+            })
         }
     }
 

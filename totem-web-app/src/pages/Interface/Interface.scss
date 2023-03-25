@@ -1,0 +1,23 @@
+#InterfacePage{
+
+    div.statusContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .status {
+            &.connecting {
+                color: var(--warning-color);
+            }
+          
+            &.connected {
+                color: var(--success-color);
+            }
+          
+            &.disconnected {
+                color: var(--danger-color);
+            }
+        }
+    }
+    
+}
