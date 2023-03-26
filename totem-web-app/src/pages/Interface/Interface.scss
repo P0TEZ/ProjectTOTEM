@@ -1,23 +1,57 @@
 #InterfacePage{
 
-    div.statusContainer{
+    div.btnContainer{
         display: flex;
-        flex-direction: column;
+        flex-direction : column;
+        justify-content: space-evenly;  
         align-items: center;
-
-        .status {
-            &.connecting {
-                color: var(--warning-color);
-            }
-          
-            &.connected {
-                color: var(--success-color);
-            }
-          
-            &.disconnected {
-                color: var(--danger-color);
+        height: 100%;
+        width: 100%; 
+        position: relative;
+           
+        &>*{
+            aspect-ratio: 1/1;
+            flex-grow:.1;
+        }
+        div.helpBtn{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        
+            &>svg{
+                margin:.5ch;
+                transform-origin: bottom center;
+                transition: all .5s ease-in-out;
+                &.helpAsked{
+                    animation: wave 2s infinite ease-in-out, color-change 2s infinite ease-in-out;
+                    transition: all .5s ease-in-out;
+                }
             }
         }
     }
-    
+}
+
+@keyframes wave{
+    0%{
+        transform: rotate(-10deg);
+    }
+    50%{
+        transform: rotate(10deg);
+    }
+    100%{
+        transform: rotate(-10deg);
+    }
+}
+
+@keyframes color-change{
+    0%{
+        fill: var(--primary-color);
+    }
+    50%{
+        fill: var(--onBackgroud-color);
+    }
+    100%{
+        fill: var(--primary-color);
+    }
 }

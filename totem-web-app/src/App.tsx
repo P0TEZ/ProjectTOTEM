@@ -22,7 +22,7 @@ function App() {
   const location = useLocation();
   const [animation, setAnimation] = useState("moveToLeftFromRight");
   useEffect(() => {
-    if(location.pathname === "/admin")       setAnimation("moveToRightFromLeft");
+    if(location.pathname === "/admin")  setAnimation("moveToRightFromLeft");
     else{
       setAnimation("moveToLeftFromRight");
     }
