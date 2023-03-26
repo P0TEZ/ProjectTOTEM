@@ -131,3 +131,20 @@ class Bdd:
             print(e)
             return None
         
+    def getUserParamsDetails(self, totemID, totemIP):
+        """
+        It gets the details of the parameters of the user.
+        
+        :param totemID: The ID of the totem
+        :param totemIP: The IP address of the totem
+        :return: The function getUserParamsDetails() is returning a list of tuples.
+        """
+        try:
+            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = 1 AND t.TOTEM_IP = '1';")
+            params = self.cursor.fetchall()
+            params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
+            return params
+        except Exception as e:
+            print(e)
+            return None
+        

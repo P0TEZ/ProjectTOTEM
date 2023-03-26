@@ -107,7 +107,8 @@ async def check_user_token(token: str):
         raise HTTPException(status_code=401, detail="Token invalid, ID or IP found")
 
     bdd = Bdd()
-    if bdd.checkTotemID(token) == "":
+    doesTotemExist = bdd.checkTotemID(token["totemID"])
+    if not doesTotemExist:
         # 403 forbidden
         raise HTTPException(status_code=403, detail="The token is not linked to a valid totem")
     
@@ -116,11 +117,12 @@ async def check_user_token(token: str):
 @app.get("/user/", tags=["user"])
 async def read_user_params(token: str):
     """
-    It returns all details about the parameters
+    It returns all details about the user parameters
     """
     token = await check_user_token(token)
 
-    return {"token": token}
+    bdd = Bdd()
+    return bdd.getUserParamsDetails(token["totemID"], token["totemIP"])
 
     # TODO: check if the token is valid, then get the user ID from the token then get the user params from the database
 
