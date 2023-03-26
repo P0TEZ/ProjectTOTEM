@@ -2,10 +2,24 @@ from utils import checkForEnvVar
 checkForEnvVar()
 from models import Token, Bdd
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI,HTTPException, Request
+
 import uvicorn
 
-
+tags_metadata = [
+    {
+        "name": "default",
+        "description": "Default routes",
+    },
+    {
+        "name": "user",
+        "description": "User routes",
+    },
+    {
+        "name": "admin",
+        "description": "Admin routes",
+    },
+]
 
 app = FastAPI(
     title="TotemAPi",
@@ -19,17 +33,18 @@ app = FastAPI(
     license_info={
         "name": "MIT",
     },
+    openapi_tags=tags_metadata,
 )
 
-@app.get("/")
+@app.get("/", tags=["default"])
 def read_root():
     return {
         "Name": "TOTEM_API",
         "Status": "Online"
     }
 
-@app.get("/totem/{totem_id}")
-def read_totem(totem_id: int):
+@app.get("/totem/{totem_id}", tags=["default"])
+async def read_totem(totem_id: int):
     """
     It takes a totem ID as an argument, and returns a boolean value that indicates if the totem exists or not
     """
@@ -42,8 +57,8 @@ def read_totem(totem_id: int):
         "exists": True
     }
 
-@app.get("/totem/{totem_id}/ip")
-def read_totem_ip(totem_id: int):
+@app.get("/totem/{totem_id}/ip", tags=["default"])
+async def read_totem_ip(totem_id: int):
     """
     It takes a totem ID as an argument, and returns the IP address of the totem
     """
@@ -57,8 +72,8 @@ def read_totem_ip(totem_id: int):
         "ip": ip
     }
 
-@app.get("/params")
-def read_params():
+@app.get("/params", tags=["default"])
+async def read_params():
     """
     It returns all details about the parameters
     """
@@ -66,6 +81,143 @@ def read_params():
     bdd = Bdd()
     return bdd.getParamsDetails()
 
+# user routes
+
+async def check_user_token(token: str):
+    """
+    It checks if the user token is valid
+    """
+    token = Token.decode_auth_token(token)
+    # return token
+    if token is None:
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token invalid")
+    
+    
+    if token == "Expired":
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token expired")
+    
+    if token == "Invalid":
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token invalid")
+
+    if token["totemID"] is None or token["totemIP"] is None:
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token invalid, ID or IP found")
+
+    bdd = Bdd()
+    if bdd.checkTotemID(token) == "":
+        # 403 forbidden
+        raise HTTPException(status_code=403, detail="The token is not linked to a valid totem")
+    
+    return token
+
+@app.get("/user/", tags=["user"])
+async def read_user_params(token: str):
+    """
+    It returns all details about the parameters
+    """
+    token = await check_user_token(token)
+
+    return {"token": token}
+
+    # TODO: check if the token is valid, then get the user ID from the token then get the user params from the database
+
+@app.get("/user/param/{param_name}", tags=["user"])
+def read_user_param(token: str, param_name: str):
+    """
+    It returns the details of a specific parameter
+    """
+
+    # TODO: check if the token is valid, then get the user ID from the token then get the user params from the database
+
+
+@app.post("/user/param/{param_name}/{param_value}", tags=["user"])
+def update_user_param(token: str, param_name: str, param_value: int):
+    """
+    It updates the value of a specific parameter
+    """
+
+    # TODO: check if the token is valid, then get the user ID from the token then set the parameter value in the database
+    # TODO: send the osc message to the totem
+
+# admin default routes
+
+@app.get("/admin/", tags=["admin"])
+def read_admin_params(token: str):
+    """
+    It returns all details about the totems
+    """ 
+
+    #TODO: check if the token is valid, then return the totems details from the database
+
+@app.put("/admin/param/{param_name}/{param_value}", tags=["admin"])
+def update_admin_param(token: str, param_name: str, param_value: int):
+    """
+    It updates the value of a specific parameter for all totems
+    """
+
+    #TODO: check if the token is valid, then set the parameter value in the database
+    #TODO: send the osc message to the totems
+
+# admin group routes
+
+@app.get("/admin/group/", tags=["admin"])
+def read_admin_groups(token: str):
+    """
+    It returns aa list of all groups
+    """
+
+    #TODO: check if the token is valid, then return the groups from the database
+
+@app.get("/admin/group/{group_id}", tags=["admin"])
+def read_admin_group_params(token: str, group_id: int):
+    """
+    It returns all details about the totems of a specific group and the parameters linked to this group
+    """
+
+    #TODO: check if the token is valid, then return the group details from the database
+
+@app.post("/admin/group/{group_id}", tags=["admin"])
+def create_admin_group(token: str, group_id: int):
+    """
+    It creates a new empty group (return the id of the new group)
+    """
+
+    #TODO: check if the token is valid, then create the group in the database
+
+@app.put("/admin/group/{group_id}/{totem_id}", tags=["admin"])
+def add_admin_group_totem(token: str, group_id: int, totem_id: int):
+    """
+    It adds a totem to a group
+    """
+
+    # TODO: check if the token is valid, then add the totem to the group in the database
+
+@app.put("/admin/group/param/{group_id}/{param_name}/{param_value}", tags=["admin"])
+def update_admin_group_param(token: str, group_id: int, param_name: str, param_value: int):
+    """
+    It updates the value of a specific parameter for all totems of a specific group
+    """
+
+    # TODO: check if the token is valid, then set the parameter value in the database
+
+@app.delete("/admin/group/{group_id}", tags=["admin"])
+def delete_admin_group(token: str, group_id: int):
+    """
+    It deletes a group
+    """
+
+    # TODO: check if the token is valid, then delete the group in the database
+
+@app.delete("/admin/group/{group_id}/{totem_id}", tags=["admin"])
+def delete_admin_group_totem(token: str, group_id: int, totem_id: int):
+    """
+    It removes a totem from a group
+    """
+
+    # TODO: check if the token is valid, then remove the totem from the group in the database
 
 
 
