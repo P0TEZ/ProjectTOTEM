@@ -34,9 +34,14 @@ BEGIN
   ORDER BY s1.goupe_id ASC
   LIMIT 1;
 
+  IF new_group_id IS NULL THEN
+    new_group_id := 1;
+  END IF;
+
   RETURN new_group_id;
 END;
-$$ LANGUAGE plpgsql;    
+$$ LANGUAGE plpgsql;
+   
 
 -- call it
 --SELECT get_new_group_id();
