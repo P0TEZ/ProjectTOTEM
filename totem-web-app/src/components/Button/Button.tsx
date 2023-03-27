@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label, onlyIcon
     return (
         <button 
             className={`btn fs-body-1 s-far ${onlyIcon ? "onlyIcon":""}`}
-            onTouchEnd={handleClick} 
+            onClick={handleClick} 
             data-aos={aos?aos.anim:""}
             data-aos-offset={aos?aos.offset:0}
             data-aos-delay={aos?aos.delay:0}
