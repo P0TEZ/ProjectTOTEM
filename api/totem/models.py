@@ -130,7 +130,7 @@ class Bdd:
         except Exception as e:
             print(e)
             return None
-        
+
     def getUserParamsDetails(self, totemID, totemIP):
         """
         It gets the details of the parameters of the user.
@@ -140,11 +140,51 @@ class Bdd:
         :return: The function getUserParamsDetails() is returning a list of tuples.
         """
         try:
-            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = 1 AND t.TOTEM_IP = '1';")
+            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s;", (totemID, totemIP))
             params = self.cursor.fetchall()
             params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
             return params
         except Exception as e:
             print(e)
             return None
+        
+    def getUserSpecificParam(self, totemID, totemIP, param_name):
+        """
+        It gets the details of the parameters of the user.
+        
+        :param totemID: The ID of the totem
+        :param totemIP: The IP address of the totem
+        :return: The function getUserSpecificParameters() is returning a list of tuples.
+        """
+        try:
+            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s AND st.setting_name = %s LIMIT 1;", (totemID, totemIP, param_name))
+            params = self.cursor.fetchall()
+            params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
+            return params
+        except Exception as e:
+            print(e)
+            return None
+        
+    async def setUserParam(self, totemID, totemIP, param_name, param_value):
+        """
+        It sets the value of a parameter of the user.
+
+        :param totemID: The ID of the totem
+        :param totemIP: The IP address of the totem
+        :param param_name: The name of the parameter
+        :param param_value: The ne value of the parameter
+        :return: The function setUserParam() is returning is the query was successful or not.
+        """
+
+        try:
+            self.cursor.execute("UPDATE set_to SET set_to_value = %s FROM TOTEM WHERE set_to.goupe_id = TOTEM.goupe_id AND TOTEM.TOTEM_ID = %s AND TOTEM.TOTEM_IP = %s AND set_to.setting_name = %s;", (param_value, totemID, totemIP, param_name))
+            self.conn.commit()
+
+            # TODO/update: Convert the query into function to catch the error
+
+            return 'success'
+        except Exception as e:
+            print(e)
+            return 'failed'
+        
         

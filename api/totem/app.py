@@ -124,25 +124,45 @@ async def read_user_params(token: str):
     bdd = Bdd()
     return bdd.getUserParamsDetails(token["totemID"], token["totemIP"])
 
-    # TODO: check if the token is valid, then get the user ID from the token then get the user params from the database
 
 @app.get("/user/param/{param_name}", tags=["user"])
-def read_user_param(token: str, param_name: str):
+async def read_user_param(token: str, param_name: str):
     """
     It returns the details of a specific parameter
     """
 
-    # TODO: check if the token is valid, then get the user ID from the token then get the user params from the database
+    token = await check_user_token(token)
+
+    bdd = Bdd()
+    result = bdd.getUserSpecificParam(token["totemID"], token["totemIP"], param_name)
+
+    # if result is empty, return 404
+    if result == []:
+        raise HTTPException(status_code=404, detail="Not found")
+    
+    return result
+
 
 
 @app.post("/user/param/{param_name}/{param_value}", tags=["user"])
-def update_user_param(token: str, param_name: str, param_value: int):
+async def update_user_param(token: str, param_name: str, param_value: int):
     """
     It updates the value of a specific parameter
     """
 
-    # TODO: check if the token is valid, then get the user ID from the token then set the parameter value in the database
+    token = await check_user_token(token)
+
+    bdd = Bdd()
+    result = await bdd.setUserParam(token["totemID"], token["totemIP"], param_name, param_value)
+
     # TODO: send the osc message to the totem
+    # TODO: verif if param_value is in the range of the param_name 
+
+    if result == 'failed':
+        raise HTTPException(status_code=404, detail="No found")
+
+    return {'success': result}
+
 
 # admin default routes
 
