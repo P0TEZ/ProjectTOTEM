@@ -1,4 +1,16 @@
 @import "reset.scss";
+@import "variables.scss";
+
+// import monument font
+@font-face {
+    font-family: 'Monument-Regular';
+    src: url("./../fonts/Monument/MonumentExtended-Regular.otf");
+}
+@font-face {
+    font-family: "Monument-ExtraBold";
+    src: url("./../fonts/Monument/MonumentExtended-Ultrabold.otf");
+}
+
 
 body {
     margin: 0;
@@ -7,6 +19,7 @@ body {
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
 }
 
 code {
@@ -31,8 +44,20 @@ html, body, #root, .App {
     color: var(--onBackgroud-color);
 }
 
-/////////////////////////////////////////////////
+.PAGE_CONTAINER{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 
+    padding: var(--default-padding);
+    padding-top: var(--header-height);
+    
+    height: 100dvh;
+    width: 100dvw;
+}
+
+/////////////////////////////////////////////////
+// Font sizes
 .fs{
     &-headline{
         &-1{
@@ -105,4 +130,68 @@ html, body, #root, .App {
         letter-spacing: 1.25px;
         font-weight: 500;
     }
+}
+
+// font color
+.c{
+    &-primary{
+        color: var(--primary-color);
+    }
+    &-background{
+        color: var(--background-color);
+    }
+    &-onBackground{
+        color: var(--onBackgroud-color);
+    }
+    &-onSurface{
+        color: var(--onSurface-color);
+    }
+    &-grey{
+        color: var(--grey-color);
+    }
+    &-lightGrey{
+        color: var(--lightGrey-color);
+    }
+}
+// background color
+.b{
+    &-primary{
+        background-color: var(--primary-color);
+    }
+    &-background{
+        background-color: var(--background-color);
+    }
+    &-onBackground{
+        background-color: var(--onBackgroud-color);
+    }
+    &-onSurface{
+        background-color: var(--onSurface-color);
+    }
+}
+// shadows
+.s{
+    &-close{
+        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    }
+    &-medium{
+        box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+    }
+    &-far{
+        box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+    }
+    &-farthest{
+        box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2), 0px 12px 17px 2px rgba(0,0,0,0.14), 0px 5px 22px 4px rgba(0,0,0,0.12);
+    }
+}
+
+strong{
+    color: var(--primary-color);
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.monument{
+    font-family: "Monument-ExtraBold";
 }

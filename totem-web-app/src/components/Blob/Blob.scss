@@ -1,0 +1,18 @@
+div.blobContainer{
+    width:100dvw;
+    height:100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 0;
+    overflow: hidden;
+    & svg{
+        width: 100%;
+        height: 100%;
+        filter: blur(20px);
+        opacity:.5;
+    }
+}

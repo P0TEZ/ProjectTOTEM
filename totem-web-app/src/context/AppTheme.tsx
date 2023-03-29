@@ -6,7 +6,7 @@ ThemeContext.displayName = 'AppTheme'
 function AppThemeProvider(props: { children: React.ReactNode }) {
     const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
         const savedTheme = localStorage.getItem('isDarkMode');
-        return savedTheme ? JSON.parse(savedTheme) : false;
+        return savedTheme ? JSON.parse(savedTheme) : true;
     });
 
       useEffect(() => {
