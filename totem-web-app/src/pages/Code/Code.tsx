@@ -18,16 +18,26 @@ export default function Code() {
     const navigate = useNavigate()
 
     const connectWithCode = (code: string) => {
+        // send the code to the server with a get request
         return new Promise((resolve, reject) => {
-            // Simulate a server request
-            setTimeout(() => {
-                if(code === "1234"){
-                    resolve(true)
+            var headers = {}
+            fetch("http://127.0.0.1:5000/totem/"+code,{
+                method : "GET",
+                mode: 'cors',
+                headers: headers
+            })
+            .then((response) => {
+                console.log(response)
+                if(response.status === 200){
+                    resolve(response)
                 }
                 else{
-                    reject(false)
+                    reject(new Error("Le code est incorrect"))
                 }
-            }, 1000);
+            })
+            .catch((error) => {
+                reject(error)
+            })
         })
     }
 
