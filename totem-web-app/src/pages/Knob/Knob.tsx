@@ -25,7 +25,7 @@ export default function KnobPage() {
         <div className='PAGE_CONTAINER' id="knobPage">
 
             <div className='knobLabel'>
-                <h1 className='fs-headline-4 c-onBackground bold '>Intensité droite : </h1>
+                <h1 className='fs-headline-3 c-onBackground bold '>Intensité droite : </h1>
                 <p className='fs-body-1 c-grey'>Force avec laquelle vous ressentez la musique sur le vibreur droit</p>
             </div>
 
