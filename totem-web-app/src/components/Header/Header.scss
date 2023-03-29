@@ -1,0 +1,27 @@
+.header{
+    position: absolute;
+    z-index:1000;
+
+    width:100dvw;
+    text-align: center;
+
+    height: var(--header-height);
+    padding: 0 var(--default-padding);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__icon{
+        position: absolute;
+        left: var(--default-padding);
+        width:2rem;
+        
+        cursor: pointer;
+        transition: transform .3s ease-in-out;
+        &:hover, &:active{
+            transform: translateX(-5px);
+            transition: transform .1s ease-in-out;
+        }
+    }
+}
