@@ -1,6 +1,8 @@
 from utils import checkForEnvVar
 checkForEnvVar()
 from models import Token, Bdd
+from osc import Osc
+
 
 from fastapi import FastAPI,HTTPException, Request
 
@@ -114,6 +116,7 @@ async def check_user_token(token: str):
     
     return token
 
+
 @app.get("/user/", tags=["user"])
 async def read_user_params(token: str):
     """
@@ -157,6 +160,10 @@ async def update_user_param(token: str, param_name: str, param_value: int):
 
     # TODO: send the osc message to the totem
     # TODO: verif if param_value is in the range of the param_name 
+
+    osc = Osc(totemIP = token['totemIP'], totemID = token["totemID"])
+    osc.send(paramName= param_name, value= param_value)
+
 
     if result == 'failed':
         raise HTTPException(status_code=404, detail="No found")
@@ -242,6 +249,17 @@ def delete_admin_group_totem(token: str, group_id: int, totem_id: int):
     # TODO: check if the token is valid, then remove the totem from the group in the database
 
 
+# --------------------- MAIN ---------------------
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=5050)
+
+    # while True:
+    #     user_input = input("test: ")
+    #     myOsc = Osc(totemIP = 'localhost', totemID=1)
+    #     myOsc0 = Osc(totemIP = 'localhost', totemID=2)
+    #     myOsc.send('test', 11234562344)
+
+
