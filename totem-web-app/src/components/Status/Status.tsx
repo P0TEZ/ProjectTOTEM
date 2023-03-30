@@ -23,7 +23,7 @@ export default function Status(props : any) {
     return (
         <div className='statusContainer'>
             <h1 className='fs-headline-4'>
-                N° <strong className='monument'>{props.code}</strong>
+                <span className='fs-headline-6'>N°</span> <strong className='monument'>{props.code}</strong>
             </h1>
             <p className='fs-body-1'>
                 <strong className={statusClass}>{props.status}</strong>

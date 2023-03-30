@@ -7,15 +7,14 @@ import { inputStyle } from './../../utils/CodeInputStyle'
 import { useNavigate } from 'react-router-dom'
 
 export default function Code() {
+    const navigate = useNavigate()    
     useEffect(() => {
         document.title = "TOTEM - Code"
-        // add a placeholder "#" to every input
         const inputs = document.querySelectorAll("input")
         inputs.forEach((input) => {
             input.placeholder = "_"
         })
-    }, [])
-    const navigate = useNavigate()
+    })
 
     const connectWithCode = (code: string) => {
         // send the code to the server with a get request
@@ -42,16 +41,16 @@ export default function Code() {
     }
 
     // TODO : Make the inputs by the user smoother (remove the code when an error occurs)
-    const handleChange = (code: string) => {
+    const handleChange = (codeInput: string) => {
         // If the user has finished typing his code
-        if(code.length === 4){
+        if(codeInput.length === 4){
             // Remove the keyboard when the user has finished typing
             try{ (document.activeElement as HTMLElement).blur() }
             catch(e){console.log(e)}
 
             // Send the code to the server and make a toast to notify the user
             toast.promise(
-                connectWithCode(code),
+                connectWithCode(codeInput),
                 {
                     loading: "Tentative de connexion...",
                     success: <b>Connexion réussie !</b>,
@@ -59,7 +58,7 @@ export default function Code() {
                 }
             ).then(() => {
                 // If the connection is successful, redirect the user to his settings page
-                navigate("/"+code)
+                navigate("/"+codeInput)
             })
             .catch((error)=>{
                 toast.error(error.message);
