@@ -1,4 +1,5 @@
 
+from itertools import groupby
 import jwt
 import datetime
 import psycopg2
@@ -160,6 +161,7 @@ class Bdd:
             self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s AND st.setting_name = %s LIMIT 1;", (totemID, totemIP, param_name))
             params = self.cursor.fetchall()
             params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
+
             return params
         except Exception as e:
             print(e)
@@ -186,5 +188,27 @@ class Bdd:
         except Exception as e:
             print(e)
             return 'failed'
+        
+    async def getAllInfos(self):
+        """
+        It gets all the information of the users.
+        
+        :return: The function getAllInfo() is returning a list of tuples.
+        """
+        try:
+            self.cursor.execute("SELECT t.TOTEM_IP, t.TOTEM_ID, g.goupe_id, string_agg(st.setting_name || '=' || st.set_to_value, ', ') as set_to_params FROM TOTEM t JOIN Groupe g ON t.goupe_id = g.goupe_id LEFT JOIN set_to st ON st.goupe_id = t.goupe_id GROUP BY t.TOTEM_IP, t.TOTEM_ID, g.goupe_id;")
+            totems = self.cursor.fetchall()
+
+            totems = [dict(zip(['totem_ip', 'totem_id', 'goupe_id', 'set_to_params'], totem)) for totem in totems]
+
+            # parse the set_to_params string to a dict
+            for totem in totems:
+                totem['set_to_params'] = dict(item.split("=") for item in totem['set_to_params'].split(", "))
+
+            
+            return totems
+        except Exception as e:
+            print(e)
+            return None
         
         

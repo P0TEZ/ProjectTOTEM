@@ -184,13 +184,44 @@ async def update_user_param(token: str, param_name: str, param_value: int):
 
 # admin default routes
 
+async def check_admin_token(token: str):
+    """
+    It checks if the admin token is valid
+    """
+    token = Token.decode_auth_token(token)
+    # return token
+    if token is None:
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token invalid")
+    
+    
+    if token == "Expired":
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token expired")
+    
+    if token == "Invalid":
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Token invalid")
+
+    if token["isAdmin"] is None or token["isAdmin"] != True:
+        # 401 unauthorized
+        raise HTTPException(status_code=401, detail="Local token invalid, you need to be admin to access this route: "+ str(token["isAdmin"]))
+    return token
+
 @app.get("/admin/", tags=["admin"])
-def read_admin_params(token: str):
+async def read_admin_params(token: str):
     """
     It returns all details about the totems
     """ 
+    try:
+        token = await check_admin_token(token)
 
-    #TODO: check if the token is valid, then return the totems details from the database
+        bdd = Bdd()
+        result = await bdd.getAllInfos()
+        return result
+    except Exception as e:
+        print(e)
+        return e
 
 @app.put("/admin/param/{param_name}/{param_value}", tags=["admin"])
 def update_admin_param(token: str, param_name: str, param_value: int):
