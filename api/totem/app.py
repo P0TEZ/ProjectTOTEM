@@ -224,11 +224,18 @@ async def read_admin_params(token: str):
         return e
 
 @app.put("/admin/param/{param_name}/{param_value}", tags=["admin"])
-def update_admin_param(token: str, param_name: str, param_value: int):
+async def update_admin_param(token: str, param_name: str, param_value: int):
     """
     It updates the value of a specific parameter for all totems
     """
 
+    try:
+        token = await check_admin_token(token)
+
+        bdd = Bdd()
+    except Exception as e:
+        print(e)
+        return e
     #TODO: check if the token is valid, then set the parameter value in the database
     #TODO: send the osc message to the totems
 
@@ -297,11 +304,3 @@ def delete_admin_group_totem(token: str, group_id: int, totem_id: int):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=5050)
-
-    # while True:
-    #     user_input = input("test: ")
-    #     myOsc = Osc(totemIP = 'localhost', totemID=1)
-    #     myOsc0 = Osc(totemIP = 'localhost', totemID=2)
-    #     myOsc.send('test', 11234562344)
-
-
