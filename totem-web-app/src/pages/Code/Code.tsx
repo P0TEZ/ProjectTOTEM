@@ -40,7 +40,6 @@ export default function Code() {
         })
     }
 
-    // TODO : Make the inputs by the user smoother (remove the code when an error occurs)
     const handleChange = (codeInput: string) => {
         // If the user has finished typing his code
         if(codeInput.length === 4){

@@ -42,7 +42,7 @@ function App() {
               <Route path="/" element={<Redirect to="welcome" />} />
               <Route path="/welcome" element={<Onboarding />}/>
               <Route path="/code" element={<Code />}/>
-              <Route path="/:code" element={<Interface/>}/>
+              <Route path="/:code/*" element={<Interface/>}/>
               <Route path="/admin" element={<p className='admin'>Page ADMINNN</p>} />
               <Route path="/knobtest" element={<KnobPage/>} />
               <Route path="/*" element={<p>404</p>}/>

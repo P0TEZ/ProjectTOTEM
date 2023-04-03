@@ -2,6 +2,22 @@
     display:flex;
     flex-direction: column;
     justify-content: space-around;
+    background : transparentize(black,.7);
+    backdrop-filter: blur(5px);
+    position: absolute;
+    z-index:2;
+
+    position: absolute;
+    top:0;
+    left:0;
+    
+    align-items: center;
+
+    padding: var(--default-padding);
+
+    height: 100dvh;
+    width: 100dvw;
+    
 
     .knobContainer{
         width:150vw;

@@ -22,7 +22,7 @@ export default function KnobPage() {
     }, [knobValue]);
 
     return (
-        <div className='PAGE_CONTAINER' id="knobPage">
+        <div className='' id="knobPage">
 
             <div className='knobLabel'>
                 <h1 className='fs-headline-3 c-onBackground bold '>Intensité droite : </h1>

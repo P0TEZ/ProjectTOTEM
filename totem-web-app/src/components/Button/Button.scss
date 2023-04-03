@@ -8,19 +8,31 @@
     border:none;
     outline: none;
     border-radius: var(--medium-radius);
+    position: relative;
     
     cursor: pointer;
     
     &.onlyIcon{
         flex-direction: column;
         justify-content: center;
-        
+        &__icon, &__label{
+            padding:1ch;
+        }
+    }
+
+    &.outlined{
+        background: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
     }
 
     &__icon, &__text{
         padding: 1rem;
         display: flex;
         align-items: center;
+        justify-content: center;
+        width:100%;
+        text-align: center;
     }
  
 

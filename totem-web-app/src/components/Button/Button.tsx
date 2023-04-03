@@ -10,9 +10,10 @@ type ButtonProps = {
   aos?: {anim: string, offset?: number, delay?: number};
   label?: string;
   onlyIcon?: boolean;
+  outlined?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label, onlyIcon, children }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label, outlined, onlyIcon, children }) => {
     const navigate = useNavigate();
     const handleClick = () => {
         if(to){
@@ -24,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label, onlyIcon
     }
     return (
         <button 
-            className={`btn fs-body-1 s-far ${onlyIcon ? "onlyIcon":""}`}
+            className={`btn fs-body-1 s-far ${onlyIcon ? "onlyIcon":""} ${outlined ? "outlined":""}`}
             onClick={handleClick} 
             data-aos={aos?aos.anim:""}
             data-aos-offset={aos?aos.offset:0}
