@@ -1,33 +1,33 @@
 #knobPage{
     display:flex;
     flex-direction: column;
-    justify-content: space-around;
-    background : transparentize(black,.7);
+    justify-content: center;
+    align-items: center;
+
+    background : transparentize(black, .7);
     backdrop-filter: blur(5px);
-    position: absolute;
     z-index:2;
 
     position: absolute;
     top:0;
     left:0;
     
-    align-items: center;
-
     padding: var(--default-padding);
 
     height: 100dvh;
     width: 100dvw;
-    
 
     .knobContainer{
-        width:150vw;
-        display:flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap:1rem;
-
+        position:relative;
+        width:100%;
+        height:50%;
         & .knobValueContainer{
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+
+        
             display:flex;
             flex-direction: column;
             justify-content: center;
@@ -47,13 +47,15 @@
             }
             & .knobValueLabel{
                 text-align: end;
+                width:50%;
             }
         }
 
         & .knob{
-            width:100vw;
-            height:auto;
-            max-width:400px;
+            position: absolute !important;
+            top:50%;
+            right:-50dvw;
+            transform: translateY(-50%);
         }
     }
 }

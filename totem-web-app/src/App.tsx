@@ -30,7 +30,7 @@ function App() {
   }, [location.pathname]);
 
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
-  console.log("Dark mode : "+isDarkMode)
+  //console.log("Dark mode : "+isDarkMode)
 
   return (
     <div className={"App ".concat(isDarkMode ? "darkTheme":"lightTheme")}>

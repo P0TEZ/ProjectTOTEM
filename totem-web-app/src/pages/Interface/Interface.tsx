@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import './Interface.scss'
@@ -14,13 +14,27 @@ import {IoHandRight} from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
 import { CSSTransition } from 'react-transition-group'
 
+const texts = {
+    L: {
+        title: "Intensité gauche",
+        desc: "Force avec laquelle vous ressentez la musique sur le vibreur gauche"
+    },
+    R: {
+        title: "Intensité droite",
+        desc: "Force avec laquelle vous ressentez la musique sur le vibreur droit"
+    },
+    V:{
+        title: "Volume",
+        desc: "Volume global"
+    },
+}
+
 function Interface() {
     const {code} = useParams<{code: string}>();
     const [status, setStatus] = useState("Connexion")
     const [helpAsked, setHelpAsked] = useState(false)
     const nodeRef = React.useRef(null)
     const [inProp, setInProp] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = "TOTEM"
@@ -56,24 +70,16 @@ function Interface() {
     // Knobs
     const openKnob = (knob:string)=>{
         console.log("open knob", knob)
-        // add /L to the url with react router
-        window.history.pushState({}, '', '/'+code+'/L');
-
-        setInProp(!inProp)
+        setInProp(true)
     }
-
-    useEffect(()=>{
-        console.log("inProp", inProp)
-    }, [inProp])
-
-
+    
 
     return (
         <>
             <CSSTransition nodeRef={nodeRef} in={inProp} classNames="knob-popup" unmountOnExit timeout={200}>
                 <div id="KnobContainer" ref={nodeRef}>
-                        <KnobPage />
-                        <button style={{position:"absolute", top:'50%', zIndex:1000}} onClick={() => setInProp(!inProp)}>Click to Enter</button>
+                        <button style={{position:"absolute", top:'0', zIndex:1000}} onClick={() => setInProp(!inProp)}>Leave</button>
+                        <KnobPage pos="L" texts={texts.L}/>
                 </div>
             </CSSTransition>
             <div id="InterfacePage" className='PAGE_CONTAINER'>

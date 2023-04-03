@@ -7,7 +7,7 @@ import * as skins from 'react-rotary-knob-skin-pack';
 import './Knob.scss';
 
 
-export default function KnobPage() {
+export default function KnobPage(props : any) {
     const [knobValue, setKnobValue] = React.useState(0);
 
     const handleChange = (value: number) => {
@@ -18,21 +18,21 @@ export default function KnobPage() {
     }
 
     React.useEffect(() => {
-        console.log(knobValue);
+        //console.log(knobValue);
     }, [knobValue]);
 
     return (
         <div className='' id="knobPage">
 
             <div className='knobLabel'>
-                <h1 className='fs-headline-3 c-onBackground bold '>Intensité droite : </h1>
-                <p className='fs-body-1 c-grey'>Force avec laquelle vous ressentez la musique sur le vibreur droit</p>
+                <h1 className='fs-headline-3 c-onBackground bold '>{props.texts.title} : </h1>
+                <p className='fs-body-1 c-grey'>{props.texts.desc}</p>
             </div>
 
             <div className='knobContainer'>
                 <div className='knobValueContainer'>
                     <h1 className='fs-headline-2 c-primary bold monument knobValue'>{Math.round(knobValue)}</h1>
-                    <p className='fs-body-2 c-onBackground knobValueLabel bold'>Intensité droite</p>
+                    <p className='fs-body-2 c-onBackground knobValueLabel bold'>{props.texts.title}</p>
                 </div>
                 <Knob
                     value={knobValue}
