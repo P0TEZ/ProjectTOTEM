@@ -5,6 +5,7 @@ from osc import Osc
 
 
 from fastapi import FastAPI,HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 import uvicorn
 
@@ -36,6 +37,16 @@ app = FastAPI(
         "name": "MIT",
     },
     openapi_tags=tags_metadata,
+)
+
+
+# add cors middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/", tags=["default"])
