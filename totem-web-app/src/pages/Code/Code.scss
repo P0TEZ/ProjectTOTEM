@@ -16,7 +16,7 @@
     }
     
     .codeContainer{
-        width:100%;
+        width:100dvw;
         padding-left:1rem;
         padding-right:1rem;
         display: flex;
@@ -34,7 +34,9 @@
                 appearance: textfield;
 
                 aspect-ratio: 2/3;
-                padding:.5ch;
+                // padding:.5ch;
+
+                max-width: 20dvw;
                 
                 font-size: 28 * 0.0625rem;
                 text-align: center;
