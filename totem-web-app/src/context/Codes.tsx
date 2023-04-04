@@ -2,18 +2,16 @@ import React, { createContext, useState } from 'react';
 
 const CodeContext = createContext({
     code: '',
-    setCode: () => {},
+    setCode: (newCode: string) => {
+
+    },
 });
 
 function CodeProvider(props: { children: React.ReactNode }) {
     const [code, setCode] = useState<string>("none");
 
-    const changeCode = (newCode: string) => {
-        setCode(newCode);
-    };
-
     return (
-        <CodeContext.Provider value={{ code, changeCode}}>
+        <CodeContext.Provider value={{ code, setCode}}>
             {props.children}
         </CodeContext.Provider>
     );
