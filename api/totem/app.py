@@ -242,20 +242,39 @@ async def update_admin_param(token: str, param_name: str, param_value: int):
 # admin group routes
 
 @app.get("/admin/group/", tags=["admin"])
-def read_admin_groups(token: str):
+async def read_admin_groups(token: str):
     """
     It returns aa list of all groups
     """
 
+    try:
+        token = await check_admin_token(token)
+
+        bdd = Bdd()
+        result = await bdd.getAllGroups()
+        return result
+    except Exception as e:
+        print(e)
+        return e
+
+
     #TODO: check if the token is valid, then return the groups from the database
 
 @app.get("/admin/group/{group_id}", tags=["admin"])
-def read_admin_group_params(token: str, group_id: int):
+async def read_admin_group_params(token: str, group_id: int):
     """
     It returns all details about the totems of a specific group and the parameters linked to this group
     """
 
-    #TODO: check if the token is valid, then return the group details from the database
+    try:
+        token = await check_admin_token(token)
+
+        bdd = Bdd()
+        result = await bdd.getGroupDetails(group_id)
+        return result
+    except Exception as e:
+        print(e)
+        return e
 
 @app.post("/admin/group/{group_id}", tags=["admin"])
 def create_admin_group(token: str, group_id: int):

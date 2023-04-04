@@ -1,5 +1,3 @@
-
-from itertools import groupby
 import jwt
 import datetime
 import psycopg2
@@ -211,4 +209,65 @@ class Bdd:
             print(e)
             return None
         
+    async def getAllGroups(self):
+        """
+        It gets all the information of the groups.
         
+        :return: The function getAllGroups() is returning a list of tuples.
+        """
+        try:
+            self.cursor.execute("SELECT g.goupe_id, s.setting_name, st.set_to_value FROM Groupe g JOIN set_to st ON st.goupe_id = g.goupe_id JOIN SETTINGS s ON s.setting_name = st.setting_name ORDER BY g.goupe_id, s.setting_name;")
+            groups = self.cursor.fetchall()
+
+            groups = [dict(zip(['goupe_id', 'setting_name', 'set_to_value'], group)) for group in groups]
+
+            for group in groups:
+                group[group['goupe_id']] = {'groupe_id': group['goupe_id'], group['setting_name']: group['set_to_value']}
+                del group['setting_name']
+                del group['set_to_value']
+                del group['goupe_id']
+
+            # TODO: organize the dict to be like this:
+            # {
+            #     'groupe_id': {
+            #         'groupe_id': groupe_id,
+            #         'setting_name': setting_value,
+            #         'setting_name': setting_value,
+            #         'setting_name': setting_value,
+            #         ...
+            #     },
+
+            return groups
+        except Exception as e:
+            print(e)
+            return None
+        
+    async def getGroupDetails(self, groupe_id):
+        """
+        It gets the details of a group.
+        
+        :param groupe_id: The ID of the group
+        :return: The function getGroupDetails() is returning a list of tuples.
+        """
+        try:
+            self.cursor.execute("SELECT g.goupe_id, s.setting_name, st.set_to_value FROM Groupe g JOIN set_to st ON st.goupe_id = g.goupe_id JOIN SETTINGS s ON s.setting_name = st.setting_name WHERE g.goupe_id = %s ORDER BY g.goupe_id, s.setting_name;", (groupe_id,))
+            params = self.cursor.fetchall()
+
+            params = [dict(zip(['goupe_id', 'setting_name', 'set_to_value'], group)) for group in params]
+
+            # group all params in the same dict
+            result = {}
+
+            for param in params:
+                result[param['setting_name']] = param['set_to_value']
+
+
+
+            if not result:
+                return "The group doesn't exist"
+
+
+            return result
+        except Exception as e:
+            print(e)
+            return None
