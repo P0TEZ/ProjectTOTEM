@@ -135,10 +135,7 @@ BEGIN
     new_group_id := get_new_group_id();
     PERFORM move_totem_to_group(totem_data.totem_ip, totem_data.totem_id, new_group_id);
   END LOOP;
-  
-  -- remove the original group
-  PERFORM remove_group(group_id);
-  
+    
   -- remove any empty groups created by moving the totems
   PERFORM remove_empty_groups();
 END;
