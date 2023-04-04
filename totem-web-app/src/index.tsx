@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 import {BrowserRouter} from 'react-router-dom';
 import { AppThemeProvider } from './context/AppTheme';
-import { CodeProvider } from './context/Codes';
+import { UserProvider } from './context/User';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppThemeProvider>
-      <CodeProvider>
+      <UserProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </CodeProvider>
+      </UserProvider>
     </AppThemeProvider>
   </React.StrictMode>
 );
