@@ -11,9 +11,10 @@ type ButtonProps = {
   label?: string;
   onlyIcon?: boolean;
   outlined?: boolean;
+  style?: React.CSSProperties;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label, outlined, onlyIcon, children }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label,style, outlined, onlyIcon, children }) => {
     const navigate = useNavigate();
     const handleClick = () => {
         if(to){
@@ -30,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, aos, icon, to, label, outlined
             data-aos={aos?aos.anim:""}
             data-aos-offset={aos?aos.offset:0}
             data-aos-delay={aos?aos.delay:0}
+            style={style}
         >
             {children && <span className='btn__text bold'>{children}</span>}
             {icon && <span className='btn__icon'> {icon}</span>}

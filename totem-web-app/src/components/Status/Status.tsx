@@ -21,7 +21,7 @@ export default function Status(props : any) {
     }, [props.status])  
 
     return (
-        <div className='statusContainer'>
+        <div className='statusContainer' data-aos="fade-down" data-aos-delay="200">
             <h1 className='fs-headline-4'>
                 <span className='fs-headline-6'>N°</span> <strong className='monument'>{props.code}</strong>
             </h1>

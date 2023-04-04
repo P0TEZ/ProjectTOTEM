@@ -15,15 +15,15 @@ import { toast } from 'react-hot-toast'
 import { CSSTransition } from 'react-transition-group'
 
 const texts = {
-    L: {
+    "L": {
         title: "Intensité gauche",
         desc: "Force avec laquelle vous ressentez la musique sur le vibreur gauche"
     },
-    R: {
+    "R": {
         title: "Intensité droite",
         desc: "Force avec laquelle vous ressentez la musique sur le vibreur droit"
     },
-    V:{
+    "V":{
         title: "Volume",
         desc: "Volume global"
     },
@@ -35,6 +35,8 @@ function Interface() {
     const [helpAsked, setHelpAsked] = useState(false)
     const nodeRef = React.useRef(null)
     const [inProp, setInProp] = useState(false);
+    const [animClass, setAnimClass] = useState("knob-popup-L")
+    const [knob, setKnob] = useState("L")
 
     useEffect(() => {
         document.title = "TOTEM"
@@ -70,18 +72,20 @@ function Interface() {
     // Knobs
     const openKnob = (knob:string)=>{
         console.log("open knob", knob)
+        setKnob(knob)
         setInProp(true)
-        window.history.pushState({}, "", "/"+code+"/"+knob)
+        setAnimClass("knob-popup-"+knob)
+        console.log(animClass)
     }
     
     
 
     return (
         <>
-            <CSSTransition nodeRef={nodeRef} in={inProp} classNames="knob-popup" unmountOnExit timeout={200}>
+            <CSSTransition nodeRef={nodeRef} in={inProp} classNames={animClass} unmountOnExit timeout={200}>
                 <div id="KnobContainer" ref={nodeRef}>
-                        <button style={{position:"absolute", top:'25%', zIndex:1000}} onClick={() => setInProp(false)}>Leave</button>
-                        <KnobPage pos="L" texts={texts.L}/>
+                        <button style={{position:"absolute", bottom:'0', zIndex:1000}} onClick={() => setInProp(false)}>Leave</button>
+                        <KnobPage pos={knob} texts={texts}/>
                 </div>
             </CSSTransition>
             <div id="InterfacePage" className='PAGE_CONTAINER'>
@@ -95,12 +99,14 @@ function Interface() {
                         label="Gauche"
                         onlyIcon={true}
                         outlined={true}
+                        aos={{anim:"zoom-in", delay:400}}
                         />
                     <Button 
                         onClick={() => openKnob("V")} 
                         icon={<RiVolumeDownLine className='fs-headline-4'/>}
                         label="Volume"
                         onlyIcon={true}
+                        aos={{anim:"zoom-in", delay:500}}
                         />
                     <Button 
                         onClick={() => openKnob("R")} 
@@ -108,9 +114,10 @@ function Interface() {
                         label="Droite"
                         onlyIcon={true}
                         outlined={true}
+                        aos={{anim:"zoom-in", delay:600}}
                         />
                 </div>
-                    <div className="helpBtn" onClick={()=>handleHelp()}>
+                    <div className="helpBtn" onClick={()=>handleHelp()} data-aos="fade-up" data-aos-delay="800">
                         <IoHandRight className={`c-primary fs-headline-2 ${helpAsked && "helpAsked"}`}/>
                         <p className='fs-body-1 c-primary'>Assistance</p>
                     </div>

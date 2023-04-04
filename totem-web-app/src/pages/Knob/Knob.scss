@@ -27,13 +27,12 @@
             left: 0;
             transform: translateY(-50%);
 
-        
             display:flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-end;
             & .knobValue{
-                width:3ch;
+                width:2ch;
                 position:relative;
                 text-align:end;
                 &::after{
@@ -47,7 +46,7 @@
             }
             & .knobValueLabel{
                 text-align: end;
-                width:50%;
+                width:70%;
             }
         }
 
@@ -55,7 +54,18 @@
             position: absolute !important;
             top:50%;
             right:-50dvw;
+            width:100dvw;
+            max-height:100%;
             transform: translateY(-50%);
         }
     }
 }
+
+// if width of screen above 400px do some things
+@media only screen and (min-width:410px){
+    .knob{
+        right:0;
+        transform: translateX(-50%);
+    }
+}
+

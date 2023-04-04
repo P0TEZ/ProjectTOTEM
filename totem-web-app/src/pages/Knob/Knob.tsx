@@ -25,14 +25,14 @@ export default function KnobPage(props : any) {
         <div className='' id="knobPage">
 
             <div className='knobLabel'>
-                <h1 className='fs-headline-3 c-onBackground bold '>{props.texts.title}</h1>
-                <p className='fs-body-1 c-grey'>{props.texts.desc}</p>
+                <h1 className='fs-headline-3 c-onBackground bold '>{props.texts[props.pos].title}</h1>
+                <p className='fs-body-1 c-grey'>{props.texts[props.pos].desc}</p>
             </div>
 
             <div className='knobContainer'>
                 <div className='knobValueContainer'>
                     <h1 className='fs-headline-2 c-primary bold monument knobValue'>{Math.round(knobValue)}</h1>
-                    <p className='fs-body-2 c-onBackground knobValueLabel bold'>{props.texts.title}</p>
+                    <p className='fs-body-2 c-onBackground knobValueLabel bold'>{props.texts[props.pos].title}</p>
                 </div>
                 <Knob
                     value={knobValue}
@@ -50,7 +50,6 @@ export default function KnobPage(props : any) {
                         width:'100vw',
                         height:'100%',
                         aspectRatio:"1/1",
-                        maxWidth:'400px',
                     }}
                 />
             </div>
