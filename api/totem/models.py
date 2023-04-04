@@ -271,3 +271,23 @@ class Bdd:
         except Exception as e:
             print(e)
             return None
+
+    async def addTotemToGroup(self, newGroupId, totemId, totemIp):
+        """
+        It adds a totem to a group.
+        
+        :param newGroupId: The ID of the group
+        :param totemId: The ID of the totem
+        :param totemIp: The IP address of the totem
+        :return: The function addTotemToGroup() is returning is the query was successful or not.
+        
+        """
+
+        try:
+            self.cursor.execute("SELECT move_totem_to_group(%s,%s,%s);", (totemIp, totemId, newGroupId))
+            self.conn.commit()
+
+            return 'success'
+        except Exception as e:
+            print(e)
+            return 'failed'

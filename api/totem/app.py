@@ -276,19 +276,28 @@ async def read_admin_group_params(token: str, group_id: int):
         print(e)
         return e
 
-@app.post("/admin/group/{group_id}", tags=["admin"])
-def create_admin_group(token: str, group_id: int):
-    """
-    It creates a new empty group (return the id of the new group)
-    """
+# @app.post("/admin/group/{group_id}", tags=["admin"])
+# def create_admin_group(token: str, group_id: int):
+#     """
+#     It creates a new empty group (return the id of the new group)
+#     """
 
-    #TODO: check if the token is valid, then create the group in the database
 
-@app.put("/admin/group/{group_id}/{totem_id}", tags=["admin"])
-def add_admin_group_totem(token: str, group_id: int, totem_id: int):
+@app.put("/admin/group/{group_id}/{totem_id}/{totem_ip}", tags=["admin"])
+async def add_admin_group_totem(token: str, group_id: int, totem_id: int, totem_ip: str):
     """
     It adds a totem to a group
     """
+
+    try:
+        token = await check_admin_token(token)
+
+        bdd = Bdd()
+        result = await bdd.addTotemToGroup(newGroupId=group_id, totemId=totem_id, totemIp=totem_ip)
+        return result
+    except Exception as e:
+        print(e)
+        return e
 
     # TODO: check if the token is valid, then add the totem to the group in the database
 
