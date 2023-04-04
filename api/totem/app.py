@@ -325,13 +325,13 @@ async def delete_admin_group(token: str, group_id: int):
         print(e)
         return e
 
-    # TODO: check if the token is valid, then delete the group in the database
-
 @app.delete("/admin/group/{group_id}/{totem_id}", tags=["admin"])
 def delete_admin_group_totem(token: str, group_id: int, totem_id: int):
     """
     It removes a totem from a group
     """
+
+    
 
     # TODO: check if the token is valid, then remove the totem from the group in the database
 
