@@ -71,14 +71,16 @@ function Interface() {
     const openKnob = (knob:string)=>{
         console.log("open knob", knob)
         setInProp(true)
+        window.history.pushState({}, "", "/"+code+"/"+knob)
     }
+    
     
 
     return (
         <>
             <CSSTransition nodeRef={nodeRef} in={inProp} classNames="knob-popup" unmountOnExit timeout={200}>
                 <div id="KnobContainer" ref={nodeRef}>
-                        <button style={{position:"absolute", top:'0', zIndex:1000}} onClick={() => setInProp(!inProp)}>Leave</button>
+                        <button style={{position:"absolute", top:'25%', zIndex:1000}} onClick={() => setInProp(false)}>Leave</button>
                         <KnobPage pos="L" texts={texts.L}/>
                 </div>
             </CSSTransition>

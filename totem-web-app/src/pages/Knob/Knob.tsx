@@ -25,7 +25,7 @@ export default function KnobPage(props : any) {
         <div className='' id="knobPage">
 
             <div className='knobLabel'>
-                <h1 className='fs-headline-3 c-onBackground bold '>{props.texts.title} : </h1>
+                <h1 className='fs-headline-3 c-onBackground bold '>{props.texts.title}</h1>
                 <p className='fs-body-1 c-grey'>{props.texts.desc}</p>
             </div>
 
@@ -45,10 +45,11 @@ export default function KnobPage(props : any) {
                     onChange={handleChange}
                     className="knob"
                     rotateDegrees={180}
-                    skin={skins.s14}  
+                    skin={skins.s6}  
                     style={{
                         width:'100vw',
-                        height:'auto',
+                        height:'100%',
+                        aspectRatio:"1/1",
                         maxWidth:'400px',
                     }}
                 />
