@@ -1,6 +1,6 @@
 CREATE TABLE Groupe(
-   goupe_id INT,
-   PRIMARY KEY(goupe_id)
+   groupe_id INT,
+   PRIMARY KEY(groupe_id)
 );
 
 CREATE TABLE SETTINGS(
@@ -19,16 +19,16 @@ CREATE TABLE Admin(
 CREATE TABLE TOTEM(
    TOTEM_IP VARCHAR(50),
    TOTEM_ID INT,
-   goupe_id INT NOT NULL,
+   groupe_id INT NOT NULL,
    PRIMARY KEY(TOTEM_IP, TOTEM_ID),
-   FOREIGN KEY(goupe_id) REFERENCES Groupe(goupe_id)
+   FOREIGN KEY(groupe_id) REFERENCES Groupe(groupe_id)
 );
 
 CREATE TABLE set_to(
-   goupe_id INT,
+   groupe_id INT,
    setting_name VARCHAR(50),
    set_to_value INT,
-   PRIMARY KEY(goupe_id, setting_name),
-   FOREIGN KEY(goupe_id) REFERENCES Groupe(goupe_id),
+   PRIMARY KEY(groupe_id, setting_name),
+   FOREIGN KEY(groupe_id) REFERENCES Groupe(groupe_id),
    FOREIGN KEY(setting_name) REFERENCES SETTINGS(setting_name)
 );

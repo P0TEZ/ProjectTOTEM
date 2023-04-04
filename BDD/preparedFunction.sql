@@ -3,14 +3,14 @@ CREATE OR REPLACE FUNCTION create_new_group(group_id INT)
 RETURNS VOID AS $$
 BEGIN
   WITH new_group AS (
-    INSERT INTO Groupe (goupe_id)
+    INSERT INTO Groupe (groupe_id)
     VALUES (group_id)
-    RETURNING goupe_id
+    RETURNING groupe_id
   )
-  INSERT INTO set_to (goupe_id, setting_name, set_to_value)
-  SELECT ng.goupe_id, s.setting_name, s.setting_default_value
+  INSERT INTO set_to (groupe_id, setting_name, set_to_value)
+  SELECT ng.groupe_id, s.setting_name, s.setting_default_value
   FROM new_group ng, SETTINGS s
-  WHERE ng.goupe_id = group_id;
+  WHERE ng.groupe_id = group_id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -24,14 +24,14 @@ RETURNS INTEGER AS $$
 DECLARE
   new_group_id INTEGER;
 BEGIN
-  SELECT (s1.goupe_id + 1) INTO new_group_id
+  SELECT (s1.groupe_id + 1) INTO new_group_id
   FROM Groupe s1
   WHERE NOT EXISTS (
     SELECT 1
     FROM Groupe s2
-    WHERE s2.goupe_id = s1.goupe_id + 1
+    WHERE s2.groupe_id = s1.groupe_id + 1
   )
-  ORDER BY s1.goupe_id ASC
+  ORDER BY s1.groupe_id ASC
   LIMIT 1;
 
   IF new_group_id IS NULL THEN
@@ -59,7 +59,7 @@ BEGIN
   PERFORM create_new_group(new_group_id);
 
   -- Add the new totem to the group
-  INSERT INTO TOTEM(TOTEM_IP, TOTEM_ID, goupe_id)
+  INSERT INTO TOTEM(TOTEM_IP, TOTEM_ID, groupe_id)
   VALUES (new_totem_ip, new_totem_id, new_group_id);
 END;
 $$ LANGUAGE plpgsql;
@@ -74,11 +74,11 @@ RETURNS void AS $$
 DECLARE
   group_id INT;
 BEGIN
-  FOR group_id IN SELECT goupe_id FROM Groupe LOOP
-    IF NOT EXISTS(SELECT 1 FROM TOTEM WHERE goupe_id = group_id) THEN
-      IF EXISTS(SELECT 1 FROM Groupe WHERE goupe_id = group_id) THEN
-        DELETE FROM set_to WHERE goupe_id = group_id;
-        DELETE FROM Groupe WHERE goupe_id = group_id;
+  FOR group_id IN SELECT groupe_id FROM Groupe LOOP
+    IF NOT EXISTS(SELECT 1 FROM TOTEM WHERE groupe_id = group_id) THEN
+      IF EXISTS(SELECT 1 FROM Groupe WHERE groupe_id = group_id) THEN
+        DELETE FROM set_to WHERE groupe_id = group_id;
+        DELETE FROM Groupe WHERE groupe_id = group_id;
       END IF;
     END IF;
   END LOOP;
@@ -95,43 +95,49 @@ DECLARE
     old_group_id integer;
 BEGIN
     -- Get the old group ID of the totem
-    SELECT goupe_id INTO old_group_id FROM TOTEM WHERE TOTEM_IP = ip AND TOTEM_ID = id;
+    SELECT groupe_id INTO old_group_id FROM TOTEM WHERE TOTEM_IP = ip AND TOTEM_ID = id;
+    
+    -- Verify if the new group exists
+    IF NOT EXISTS(SELECT 1 FROM groupe WHERE groupe_id = new_group_id) THEN
+        -- Create the new group
+        PERFORM create_new_group(new_group_id);
+    END IF;
 
     IF old_group_id IS NOT NULL THEN
         -- Update the totem's group ID
-        UPDATE TOTEM SET goupe_id = new_group_id WHERE TOTEM_IP = ip AND TOTEM_ID = id;
+        UPDATE TOTEM SET groupe_id = new_group_id WHERE TOTEM_IP = ip AND TOTEM_ID = id;
 
         -- Check if the old group is empty and delete it if necessary
         PERFORM remove_empty_groups();
 
     ELSE
-        -- Link the totem to the new group
-        PERFORM link_totem_to_group(ip, id, new_group_id);
-
+        -- ERROR: The totem doesn't exist
+        RAISE EXCEPTION 'The information of the totem % with the id % doesn''t exist', ip, id USING ERRCODE = 'TOTEM_NOT_EXIST';
     END IF;
 END;
+$$ LANGUAGE plpgsql;
+
 
 -- call it
 --SELECT move_totem_to_group(<ip>, <id>, <new_group_id>);
 
 --remove a group with a certian id 
 CREATE OR REPLACE FUNCTION remove_group_with_id(group_id INTEGER)
-RETURNS VOID
-AS $$
+RETURNS VOID AS $$
 DECLARE
   totem_data RECORD;
   new_group_id INTEGER;
 BEGIN
   
   -- move each totem linked to the group to a new group
-  FOR totem_data IN SELECT totem_ip, totem_id FROM TOTEM WHERE goupe_id = group_id LOOP
+  FOR totem_data IN SELECT totem_ip, totem_id FROM TOTEM WHERE group_id = group_id LOOP
     -- get a new group id for moving the totems to
     new_group_id := get_new_group_id();
     PERFORM move_totem_to_group(totem_data.totem_ip, totem_data.totem_id, new_group_id);
   END LOOP;
   
   -- remove the original group
-  PERFORM create_new_group(group_id);
+  PERFORM remove_group(group_id);
   
   -- remove any empty groups created by moving the totems
   PERFORM remove_empty_groups();
