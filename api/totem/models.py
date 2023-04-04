@@ -291,3 +291,20 @@ class Bdd:
         except Exception as e:
             print(e)
             return 'failed'
+
+    async def deleteGroup(self, groupId):
+        """
+        It deletes a group.
+        
+        :param groupId: The ID of the group
+        :return: The function deleteGroup() is returning is the query was successful or not.
+        """
+
+        try:
+            self.cursor.execute("SELECT remove_group_with_id(%s);", (groupId,))
+            self.conn.commit()
+
+            return 'success'
+        except Exception as e:
+            print(e)
+            return 'failed'

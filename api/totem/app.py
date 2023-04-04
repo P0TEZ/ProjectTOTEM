@@ -299,7 +299,6 @@ async def add_admin_group_totem(token: str, group_id: int, totem_id: int, totem_
         print(e)
         return e
 
-    # TODO: check if the token is valid, then add the totem to the group in the database
 
 @app.put("/admin/group/param/{group_id}/{param_name}/{param_value}", tags=["admin"])
 def update_admin_group_param(token: str, group_id: int, param_name: str, param_value: int):
@@ -310,10 +309,21 @@ def update_admin_group_param(token: str, group_id: int, param_name: str, param_v
     # TODO: check if the token is valid, then set the parameter value in the database
 
 @app.delete("/admin/group/{group_id}", tags=["admin"])
-def delete_admin_group(token: str, group_id: int):
+async def delete_admin_group(token: str, group_id: int):
     """
     It deletes a group
     """
+
+    try:
+        token = await check_admin_token(token)
+
+        bdd = Bdd()
+        result = await bdd.deleteGroup(group_id)
+        return result
+    
+    except Exception as e:
+        print(e)
+        return e
 
     # TODO: check if the token is valid, then delete the group in the database
 
