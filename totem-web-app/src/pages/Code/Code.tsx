@@ -6,9 +6,13 @@ import { toast } from 'react-hot-toast'
 import { inputStyle } from './../../utils/CodeInputStyle'
 import { useNavigate } from 'react-router-dom'
 
+import { UserContext } from '../../context/User'
+
 export default function Code(props : any) {
     const navigate = useNavigate()  
-    const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+"/totem/"  
+    const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+"/totem/" 
+    const { setTotemId } = React.useContext(UserContext)
+
     useEffect(() => {
         document.title = "TOTEM - Code"
         const inputs = document.querySelectorAll("input")
@@ -58,7 +62,7 @@ export default function Code(props : any) {
                 }
             ).then(() => {
                 // If the connection is successful, redirect the user to his settings page
-                props.setCode(codeInput)
+                setTotemId(codeInput)
                 navigate("/"+codeInput)
             })
             .catch((error)=>{

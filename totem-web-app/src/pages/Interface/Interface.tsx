@@ -8,6 +8,7 @@ import './KnobOverlay.scss'
 import Status from '../../components/Status/Status'
 import Button from '../../components/Button/Button'
 import KnobPage from '../Knob/Knob'
+import { UserContext } from '../../context/User'
 
 import {RiVolumeVibrateLine, RiVolumeDownLine} from 'react-icons/ri'
 import {IoHandRight} from 'react-icons/io5'
@@ -37,21 +38,23 @@ function Interface(props: any) {
     const [inProp, setInProp] = useState(false);
     const [animClass, setAnimClass] = useState("knob-popup-L")
     const [knob, setKnob] = useState("L")
+    const { userInfo } = React.useContext(UserContext)
 
     useEffect(() => {
         document.title = "TOTEM"
-        console.log("code", props.code)
-        if(props.code === ""){
+        console.log("code", userInfo.TotemId)
+        if(userInfo.TotemId === ""){
             navigate("/code")
         }
         setStatus("Connecté")
-    }, [props.code, navigate]);
+    }, [userInfo.TotemId, navigate]);
 
     // Assistance
     const handleHelp = () => {
         setHelpAsked(!helpAsked)
         console.log(helpAsked)
     }
+    
     useEffect(()=>{
         if(helpAsked){
             toast.promise(
@@ -94,7 +97,7 @@ function Interface(props: any) {
             </CSSTransition>
             <div id="InterfacePage" className='PAGE_CONTAINER'>
 
-                <Status code={props.code} status={status}/>
+                <Status code={userInfo.TotemId} status={status}/>
 
                 <div className="btnContainer">
                     <Button 

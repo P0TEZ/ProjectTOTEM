@@ -31,8 +31,6 @@ function App() {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   //console.log("Dark mode : "+isDarkMode)
 
-  const [code, setCode] = useState("");
-
   return (
     <div className={"App ".concat(isDarkMode ? "darkTheme":"lightTheme")}>
       <Toaster position='top-center'/>
@@ -42,8 +40,8 @@ function App() {
           <Routes>
               <Route path="/" element={<Redirect to="welcome" />} />
               <Route path="/welcome" element={<Onboarding />}/>
-              <Route path="/code" element={<Code setCode={setCode}/>}/>
-              <Route path="/:code" element={<Interface code={code}/>}/>
+              <Route path="/code" element={<Code/>}/>
+              <Route path="/:code" element={<Interface/>}/>
               <Route path="/admin" element={<p className='admin'>Page ADMINNN</p>} />
               <Route path="*/*" element={<p className='PAGE_CONTAINER'>404</p>}/>
           </Routes>

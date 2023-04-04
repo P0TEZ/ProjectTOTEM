@@ -2,25 +2,25 @@ import React, { createContext, useState } from 'react';
 
 //create new type for context (is include one int named code and one string named token)
 type UserInfo = {
-    TotemId: number;
+    TotemId: string;
     token: string; 
 }
 
 // create a context for UserInfo with default value and one function to set the value
 const UserContext = createContext<{ 
     userInfo: UserInfo, 
-    setTotemId: (code: number) => void,
+    setTotemId: (code: string) => void,
     setToken: (token: string) => void}>(
     {
-        userInfo: { TotemId: 0, token: ''},
-        setTotemId: (code: number) => {},
+        userInfo: { TotemId: '', token: ''},
+        setTotemId: (code: string) => {},
         setToken: (token: string) => {}
 });
 
 function UserProvider(props: { children: React.ReactNode }) {
-    const [userInfo, setUserInfo] = useState<UserInfo>({ TotemId: 0, token: ''});
+    const [userInfo, setUserInfo] = useState<UserInfo>({ TotemId: '', token: ''});
 
-    const setTotemId = (code: number) => {
+    const setTotemId = (code: string) => {
         setUserInfo({ TotemId: code, token: userInfo.token});
     }
 
