@@ -7,7 +7,8 @@ import { inputStyle } from './../../utils/CodeInputStyle'
 import { useNavigate } from 'react-router-dom'
 
 export default function Code(props : any) {
-    const navigate = useNavigate()    
+    const navigate = useNavigate()  
+    const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+"/totem/"  
     useEffect(() => {
         document.title = "TOTEM - Code"
         const inputs = document.querySelectorAll("input")
@@ -20,7 +21,7 @@ export default function Code(props : any) {
         // send the code to the server with a get request
         return new Promise((resolve, reject) => {
             var headers = {}
-            fetch("http://127.0.0.1:5000/totem/"+code,{
+            fetch(adress+code,{
                 method : "GET",
                 mode: 'cors',
                 headers: headers
