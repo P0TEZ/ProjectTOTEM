@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import './Interface.scss'
@@ -29,19 +29,23 @@ const texts = {
     },
 }
 
-function Interface() {
-    const {code} = useParams<{code: string}>();
+function Interface(props: any) {
+    const nodeRef = React.useRef(null)
+    const navigate = useNavigate()
     const [status, setStatus] = useState("Connexion")
     const [helpAsked, setHelpAsked] = useState(false)
-    const nodeRef = React.useRef(null)
     const [inProp, setInProp] = useState(false);
     const [animClass, setAnimClass] = useState("knob-popup-L")
     const [knob, setKnob] = useState("L")
 
     useEffect(() => {
         document.title = "TOTEM"
+        console.log("code", props.code)
+        if(props.code === ""){
+            navigate("/code")
+        }
         setStatus("Connecté")
-    }, []);
+    }, [props.code, navigate]);
 
     // Assistance
     const handleHelp = () => {
@@ -90,7 +94,7 @@ function Interface() {
             </CSSTransition>
             <div id="InterfacePage" className='PAGE_CONTAINER'>
 
-                <Status code={code} status={status}/>
+                <Status code={props.code} status={status}/>
 
                 <div className="btnContainer">
                     <Button 

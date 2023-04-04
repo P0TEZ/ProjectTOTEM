@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 import { inputStyle } from './../../utils/CodeInputStyle'
 import { useNavigate } from 'react-router-dom'
 
-export default function Code() {
+export default function Code(props : any) {
     const navigate = useNavigate()    
     useEffect(() => {
         document.title = "TOTEM - Code"
@@ -57,6 +57,7 @@ export default function Code() {
                 }
             ).then(() => {
                 // If the connection is successful, redirect the user to his settings page
+                props.setCode(codeInput)
                 navigate("/"+codeInput)
             })
             .catch((error)=>{
