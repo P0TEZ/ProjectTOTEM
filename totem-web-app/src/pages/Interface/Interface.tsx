@@ -1,16 +1,17 @@
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import './Interface.scss'
 import './KnobOverlay.scss'
 
 import Status from '../../components/Status/Status'
-import Button from '../../components/Button/Button'
 import KnobPage from '../Knob/Knob'
+import LVRButtons from '../../components/LVRButtons/LVRButtons'
+import Dropdown from '../../components/Dropdown/Dropdown'   
+
 import { UserContext } from '../../context/User'
 
-import {RiVolumeVibrateLine, RiVolumeDownLine} from 'react-icons/ri'
 import {IoHandRight} from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
 import { CSSTransition } from 'react-transition-group'
@@ -42,11 +43,13 @@ function Interface(props: any) {
 
     useEffect(() => {
         document.title = "TOTEM"
-        if(userInfo.TotemId === ""){
+        // console.log(userInfo)
+        if(userInfo.TotemId === '' || userInfo.token === ''){
+            console.log("Nope !")
             navigate("/code")
         }
         setStatus("Connecté")
-    }, [userInfo.TotemId, navigate]);
+    }, [userInfo, navigate]);
 
     // Assistance
     const handleHelp = () => {
@@ -98,35 +101,14 @@ function Interface(props: any) {
 
                 <Status code={userInfo.TotemId} status={status}/>
 
-                <div className="btnContainer">
-                    <Button 
-                        onClick={() => openKnob("L")} 
-                        icon={<RiVolumeVibrateLine className='fs-headline-4'  style={{transform:'scaleX(-1)'}}/>}
-                        label="Gauche"
-                        onlyIcon={true}
-                        outlined={true}
-                        aos={{anim:"zoom-in", delay:400}}
-                        />
-                    <Button 
-                        onClick={() => openKnob("V")} 
-                        icon={<RiVolumeDownLine className='fs-headline-4'/>}
-                        label="Volume"
-                        onlyIcon={true}
-                        aos={{anim:"zoom-in", delay:500}}
-                        />
-                    <Button 
-                        onClick={() => openKnob("R")} 
-                        icon={<RiVolumeVibrateLine className='fs-headline-4'/>}
-                        label="Droite"
-                        onlyIcon={true}
-                        outlined={true}
-                        aos={{anim:"zoom-in", delay:600}}
-                        />
+                <LVRButtons openKnob={openKnob}/>
+
+                <Dropdown />
+                
+                <div className="helpBtn" onClick={()=>handleHelp()} data-aos="fade-up" data-aos-delay="800">
+                    <IoHandRight className={`c-primary fs-headline-2 ${helpAsked && "helpAsked"}`}/>
+                    <p className='fs-body-1 c-primary'>Assistance</p>
                 </div>
-                    <div className="helpBtn" onClick={()=>handleHelp()} data-aos="fade-up" data-aos-delay="800">
-                        <IoHandRight className={`c-primary fs-headline-2 ${helpAsked && "helpAsked"}`}/>
-                        <p className='fs-body-1 c-primary'>Assistance</p>
-                    </div>
                 
             </div>
         </>
