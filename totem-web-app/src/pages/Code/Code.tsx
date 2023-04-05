@@ -13,9 +13,13 @@ export default function Code(props : any) {
     const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5000/totem/" 
     const { setTotemId, setToken } = React.useContext(UserContext)
 
-    useEffect(() => {
+    const resetUserInfo = ()=>{
         setTotemId("")
         setToken("")
+    }
+
+    useEffect(() => {
+        resetUserInfo()
         document.title = "TOTEM - Code"
         const inputs = document.querySelectorAll("input")
         inputs.forEach((input) => {
@@ -39,7 +43,6 @@ export default function Code(props : any) {
                 return response.json()
             })
             .then(data=>{
-                console.log(data)
                 if(data.length === 0){
                     reject(new Error("Le code est incorrect"))
                 }

@@ -24,16 +24,19 @@ function UserProvider(props: { children: React.ReactNode }) {
     });
 
     const setTotemId = (code: string) => {
+        if(!code)code=''
+        console.log("setTotemId to : ", code)
         setUserInfo({ TotemId: code, token: userInfo.token});
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
     }
 
     const setToken = (token: string) => {
+        if(!token)token=''
+        console.log("setToken to : ", token)
         setUserInfo({ TotemId: userInfo.TotemId, token: token});
-    }
-
-    useEffect(() => {
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-    }, [userInfo]);
+        console.log("setToken userInfo : ", userInfo)
+    }
 
     return (
         <UserContext.Provider value={{userInfo, setTotemId, setToken}}>
