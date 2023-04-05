@@ -6,20 +6,14 @@ import { toast } from 'react-hot-toast'
 import { inputStyle } from './../../utils/CodeInputStyle'
 import { useNavigate } from 'react-router-dom'
 
-import { UserContext } from '../../context/User'
+import { UserContext, UserInfo } from '../../context/User'
 
 export default function Code(props : any) {
     const navigate = useNavigate()  
     const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5000/totem/" 
-    const { setTotemId, setToken } = React.useContext(UserContext)
-
-    const resetUserInfo = ()=>{
-        setTotemId("")
-        setToken("")
-    }
+    const {setAllUserInfo} = React.useContext(UserContext)
 
     useEffect(() => {
-        resetUserInfo()
         document.title = "TOTEM - Code"
         const inputs = document.querySelectorAll("input")
         inputs.forEach((input) => {
@@ -46,8 +40,12 @@ export default function Code(props : any) {
                 if(data.length === 0){
                     reject(new Error("Le code est incorrect"))
                 }
-                setToken(data[0])
-                resolve(data)
+                const token = data[0]? data[0]: ""
+
+                const userInfo: UserInfo = {TotemId: code, token: token}
+                setAllUserInfo(userInfo)
+
+                resolve(token)
             })
             .catch((error) => {
                 reject(error)
@@ -71,8 +69,6 @@ export default function Code(props : any) {
                     error: <b>Connexion échouée !</b>,
                 }
             ).then(() => {
-                // If the connection is successful, redirect the user to his settings page
-                setTotemId(codeInput)
                 navigate("/"+codeInput)
             })
             .catch((error)=>{

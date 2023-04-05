@@ -10,11 +10,14 @@ type UserInfo = {
 const UserContext = createContext<{ 
     userInfo: UserInfo, 
     setTotemId: (code: string) => void,
-    setToken: (token: string) => void}>(
+    setToken: (token: string) => void,
+    setAllUserInfo: (userInfo: UserInfo) => void
+}>(
     {
         userInfo: { TotemId: '', token: ''},
         setTotemId: (code: string) => {},
-        setToken: (token: string) => {}
+        setToken: (token: string) => {},
+        setAllUserInfo: (userInfo: UserInfo) => {}
 });
 
 function UserProvider(props: { children: React.ReactNode }) {
@@ -24,25 +27,36 @@ function UserProvider(props: { children: React.ReactNode }) {
     });
 
     const setTotemId = (code: string) => {
-        if(!code)code=''
-        console.log("setTotemId to : ", code)
+        console.log("setTotemId: "+code+" token: "+userInfo.token);
         setUserInfo({ TotemId: code, token: userInfo.token});
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
     }
 
     const setToken = (token: string) => {
-        if(!token)token=''
-        console.log("setToken to : ", token)
+        console.log("setToken: "+token+" TotemId: "+userInfo.TotemId);
         setUserInfo({ TotemId: userInfo.TotemId, token: token});
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        console.log("setToken userInfo : ", userInfo)
+        // console.log("setTokenAfter: ", userInfo);
+        return new Promise((resolve, reject) => {
+            resolve(token)
+        })
     }
 
+    const setAllUserInfo = (userInfo: UserInfo) => {
+        console.log("setUserInfo: ", userInfo);
+        setUserInfo(userInfo);
+    }
+
+    useEffect(() => {
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        console.log("update userInfo: ", userInfo);
+    }, [userInfo]);
+
     return (
-        <UserContext.Provider value={{userInfo, setTotemId, setToken}}>
+        <UserContext.Provider value={{userInfo, setTotemId, setToken, setAllUserInfo}}>
             {props.children}
         </UserContext.Provider>
     );
 }
 
 export { UserContext, UserProvider };
+export type { UserInfo };

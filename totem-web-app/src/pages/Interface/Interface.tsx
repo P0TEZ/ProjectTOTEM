@@ -43,7 +43,7 @@ function Interface(props: any) {
 
     useEffect(() => {
         document.title = "TOTEM"
-        console.log(userInfo)
+        // console.log(userInfo)
         if(userInfo.TotemId === '' || userInfo.token === ''){
             console.log("Nope !")
             navigate("/code")
