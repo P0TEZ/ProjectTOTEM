@@ -18,7 +18,7 @@ function useFetchOnChange<T>(
   url: string,
   variable: T,
   userToken: string,
-  debounceDelay: number = 500
+  debounceDelay: number = 100
 ): [T, boolean, Error | null, () => void] {
   const [data, setData] = useState<T>(variable);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,9 +33,14 @@ function useFetchOnChange<T>(
       }
       timeoutId = setTimeout(() => {
         console.log('Fetching data from URL: ' + url);
-        fetch(url + variable +"?token="+userToken)
+        fetch(
+            url + variable +"?token="+userToken,
+            {
+                method: 'POST',
+            }
+            )
           .then((response) => response.json())
-          .then((result) => setData(result))
+          .then((result) => setData(variable))
           .catch((error) => setError(error))
           .finally(() => setLoading(false));
       }, debounceDelay);

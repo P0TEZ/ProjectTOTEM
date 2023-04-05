@@ -16,28 +16,23 @@ export default function KnobPage(props : any) {
     const handleChange = (value: number) => {
         if(value>100)return
         else{
+            value = Math.round(value);
             setKnobValue(value);
+            console.log("value: ", value)
         }
     }
 
     const {userInfo} = React.useContext(UserContext)
-
-
     let token = userInfo.token;
 
-
     var adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5050"
-    adress+="/user/param/"
+    adress+="/user/param/"+props.texts[props.pos].param_name+"/"
 
     const [data, loading, error, refetch] = useFetchOnChange(
         adress,
         knobValue,
         token
     );
-
-    // React.useEffect(() => {
-    //     //console.log(knobValue);
-    // }, [knobValue]);
 
     return (
         <div className='' id="knobPage">
