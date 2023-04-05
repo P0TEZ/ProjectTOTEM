@@ -27,7 +27,7 @@ class Osc:
     def connect(self, totemID, totemIP, port = PORT):
         try:
             client = udp_client.SimpleUDPClient(totemIP, port)
-            # self.__instance.append({'totemID': totemID, 'totemIP': totemIP, 'client': client})
+            self.__instance.append({'totemID': totemID, 'totemIP': totemIP, 'client': client})
             # print("OSC client creation successful")
         except Exception as e:
             print(e)
