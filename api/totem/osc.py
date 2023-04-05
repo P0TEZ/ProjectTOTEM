@@ -49,7 +49,7 @@ class Osc:
                 # print("OSC client already exists")
 
             client = instance['client']  
-            print(instance)        
+            # print(instance)        
             if client.send_message("/" + paramName, value):
                 print("OSC message sent correctly")
                 return True
