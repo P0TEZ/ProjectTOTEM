@@ -139,7 +139,7 @@ class Bdd:
         :return: The function getUserParamsDetails() is returning a list of tuples.
         """
         try:
-            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s;", (totemID, totemIP))
+            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.groupe_id = t.groupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s;", (totemID, totemIP))
             params = self.cursor.fetchall()
             params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
             return params
@@ -156,7 +156,7 @@ class Bdd:
         :return: The function getUserSpecificParameters() is returning a list of tuples.
         """
         try:
-            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.goupe_id = t.goupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s AND st.setting_name = %s LIMIT 1;", (totemID, totemIP, param_name))
+            self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.groupe_id = t.groupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s AND st.setting_name = %s LIMIT 1;", (totemID, totemIP, param_name))
             params = self.cursor.fetchall()
             params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
 
@@ -177,7 +177,7 @@ class Bdd:
         """
 
         try:
-            self.cursor.execute("UPDATE set_to SET set_to_value = %s FROM TOTEM WHERE set_to.goupe_id = TOTEM.goupe_id AND TOTEM.TOTEM_ID = %s AND TOTEM.TOTEM_IP = %s AND set_to.setting_name = %s;", (param_value, totemID, totemIP, param_name))
+            self.cursor.execute("UPDATE set_to SET set_to_value = %s FROM TOTEM WHERE set_to.groupe_id = TOTEM.groupe_id AND TOTEM.TOTEM_ID = %s AND TOTEM.TOTEM_IP = %s AND set_to.setting_name = %s;", (param_value, totemID, totemIP, param_name))
             self.conn.commit()
 
             # TODO/update: Convert the query into function to catch the error
@@ -194,10 +194,10 @@ class Bdd:
         :return: The function getAllInfo() is returning a list of tuples.
         """
         try:
-            self.cursor.execute("SELECT t.TOTEM_IP, t.TOTEM_ID, g.goupe_id, string_agg(st.setting_name || '=' || st.set_to_value, ', ') as set_to_params FROM TOTEM t JOIN Groupe g ON t.goupe_id = g.goupe_id LEFT JOIN set_to st ON st.goupe_id = t.goupe_id GROUP BY t.TOTEM_IP, t.TOTEM_ID, g.goupe_id;")
+            self.cursor.execute("SELECT t.TOTEM_IP, t.TOTEM_ID, g.groupe_id, string_agg(st.setting_name || '=' || st.set_to_value, ', ') as set_to_params FROM TOTEM t JOIN Groupe g ON t.groupe_id = g.groupe_id LEFT JOIN set_to st ON st.groupe_id = t.groupe_id GROUP BY t.TOTEM_IP, t.TOTEM_ID, g.groupe_id;")
             totems = self.cursor.fetchall()
 
-            totems = [dict(zip(['totem_ip', 'totem_id', 'goupe_id', 'set_to_params'], totem)) for totem in totems]
+            totems = [dict(zip(['totem_ip', 'totem_id', 'groupe_id', 'set_to_params'], totem)) for totem in totems]
 
             # parse the set_to_params string to a dict
             for totem in totems:
@@ -216,16 +216,16 @@ class Bdd:
         :return: The function getAllGroups() is returning a list of tuples.
         """
         try:
-            self.cursor.execute("SELECT g.goupe_id, s.setting_name, st.set_to_value FROM Groupe g JOIN set_to st ON st.goupe_id = g.goupe_id JOIN SETTINGS s ON s.setting_name = st.setting_name ORDER BY g.goupe_id, s.setting_name;")
+            self.cursor.execute("SELECT g.groupe_id, s.setting_name, st.set_to_value FROM Groupe g JOIN set_to st ON st.groupe_id = g.groupe_id JOIN SETTINGS s ON s.setting_name = st.setting_name ORDER BY g.groupe_id, s.setting_name;")
             groups = self.cursor.fetchall()
 
-            groups = [dict(zip(['goupe_id', 'setting_name', 'set_to_value'], group)) for group in groups]
+            groups = [dict(zip(['groupe_id', 'setting_name', 'set_to_value'], group)) for group in groups]
 
             for group in groups:
-                group[group['goupe_id']] = {'groupe_id': group['goupe_id'], group['setting_name']: group['set_to_value']}
+                group[group['groupe_id']] = {'groupe_id': group['groupe_id'], group['setting_name']: group['set_to_value']}
                 del group['setting_name']
                 del group['set_to_value']
-                del group['goupe_id']
+                del group['groupe_id']
 
             # TODO: organize the dict to be like this:
             # {
@@ -250,10 +250,10 @@ class Bdd:
         :return: The function getGroupDetails() is returning a list of tuples.
         """
         try:
-            self.cursor.execute("SELECT g.goupe_id, s.setting_name, st.set_to_value FROM Groupe g JOIN set_to st ON st.goupe_id = g.goupe_id JOIN SETTINGS s ON s.setting_name = st.setting_name WHERE g.goupe_id = %s ORDER BY g.goupe_id, s.setting_name;", (groupe_id,))
+            self.cursor.execute("SELECT g.groupe_id, s.setting_name, st.set_to_value FROM Groupe g JOIN set_to st ON st.groupe_id = g.groupe_id JOIN SETTINGS s ON s.setting_name = st.setting_name WHERE g.groupe_id = %s ORDER BY g.groupe_id, s.setting_name;", (groupe_id,))
             params = self.cursor.fetchall()
 
-            params = [dict(zip(['goupe_id', 'setting_name', 'set_to_value'], group)) for group in params]
+            params = [dict(zip(['groupe_id', 'setting_name', 'set_to_value'], group)) for group in params]
 
             # group all params in the same dict
             result = {}
