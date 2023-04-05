@@ -3,6 +3,9 @@ import React from 'react'
 import {Knob} from 'react-rotary-knob';
 // @ts-ignore
 import * as skins from 'react-rotary-knob-skin-pack';
+import useFetchOnChange from '../../hooks/useFetchOnChange';
+
+import { UserContext, UserInfo } from '../../context/User';
 
 import './Knob.scss';
 
@@ -17,9 +20,24 @@ export default function KnobPage(props : any) {
         }
     }
 
-    React.useEffect(() => {
-        //console.log(knobValue);
-    }, [knobValue]);
+    const {userInfo} = React.useContext(UserContext)
+
+
+    let token = userInfo.token;
+
+
+    var adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5050"
+    adress+="/user/param/"
+
+    const [data, loading, error, refetch] = useFetchOnChange(
+        adress,
+        knobValue,
+        token
+    );
+
+    // React.useEffect(() => {
+    //     //console.log(knobValue);
+    // }, [knobValue]);
 
     return (
         <div className='' id="knobPage">

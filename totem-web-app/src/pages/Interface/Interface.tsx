@@ -19,15 +19,18 @@ import { CSSTransition } from 'react-transition-group'
 const texts = {
     "L": {
         title: "Intensité gauche",
-        desc: "Force avec laquelle vous ressentez la musique sur le vibreur gauche"
+        desc: "Force avec laquelle vous ressentez la musique sur le vibreur gauche",
+        param_name: 'intensite_l'
     },
     "R": {
         title: "Intensité droite",
-        desc: "Force avec laquelle vous ressentez la musique sur le vibreur droit"
+        desc: "Force avec laquelle vous ressentez la musique sur le vibreur droit",
+        param_name: 'intensite_r'
     },
     "V":{
         title: "Volume",
-        desc: "Volume global"
+        desc: "Volume global",
+        param_name: 'volume'
     },
 }
 
@@ -94,7 +97,7 @@ function Interface(props: any) {
             <CSSTransition nodeRef={nodeRef} in={inProp} classNames={animClass} unmountOnExit timeout={200}>
                 <div id="KnobContainer" ref={nodeRef}>
                         <button style={{position:"absolute", bottom:'0', zIndex:1000}} onClick={() => setInProp(false)}>Leave</button>
-                        <KnobPage pos={knob} texts={texts}/>
+                        <KnobPage pos={knob} texts={texts} />
                 </div>
             </CSSTransition>
             <div id="InterfacePage" className='PAGE_CONTAINER'>
