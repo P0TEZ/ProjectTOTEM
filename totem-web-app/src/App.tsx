@@ -10,6 +10,7 @@ import Code from './pages/Code/Code';
 import Redirect from './utils/Redirect';
 import Header from './components/Header/Header';
 import Interface from './pages/Interface/Interface';
+import Admin from './pages/Admin/Admin';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -42,7 +43,8 @@ function App() {
               <Route path="/welcome" element={<Onboarding />}/>
               <Route path="/code" element={<Code/>}/>
               <Route path="/:code" element={<Interface/>}/>
-              <Route path="/admin" element={<p className='admin'>Page ADMINNN</p>} />
+              <Route path="/admin" element={<Admin/>} />
+              <Route path="/help" element={<p className='help'>Page HELP</p>} />
               <Route path="*/*" element={<p className='PAGE_CONTAINER'>404</p>}/>
           </Routes>
 

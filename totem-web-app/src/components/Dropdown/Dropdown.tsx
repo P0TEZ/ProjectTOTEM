@@ -16,18 +16,18 @@ export default function Dropdown() {
             options={options} 
             defaultInputValue="chocolate"
             styles={{
+                container: (baseStyles, state) => ({
+                    ...baseStyles,
+                    width: '90%',
+                }),
                 control: (baseStyles, state) => ({
                     ...baseStyles,
                     backgroundColor: 'var(--background-color)',
                     borderColor: state.isFocused ? 'grey' : 'var(--primary-color)',
                 }),
-                container: (baseStyles, state) => ({
+                singleValue: (baseStyles, state) => ({
                     ...baseStyles,
-                    width: '100%',
-                }),
-                valueContainer: (baseStyles, state) => ({
-                    ...baseStyles,
-                    color: 'var(--primary-color)',
+                    color: 'var(--onBackground-color)',
                 }),
                 menu: (baseStyles, state) => ({
                     ...baseStyles,
