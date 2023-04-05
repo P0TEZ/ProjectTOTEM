@@ -12,6 +12,7 @@
  * @returns The function `useFetchOnChange` returns an array with four elements: `data`, `loading`,
  * `error`, and `refetch`.
  */
+
 import { useState, useEffect } from 'react';
 
 function useFetchOnChange<T>(

@@ -27,12 +27,12 @@ function UserProvider(props: { children: React.ReactNode }) {
     });
 
     const setTotemId = (code: string) => {
-        console.log("setTotemId: "+code+" token: "+userInfo.token);
+        // console.log("setTotemId: "+code+" token: "+userInfo.token);
         setUserInfo({ TotemId: code, token: userInfo.token});
     }
 
     const setToken = (token: string) => {
-        console.log("setToken: "+token+" TotemId: "+userInfo.TotemId);
+        // console.log("setToken: "+token+" TotemId: "+userInfo.TotemId);
         setUserInfo({ TotemId: userInfo.TotemId, token: token});
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         // console.log("setTokenAfter: ", userInfo);
@@ -42,13 +42,13 @@ function UserProvider(props: { children: React.ReactNode }) {
     }
 
     const setAllUserInfo = (userInfo: UserInfo) => {
-        console.log("setUserInfo: ", userInfo);
+        // console.log("setUserInfo: ", userInfo);
         setUserInfo(userInfo);
     }
 
     useEffect(() => {
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        console.log("update userInfo: ", userInfo);
+        // console.log("update userInfo: ", userInfo);
     }, [userInfo]);
 
     return (

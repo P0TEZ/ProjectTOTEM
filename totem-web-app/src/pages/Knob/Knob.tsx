@@ -5,25 +5,31 @@ import {Knob} from 'react-rotary-knob';
 import * as skins from 'react-rotary-knob-skin-pack';
 import useFetchOnChange from '../../hooks/useFetchOnChange';
 
-import { UserContext, UserInfo } from '../../context/User';
+import { UserContext} from '../../context/User';
 
 import './Knob.scss';
+import useFetchState from '../../hooks/useFetchState';
 
 
 export default function KnobPage(props : any) {
-    const [knobValue, setKnobValue] = React.useState(0);
+    const {userInfo} = React.useContext(UserContext)
+    let token = userInfo.token;
+
+    var adressToFetchForDefaultValue = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5050"
+    adressToFetchForDefaultValue+="/user/param/"+props.texts[props.pos].param_name+"/?token="+token;
+    // const [knobValue, setKnobValue] = React.useState(0);
+    const [knobValue, setKnobValue] = useFetchState(
+        adressToFetchForDefaultValue,
+        0,
+    );
 
     const handleChange = (value: number) => {
         if(value>100)return
         else{
             value = Math.round(value);
             setKnobValue(value);
-            console.log("value: ", value)
         }
     }
-
-    const {userInfo} = React.useContext(UserContext)
-    let token = userInfo.token;
 
     var adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5050"
     adress+="/user/param/"+props.texts[props.pos].param_name+"/"
@@ -33,6 +39,8 @@ export default function KnobPage(props : any) {
         knobValue,
         token
     );
+
+    console.log(data, loading, error, refetch)
 
     return (
         <div className='' id="knobPage">
