@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 //create new type for context (is include one int named code and one string named token)
 type UserInfo = {
@@ -18,7 +18,10 @@ const UserContext = createContext<{
 });
 
 function UserProvider(props: { children: React.ReactNode }) {
-    const [userInfo, setUserInfo] = useState<UserInfo>({ TotemId: '', token: ''});
+    const [userInfo, setUserInfo] = useState<UserInfo>(() => {
+        const savedUserInfo = localStorage.getItem('userInfo');
+        return savedUserInfo ? JSON.parse(savedUserInfo) : { TotemId: '', token: ''};
+    });
 
     const setTotemId = (code: string) => {
         setUserInfo({ TotemId: code, token: userInfo.token});
@@ -27,6 +30,10 @@ function UserProvider(props: { children: React.ReactNode }) {
     const setToken = (token: string) => {
         setUserInfo({ TotemId: userInfo.TotemId, token: token});
     }
+
+    useEffect(() => {
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }, [userInfo]);
 
     return (
         <UserContext.Provider value={{userInfo, setTotemId, setToken}}>

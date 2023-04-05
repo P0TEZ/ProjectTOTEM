@@ -11,15 +11,17 @@ import { UserContext } from '../../context/User'
 export default function Code(props : any) {
     const navigate = useNavigate()  
     const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5000/totem/" 
-    const { setTotemId } = React.useContext(UserContext)
+    const { setTotemId, setToken } = React.useContext(UserContext)
 
     useEffect(() => {
+        setTotemId("")
+        setToken("")
         document.title = "TOTEM - Code"
         const inputs = document.querySelectorAll("input")
         inputs.forEach((input) => {
             input.placeholder = "_"
         })
-    })
+    },[])
 
     const connectWithCode = (code: string) => {
         // send the code to the server with a get request
@@ -30,14 +32,19 @@ export default function Code(props : any) {
                 mode: 'cors',
                 headers: headers
             })
-            .then((response) => {
-                console.log(response)
-                if(response.status === 200){
-                    resolve(response)
-                }
-                else{
+            .then(response => {
+                if(!response.ok){
                     reject(new Error("Le code est incorrect"))
                 }
+                return response.json()
+            })
+            .then(data=>{
+                console.log(data)
+                if(data.length === 0){
+                    reject(new Error("Le code est incorrect"))
+                }
+                setToken(data[0])
+                resolve(data)
             })
             .catch((error) => {
                 reject(error)

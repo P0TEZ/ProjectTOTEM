@@ -42,7 +42,6 @@ function Interface(props: any) {
 
     useEffect(() => {
         document.title = "TOTEM"
-        console.log("code", userInfo.TotemId)
         if(userInfo.TotemId === ""){
             navigate("/code")
         }
@@ -54,7 +53,7 @@ function Interface(props: any) {
         setHelpAsked(!helpAsked)
         console.log(helpAsked)
     }
-    
+
     useEffect(()=>{
         if(helpAsked){
             toast.promise(
