@@ -1,6 +1,9 @@
 div.nestable{
     max-width: 800px;
     width:100%;
+    & .nestable-list{
+        padding-left: calc(4 * var(--default-padding));
+    }
 
     & div.totem-item{
         padding:var(--default-padding);
@@ -19,9 +22,19 @@ div.nestable{
             transform: scale(1.02);
             transition: transform .2s ease-in-out;
         }
-
-        &-name, &-id{
-            padding:var(--default-padding);
+        & .status-indicator{
+            height:1rem;
+            width:1rem;
+            border-radius: 50%;
+            background-color: var(--success-color);
+        }
+        &-id, &-name{
+            display: flex;
+            align-items: center;
+            flex-direction:row;
+            &>*{
+                margin: 0 var(--default-padding);
+            }
         }
     }
 }

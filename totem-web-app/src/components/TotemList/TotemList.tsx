@@ -2,9 +2,12 @@ import React, { useEffect } from 'react'
 import './TotemList.scss'
 
 import Nestable from 'react-nestable';
-// import userinfo context
+import { toast } from 'react-hot-toast';
+
 import { UserContext } from '../../context/User';
-import { toast } from 'react-hot-toast';	
+
+import {BsThreeDotsVertical} from 'react-icons/bs'
+
 
 export default function TotemList() {
 	// get list of totems from the server
@@ -48,22 +51,31 @@ export default function TotemList() {
 	}
 
     return (
-        <Nestable items={items} renderItem={({item})=><TotemItem item={item}/>}/>
+        <Nestable 
+			items={items} 
+			renderItem={({item, collapseIcon})=><TotemItem item={item} icon={collapseIcon}/>}
+			renderCollapseIcon={() => <BsThreeDotsVertical/>}
+			collapsed={false}
+			maxDepth={2}
+		/>
     )
 }
 
 const TotemItem = (props: any) => {
-	useEffect(() => {
-		console.log(props)
-	},[])
 	return (
 		<div className="totem-item">
-			<h1 className="totem-item-name fs-headline-4 monument c-primary">
-				TOTEM <span className='c-onBackground'>#{props.item.id}</span>
-			</h1>
-			<p className="totem-item-id fs-subtitle-4 bold c-grey">
-				{props.item.ip}
-			</p>
+			<div className="totem-item-name">
+				{props.icon}
+				<span className='status-indicator'></span>
+				<h1 className="fs-headline-4 monument c-primary">
+					TOTEM <span className='c-onBackground'>#{props.item.id}</span>
+				</h1>
+			</div>
+			<div className='totem-item-id'>
+				<p className="fs-subtitle-4 bold c-grey">
+					{props.item.ip}
+				</p>
+			</div>
 		</div>
 	)
 }
