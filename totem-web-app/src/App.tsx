@@ -16,6 +16,9 @@ import Admin from './pages/Admin/Admin';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import 'react-nestable/dist/styles/index.css';
+
+
 function App() {
   useEffect(() => {
     AOS.init();
