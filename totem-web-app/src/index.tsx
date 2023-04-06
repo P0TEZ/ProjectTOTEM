@@ -7,6 +7,8 @@ import {BrowserRouter} from 'react-router-dom';
 import { AppThemeProvider } from './context/AppTheme';
 import { UserProvider } from './context/User';
 
+import 'react-nestable/dist/styles/index.css';  
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

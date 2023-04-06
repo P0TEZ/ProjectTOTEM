@@ -2,12 +2,14 @@ import React from 'react'
 import './AdminLogin.scss'
 
 import Button from '../../components/Button/Button'
+import { UserContext, UserInfo } from '../../context/User'
 
 import { toast } from 'react-hot-toast'
 
 export default function AdminLogin(props:any) {
     const [password, setPassword] = React.useState<string>('T0TEM@dmin')
     const adress = process.env.REACT_APP_CENTRAL_ADRESS + ":5000"
+    const {setAllUserInfo} = React.useContext(UserContext)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
@@ -31,15 +33,18 @@ export default function AdminLogin(props:any) {
             .then(res => {
                 if(!res.ok){
                     reject(new Error("Mot de passe administrateur incorrect"))
+                    setAllUserInfo({TotemId:"", token: ""})
                 }
                 return res.json()
             })
             .then(res => {
                 if(res.length === 0){
                     reject(new Error("Mot de passe administrateur incorrect"))
+                    setAllUserInfo({TotemId:"", token: ""})
                 }
                 else{
                     props.setConnected(true)
+                    setAllUserInfo({TotemId:"admin", token: res[0]})
                     resolve(true)
                 }
                 

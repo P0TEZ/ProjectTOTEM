@@ -1,0 +1,28 @@
+div.nestable{
+    max-width: 800px;
+    width:100%;
+
+    & div.totem-item{
+        padding:var(--default-padding);
+
+        border: 1px solid var(--primary-color);
+        background: transparentize(hsl(233, 80%, 63%), .9);
+        border-radius: var(--medium-radius);
+
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+        justify-content:space-between;
+        transition: transform .2s ease-in-out;
+        cursor: pointer;
+        &:hover{
+            transform: scale(1.02);
+            transition: transform .2s ease-in-out;
+        }
+
+        &-name, &-id{
+            padding:var(--default-padding);
+        }
+    }
+}
+

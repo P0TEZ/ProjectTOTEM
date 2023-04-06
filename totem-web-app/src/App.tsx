@@ -4,7 +4,6 @@ import './assets/globalStyle/main.scss';
 import { ThemeContext } from './context/AppTheme';
 import { PageTransition } from "@steveeeie/react-page-transition";
 import { Toaster } from 'react-hot-toast';
-import { Suspense } from 'react';
 
 import Onboarding from './pages/Onboarding/Onboarding';
 import Code from './pages/Code/Code';
