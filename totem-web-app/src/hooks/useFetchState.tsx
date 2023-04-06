@@ -7,7 +7,7 @@ function useFetchState<T>(
   const [state, setState] = useState<T>(defaultValue);
 
   useEffect(() => {
-    console.log('Fetching data from URL: ' + url);
+    // console.log('Fetching data from URL: ' + url);
     var headers = {}
     fetch(url,{
         method : "GET",
@@ -26,7 +26,7 @@ function useFetchState<T>(
       .catch((error) => console.error(error));
   }, [url]);
 
-  console.log(state);
+  // console.log(state);
 
   return [state, setState];
 }

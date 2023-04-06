@@ -83,11 +83,11 @@ function Interface(props: any) {
 
     // Knobs
     const openKnob = (knob:string)=>{
-        console.log("open knob", knob)
+        // console.log("open knob", knob)
         setKnob(knob)
         setInProp(true)
         setAnimClass("knob-popup-"+knob)
-        console.log(animClass)
+        // console.log(animClass)
     }
     
     

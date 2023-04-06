@@ -40,7 +40,7 @@ export default function KnobPage(props : any) {
         token
     );
 
-    console.log(data, loading, error, refetch)
+    // console.log(data, loading, error, refetch)
 
     return (
         <div className='' id="knobPage">

@@ -33,7 +33,7 @@ function useFetchOnChange<T>(
         clearTimeout(timeoutId);
       }
       timeoutId = setTimeout(() => {
-        console.log('Fetching data from URL: ' + url);
+        // console.log('Fetching data from URL: ' + url);
         fetch(
             url + variable +"?token="+userToken,
             {

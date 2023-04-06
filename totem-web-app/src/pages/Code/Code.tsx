@@ -11,7 +11,7 @@ import { UserContext, UserInfo } from '../../context/User'
 export default function Code(props : any) {
     const navigate = useNavigate()  
     const adress = "http://"+process.env.REACT_APP_CENTRAL_ADRESS+":5000/totem/" 
-    console.log(window.location.host)
+    // console.log(window.location.host)
     const {setAllUserInfo} = React.useContext(UserContext)
     
     useEffect(() => {
