@@ -4,6 +4,7 @@ import './assets/globalStyle/main.scss';
 import { ThemeContext } from './context/AppTheme';
 import { PageTransition } from "@steveeeie/react-page-transition";
 import { Toaster } from 'react-hot-toast';
+import { Suspense } from 'react';
 
 import Onboarding from './pages/Onboarding/Onboarding';
 import Code from './pages/Code/Code';
@@ -42,9 +43,9 @@ function App() {
               <Route path="/" element={<Redirect to="welcome" />} />
               <Route path="/welcome" element={<Onboarding />}/>
               <Route path="/code" element={<Code/>}/>
-              <Route path="/:code" element={<Interface/>}/>
               <Route path="/admin" element={<Admin/>} />
               <Route path="/help" element={<p className='help'>Page HELP</p>} />
+              <Route path="/:code" element={<Interface/>}/>
               <Route path="*/*" element={<p className='PAGE_CONTAINER'>404</p>}/>
           </Routes>
 
