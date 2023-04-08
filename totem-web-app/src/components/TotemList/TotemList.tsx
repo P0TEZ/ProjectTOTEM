@@ -81,20 +81,21 @@ export default function TotemList() {
 		} else if (!dragItem.group && !destinationParent) {
 			return false;
 		} else {
-			// use methode put on localhost:5050/admin/group/:groupe_id/:new_groupe_id/:totem_ip?token=token
+			// use methode put on localhost:5050/admin/group/:groupe_id/:totem_id/:totem_ip?token=token
 			// if totem_ip is not specified, it will move the whole group
 			// if totem_ip is specified, it will move only the totem
 			var query =
 				"http://" +
 				process.env.REACT_APP_CENTRAL_ADRESS +
 				":5050/admin/group/" +
+				destinationParent.totem_id +
+				"/" +
 				dragItem.totem_id +
 				"/" +
-				destinationParent?.totem_id +
-				"/" +
-				(dragItem.group ? "" : dragItem.totem_ip) +
+				dragItem.totem_ip +
 				"?token=" +
 				userInfo.token;
+
 			console.log(query);
 			toast.promise(moveToGoup(query), {
 				loading: "Déplacement en cours...",
