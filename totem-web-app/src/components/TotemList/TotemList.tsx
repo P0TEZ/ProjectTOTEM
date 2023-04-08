@@ -9,7 +9,6 @@ import { UserContext } from "../../context/User";
 import { BsChevronRight, BsSliders2Vertical } from "react-icons/bs";
 
 export default function TotemList() {
-	// get list of totems from the server
 	const [items, setItems] = React.useState<any[]>([]);
 	const { userInfo } = React.useContext(UserContext);
 
@@ -30,7 +29,6 @@ export default function TotemList() {
 					userInfo.token
 			)
 				.then((response) => {
-					console.log(response);
 					if (!response.ok) reject(true);
 					return response.json();
 				})
@@ -42,7 +40,6 @@ export default function TotemList() {
 	};
 
 	const convertToItems = (data: any) => {
-		console.log(data);
 		const newItems = data.reduce((acc: any, obj: any) => {
 			const key = obj.groupe_id;
 			if (!acc[key]) {
@@ -51,7 +48,6 @@ export default function TotemList() {
 			acc[key].push(obj);
 			return acc;
 		}, {});
-		console.log(newItems);
 		// convert to array
 		const items = Object.keys(newItems).map((key) => {
 			return {
@@ -67,44 +63,68 @@ export default function TotemList() {
 				child.id = child.totem_id;
 			});
 		});
+		// add placeholder for an empty group for the user to create a new group
+		items.push({
+			totem_id: "" + (items.length + 1),
+			id: "newGroup",
+			group: true,
+			children: [],
+		});
 		console.log(items);
 		setItems(items);
 	};
 
 	const handleItemChange = (dragItem: any, destinationParent: any) => {
-		console.log(dragItem, destinationParent);
-		if (dragItem.group && destinationParent) {
+		if (dragItem.group) {
 			toast.error(
-				"Impossible de déplacer un groupe dans un autre groupe"
+				"Impossible de déplacer un groupe dans un autre groupe !"
 			);
 			return false;
-		} else if (!dragItem.group && !destinationParent) {
-			return false;
-		} else {
-			// use methode put on localhost:5050/admin/group/:groupe_id/:totem_id/:totem_ip?token=token
-			// if totem_ip is not specified, it will move the whole group
-			// if totem_ip is specified, it will move only the totem
-			var query =
-				"http://" +
-				process.env.REACT_APP_CENTRAL_ADRESS +
-				":5050/admin/group/" +
-				destinationParent.totem_id +
-				"/" +
-				dragItem.totem_id +
-				"/" +
-				dragItem.totem_ip +
-				"?token=" +
-				userInfo.token;
-
-			console.log(query);
-			toast.promise(moveToGoup(query), {
-				loading: "Déplacement en cours...",
-				success: "Déplacement réussi",
-				error: "Erreur lors du déplacement",
-			});
-			getTotems();
-			return true;
+		} else if (destinationParent) {
+			if (
+				dragItem.groupe_id.toString() ===
+				destinationParent.id.toString()
+			) {
+				console.log("can't move totem to same group");
+				return false;
+			}
 		}
+		var destination = "";
+		if (destinationParent) {
+			console.log("j'ai trouvé la desttttt");
+			destination = destinationParent.id;
+		} else {
+			console.log("j'ai pas trouvé la desttttt");
+			destination = "" + items.length;
+		}
+
+		console.log(
+			"moving totem " +
+				dragItem.totem_id +
+				" to group " +
+				destination +
+				" with ip " +
+				dragItem.totem_ip
+		);
+
+		var query =
+			"http://" +
+			process.env.REACT_APP_CENTRAL_ADRESS +
+			":5050/admin/group/" +
+			destination +
+			"/" +
+			dragItem.totem_id +
+			"/" +
+			dragItem.totem_ip +
+			"?token=" +
+			userInfo.token;
+		toast.promise(moveToGoup(query), {
+			loading: "Déplacement en cours...",
+			success: "Déplacement réussi",
+			error: "Erreur lors du déplacement",
+		});
+		getTotems();
+		return true;
 	};
 
 	const moveToGoup = (query: string) => {
@@ -113,12 +133,10 @@ export default function TotemList() {
 				method: "PUT",
 			})
 				.then((response) => {
-					console.log(response);
 					if (!response.ok) reject(true);
 					return response.json();
 				})
 				.then((data) => {
-					console.log(data);
 					if (data === "success") resolve(true);
 					else reject(true);
 				});
@@ -149,11 +167,17 @@ const TotemItem = (props: any) => {
 	return (
 		<>
 			{props.item.group ? (
-				<div className="totem-group">
+				<div
+					className={`totem-group ${
+						props.item.id === "newGroup" ? "newGroup" : ""
+					}`}
+				>
 					<div className="totem-group-name">
 						<span className="collapseIcon">{props.icon}</span>
 						<h1 className="fs-headline-4 monument c-onBackground">
-							GROUPE <span>#{props.item.totem_id}</span>
+							{props.item.id === "newGroup"
+								? "Nouveau groupe"
+								: "GROUPE # " + props.item.totem_id}
 						</h1>
 					</div>
 				</div>

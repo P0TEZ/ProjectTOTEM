@@ -1,6 +1,8 @@
-div.nestable {
-	max-width: 800px;
+div.nestableContainer {
 	width: 100%;
+	max-width: 800px;
+}
+div.nestable {
 	& .nestable-list:not(.nestable-group) {
 		padding-left: calc(4 * var(--default-padding));
 	}
@@ -9,7 +11,8 @@ div.nestable {
 		padding: var(--default-padding);
 
 		border: 1px solid var(--primary-color);
-		background: transparentize(hsl(233, 80%, 63%), 0.9);
+		background: transparentize(hsl(233, 80%, 63%), 0.95);
+		backdrop-filter: blur(5px);
 		border-radius: var(--medium-radius);
 
 		display: flex;
@@ -18,6 +21,9 @@ div.nestable {
 		justify-content: space-between;
 		transition: transform 0.2s ease-in-out;
 		cursor: pointer;
+		&:active {
+			cursor: grabbing;
+		}
 
 		& .status-indicator {
 			height: 1rem;
@@ -45,11 +51,10 @@ div.nestable {
 			& .totem-item-settings {
 				width: 2ch;
 				transition: all 0.2s ease-in-out;
-				overflow: visible;
 			}
 		}
 	}
-	& div.totem-group {
+	& div:not(.newGroup) .totem-group {
 		padding-top: var(--default-padding);
 
 		&-name {
@@ -72,6 +77,7 @@ div.nestable {
 					transition: transform 0.2s ease-in-out;
 					transform: rotate(90deg);
 					vertical-align: center;
+					color: var(--lightGrey-color);
 					height: 100%;
 				}
 			}
@@ -80,8 +86,32 @@ div.nestable {
 				transition: transform 0.2s ease-in-out;
 			}
 			&:hover svg {
-				color: var(--primary-color);
+				color: var(--onBackground-color);
 			}
+		}
+	}
+	& div.newGroup.totem-group {
+		border: 0.3rem dashed var(--grey-color);
+		margin: calc(2 * var(--default-padding));
+		padding: var(--default-padding);
+		border-radius: var(--medium-radius);
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			border: 0.3rem dashed var(--onBackground-color);
+			transition: all 0.2s ease-in-out;
+			& h1 {
+				color: var(--onBackground-color) !important;
+			}
+		}
+		& .totem-group-name {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+		& h1 {
+			color: var(--grey-color) !important;
 		}
 	}
 }
