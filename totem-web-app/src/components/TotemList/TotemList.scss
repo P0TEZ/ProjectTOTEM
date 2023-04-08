@@ -1,41 +1,70 @@
-div.nestable{
-    max-width: 800px;
-    width:100%;
-    & .nestable-list{
-        padding-left: calc(4 * var(--default-padding));
-    }
+div.nestable {
+	max-width: 800px;
+	width: 100%;
+	& .nestable-list:not(.nestable-group) {
+		padding-left: calc(4 * var(--default-padding));
+	}
 
-    & div.totem-item{
-        padding:var(--default-padding);
+	& div.totem-item {
+		padding: var(--default-padding);
 
-        border: 1px solid var(--primary-color);
-        background: transparentize(hsl(233, 80%, 63%), .9);
-        border-radius: var(--medium-radius);
+		border: 1px solid var(--primary-color);
+		background: transparentize(hsl(233, 80%, 63%), 0.9);
+		border-radius: var(--medium-radius);
 
-        display:flex;
-        flex-direction:row;
-        align-items:center;
-        justify-content:space-between;
-        transition: transform .2s ease-in-out;
-        cursor: pointer;
-        &:hover{
-            transform: scale(1.02);
-            transition: transform .2s ease-in-out;
-        }
-        & .status-indicator{
-            height:1rem;
-            width:1rem;
-            border-radius: 50%;
-            background-color: var(--success-color);
-        }
-        &-id, &-name{
-            display: flex;
-            align-items: center;
-            flex-direction:row;
-            &>*{
-                margin: 0 var(--default-padding);
-            }
-        }
-    }
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		transition: transform 0.2s ease-in-out;
+		cursor: pointer;
+
+		& .status-indicator {
+			height: 1rem;
+			width: 1rem;
+			border-radius: 50%;
+			background-color: var(--success-color);
+		}
+		&-id,
+		&-name {
+			display: flex;
+			align-items: center;
+			flex-direction: row;
+			& > * {
+				margin: 0 var(--default-padding);
+			}
+		}
+	}
+	& div.totem-group {
+		padding-top: var(--default-padding);
+
+		&-name {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			& > * {
+				margin: 0 var(--default-padding);
+			}
+		}
+
+		& .collapseIcon {
+			cursor: pointer;
+			font-size: 150%;
+			vertical-align: center;
+			& span {
+				height: 100%;
+				vertical-align: center;
+				& svg {
+					transition: transform 0.2s ease-in-out;
+					transform: rotate(0deg);
+					vertical-align: center;
+					height: 100%;
+				}
+			}
+			&:hover svg {
+				transform: rotate(90deg);
+				transition: transform 0.2s ease-in-out;
+			}
+		}
+	}
 }
-
