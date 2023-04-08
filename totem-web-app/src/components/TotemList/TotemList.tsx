@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 
 import { UserContext } from "../../context/User";
 
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsChevronRight, BsSliders2Vertical } from "react-icons/bs";
 
 export default function TotemList() {
 	// get list of totems from the server
@@ -61,8 +61,67 @@ export default function TotemList() {
 				children: newItems[key],
 			};
 		});
+		// give each item a unique id
+		items.forEach((item) => {
+			item.children.forEach((child: any) => {
+				child.id = child.totem_id;
+			});
+		});
 		console.log(items);
 		setItems(items);
+	};
+
+	const handleItemChange = (dragItem: any, destinationParent: any) => {
+		console.log(dragItem, destinationParent);
+		if (dragItem.group && destinationParent) {
+			toast.error(
+				"Impossible de déplacer un groupe dans un autre groupe"
+			);
+			return false;
+		} else if (!dragItem.group && !destinationParent) {
+			return false;
+		} else {
+			// use methode put on localhost:5050/admin/group/:groupe_id/:new_groupe_id/:totem_ip?token=token
+			// if totem_ip is not specified, it will move the whole group
+			// if totem_ip is specified, it will move only the totem
+			var query =
+				"http://" +
+				process.env.REACT_APP_CENTRAL_ADRESS +
+				":5050/admin/group/" +
+				dragItem.totem_id +
+				"/" +
+				destinationParent?.totem_id +
+				"/" +
+				(dragItem.group ? "" : dragItem.totem_ip) +
+				"?token=" +
+				userInfo.token;
+			console.log(query);
+			toast.promise(moveToGoup(query), {
+				loading: "Déplacement en cours...",
+				success: "Déplacement réussi",
+				error: "Erreur lors du déplacement",
+			});
+			getTotems();
+			return true;
+		}
+	};
+
+	const moveToGoup = (query: string) => {
+		return new Promise((resolve, reject) => {
+			fetch(query, {
+				method: "PUT",
+			})
+				.then((response) => {
+					console.log(response);
+					if (!response.ok) reject(true);
+					return response.json();
+				})
+				.then((data) => {
+					console.log(data);
+					if (data === "success") resolve(true);
+					else reject(true);
+				});
+		});
 	};
 
 	return (
@@ -72,16 +131,20 @@ export default function TotemList() {
 				renderItem={({ item, collapseIcon }) => (
 					<TotemItem item={item} icon={collapseIcon} />
 				)}
-				renderCollapseIcon={() => <BsThreeDotsVertical />}
+				renderCollapseIcon={({ isCollapsed }) => (
+					<ExpandIcon isCollapsed={isCollapsed} />
+				)}
 				collapsed={false}
 				maxDepth={2}
+				confirmChange={({ dragItem, destinationParent }) =>
+					handleItemChange(dragItem, destinationParent)
+				}
 			/>
 		</div>
 	);
 }
 
 const TotemItem = (props: any) => {
-	console.log(props);
 	return (
 		<>
 			{props.item.group ? (
@@ -100,17 +163,28 @@ const TotemItem = (props: any) => {
 						<h1 className="fs-headline-4 monument c-primary">
 							TOTEM{" "}
 							<span className="c-onBackground">
-								#{props.item.id}
+								#{props.item.totem_id}
 							</span>
 						</h1>
 					</div>
 					<div className="totem-item-id">
 						<p className="fs-subtitle-4 bold c-grey">
-							{props.item.ip}
+							{props.item.totem_ip}
 						</p>
+					</div>
+					<div className="totem-item-settings">
+						<BsSliders2Vertical />
 					</div>
 				</div>
 			)}
 		</>
+	);
+};
+
+const ExpandIcon = (props: any) => {
+	return (
+		<BsChevronRight
+			className={`collapseIcon ${props.isCollapsed ? "collapsed" : ""}`}
+		/>
 	);
 };

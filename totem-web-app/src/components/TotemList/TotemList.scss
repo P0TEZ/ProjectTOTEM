@@ -34,6 +34,20 @@ div.nestable {
 				margin: 0 var(--default-padding);
 			}
 		}
+		&-settings {
+			width: 0%;
+			overflow: hidden;
+			transition: all 0.2s ease-in-out;
+		}
+		&:hover {
+			transform: scale(1.02);
+			transition: transform 0.2s ease-in-out;
+			& .totem-item-settings {
+				width: 2ch;
+				transition: all 0.2s ease-in-out;
+				overflow: visible;
+			}
+		}
 	}
 	& div.totem-group {
 		padding-top: var(--default-padding);
@@ -49,21 +63,24 @@ div.nestable {
 
 		& .collapseIcon {
 			cursor: pointer;
-			font-size: 150%;
+			font-size: 125%;
 			vertical-align: center;
 			& span {
 				height: 100%;
 				vertical-align: center;
 				& svg {
 					transition: transform 0.2s ease-in-out;
-					transform: rotate(0deg);
+					transform: rotate(90deg);
 					vertical-align: center;
 					height: 100%;
 				}
 			}
-			&:hover svg {
-				transform: rotate(90deg);
+			&.collapsed {
+				transform: rotate(0deg);
 				transition: transform 0.2s ease-in-out;
+			}
+			&:hover svg {
+				color: var(--primary-color);
 			}
 		}
 	}
