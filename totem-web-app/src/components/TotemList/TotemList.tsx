@@ -64,8 +64,13 @@ export default function TotemList() {
 			});
 		});
 		// add placeholder for an empty group for the user to create a new group
+		// create a group number that is not already existing
+		var newGroupId = 1;
+		while (items.find((item) => item.id.toString() === newGroupId.toString())) {
+			newGroupId++;
+		}
 		items.push({
-			totem_id: "" + (items.length + 1),
+			totem_id: "" + newGroupId,
 			id: "newGroup",
 			group: true,
 			children: [],
@@ -75,20 +80,16 @@ export default function TotemList() {
 	};
 
 	const handleItemChange = (dragItem: any, destinationParent: any) => {
-		if (dragItem.group) {
-			toast.error(
-				"Impossible de déplacer un groupe dans un autre groupe !"
-			);
-			return false;
-		} else if (destinationParent) {
-			if (
-				dragItem.groupe_id.toString() ===
-				destinationParent.id.toString()
-			) {
-				console.log("can't move totem to same group");
-				return false;
-			}
-		}
+		console.log("dragItem", dragItem);
+		console.log("destinationParent", destinationParent);
+		if (!destinationParent) return false;
+		if (destinationParent.id === "newGroup") return false;
+		if (dragItem.group) return false;
+		if (dragItem.totem_id === destinationParent.totem_id) return false;
+		if (dragItem.totem_ip === destinationParent.totem_ip) return false;
+		if (dragItem.totem_id === destinationParent.id) return false;
+		if (dragItem.totem_ip === destinationParent.ip) return false;
+
 		var destination = "";
 		if (destinationParent) {
 			console.log("j'ai trouvé la desttttt");
@@ -118,12 +119,12 @@ export default function TotemList() {
 			dragItem.totem_ip +
 			"?token=" +
 			userInfo.token;
+
 		toast.promise(moveToGoup(query), {
 			loading: "Déplacement en cours...",
 			success: "Déplacement réussi",
 			error: "Erreur lors du déplacement",
 		});
-		getTotems();
 		return true;
 	};
 
@@ -137,8 +138,9 @@ export default function TotemList() {
 					return response.json();
 				})
 				.then((data) => {
-					if (data === "success") resolve(true);
-					else reject(true);
+					if (data === "success") {
+						getTotems().then(() => resolve(true));
+					} else reject(true);
 				});
 		});
 	};
@@ -150,9 +152,7 @@ export default function TotemList() {
 				renderItem={({ item, collapseIcon }) => (
 					<TotemItem item={item} icon={collapseIcon} />
 				)}
-				renderCollapseIcon={({ isCollapsed }) => (
-					<ExpandIcon isCollapsed={isCollapsed} />
-				)}
+				renderCollapseIcon={({ isCollapsed }) => <ExpandIcon isCollapsed={isCollapsed} />}
 				collapsed={false}
 				maxDepth={2}
 				confirmChange={({ dragItem, destinationParent }) =>
@@ -167,11 +167,7 @@ const TotemItem = (props: any) => {
 	return (
 		<>
 			{props.item.group ? (
-				<div
-					className={`totem-group ${
-						props.item.id === "newGroup" ? "newGroup" : ""
-					}`}
-				>
+				<div className={`totem-group ${props.item.id === "newGroup" ? "newGroup" : ""}`}>
 					<div className="totem-group-name">
 						<span className="collapseIcon">{props.icon}</span>
 						<h1 className="fs-headline-4 monument c-onBackground">
@@ -186,16 +182,11 @@ const TotemItem = (props: any) => {
 					<div className="totem-item-name">
 						<span className="status-indicator"></span>
 						<h1 className="fs-headline-4 monument c-primary">
-							TOTEM{" "}
-							<span className="c-onBackground">
-								#{props.item.totem_id}
-							</span>
+							TOTEM <span className="c-onBackground">#{props.item.totem_id}</span>
 						</h1>
 					</div>
 					<div className="totem-item-id">
-						<p className="fs-subtitle-4 bold c-grey">
-							{props.item.totem_ip}
-						</p>
+						<p className="fs-subtitle-4 bold c-grey">{props.item.totem_ip}</p>
 					</div>
 					<div className="totem-item-settings">
 						<BsSliders2Vertical />
@@ -207,9 +198,5 @@ const TotemItem = (props: any) => {
 };
 
 const ExpandIcon = (props: any) => {
-	return (
-		<BsChevronRight
-			className={`collapseIcon ${props.isCollapsed ? "collapsed" : ""}`}
-		/>
-	);
+	return <BsChevronRight className={`collapseIcon ${props.isCollapsed ? "collapsed" : ""}`} />;
 };
