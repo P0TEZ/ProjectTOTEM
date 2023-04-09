@@ -80,8 +80,6 @@ export default function TotemList() {
 	};
 
 	const handleItemChange = (dragItem: any, destinationParent: any) => {
-		console.log("dragItem", dragItem);
-		console.log("destinationParent", destinationParent);
 		if (!destinationParent) return false;
 		if (destinationParent.id === "newGroup") return false;
 		if (dragItem.group) return false;
@@ -92,10 +90,8 @@ export default function TotemList() {
 
 		var destination = "";
 		if (destinationParent) {
-			console.log("j'ai trouvé la desttttt");
 			destination = destinationParent.id;
 		} else {
-			console.log("j'ai pas trouvé la desttttt");
 			destination = "" + items.length;
 		}
 
@@ -125,6 +121,7 @@ export default function TotemList() {
 			success: "Déplacement réussi",
 			error: "Erreur lors du déplacement",
 		});
+
 		return true;
 	};
 
