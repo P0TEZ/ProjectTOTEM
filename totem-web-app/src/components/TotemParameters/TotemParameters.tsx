@@ -34,11 +34,11 @@ export default function TotemParameters(props: Props) {
 			<div className="parametersContainer">
 				<div className="parameters">
 					<Parameter
-						value={parameters.disabled}
-						param_name="disabled"
-						label="disabled"
+						value={parameters.volume}
+						param_name="volume"
+						label="volume"
 						group={props.group}
-						max={1}
+						max={100}
 					/>
 				</div>
 			</div>
