@@ -9,7 +9,7 @@ export default function AdminDashboard() {
 			<h1 className="fs-headline-3 c-red monument center bold">Administrateur</h1>
 			<div className="dashboardContainer">
 				<TotemList />
-				<TotemParameters />
+				<TotemParameters group={1} />
 			</div>
 		</div>
 	);
