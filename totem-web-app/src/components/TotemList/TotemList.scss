@@ -1,5 +1,5 @@
 div.nestableContainer {
-	width: 100%;
+	width: 60%;
 	max-width: 800px;
 }
 div.nestable {
@@ -14,6 +14,7 @@ div.nestable {
 		background: transparentize(hsl(233, 80%, 63%), 0.95);
 		backdrop-filter: blur(5px);
 		border-radius: var(--medium-radius);
+		box-shadow: var(--close-shadow);
 
 		display: flex;
 		flex-direction: row;
@@ -30,11 +31,17 @@ div.nestable {
 			width: 1rem;
 			border-radius: 50%;
 			background-color: var(--success-color);
+			border: 0.2rem solid green;
+			aspect-ratio: 1/1;
+			&.error {
+				background-color: var(--error-color);
+			}
 		}
 		&-id,
 		&-name {
 			display: flex;
 			align-items: center;
+			justify-content: center;
 			flex-direction: row;
 			& > * {
 				margin: 0 var(--default-padding);
@@ -48,6 +55,7 @@ div.nestable {
 		&:hover {
 			transform: scale(1.02);
 			transition: transform 0.2s ease-in-out;
+			box-shadow: var(--farthest-shadow);
 			& .totem-item-settings {
 				width: 2ch;
 				transition: all 0.2s ease-in-out;

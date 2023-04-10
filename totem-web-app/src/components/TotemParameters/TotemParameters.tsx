@@ -28,18 +28,24 @@ export default function TotemParameters(props: Props) {
 	}, [parameters]);
 
 	return (
-		<div id="totemParameters">
+		<div className="totemParametersContainer">
 			<h1 className="fs-headline-3 c-onBackground monument center bold">Paramètres</h1>
-			<h3 className="fs-headline-4 c-grey bold center">Groupe {props.group}</h3>
-			<div className="parametersContainer">
-				<div className="parameters">
-					<Parameter
-						value={parameters.volume}
-						param_name="volume"
-						label="volume"
-						group={props.group}
-						max={100}
-					/>
+			<div id="totemParameters">
+				<h3 className="fs-headline-4 c-grey monument center">
+					GROUPE <span className="c-primary">#{props.group}</span>
+				</h3>
+				<div className="parametersContainer">
+					<div className="parameters">
+						<Parameter
+							value={parameters.volume}
+							param_name="volume"
+							label="Volume"
+							group={props.group}
+							max={100}
+							setValue={setParameters}
+							type="range"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
