@@ -169,7 +169,6 @@ async def update_user_param(token: str, param_name: str, param_value: int):
     bdd = Bdd()
     result = await bdd.setUserParam(token["totemID"], token["totemIP"], param_name, param_value)
 
-    # TODO: send the osc message to the totem
     # TODO: verif if param_value is in the range of the param_name 
 
     osc = Osc(totemIP = token['totemIP'], totemID = token["totemID"])
@@ -301,12 +300,37 @@ async def add_admin_group_totem(token: str, group_id: int, totem_id: int, totem_
 
 
 @app.put("/admin/group/param/{group_id}/{param_name}/{param_value}", tags=["admin"])
-def update_admin_group_param(token: str, group_id: int, param_name: str, param_value: int):
+async def update_admin_group_param(token: str, group_id: int, param_name: str, param_value: int):
     """
     It updates the value of a specific parameter for all totems of a specific group
     """
 
+    try:
+        token = await check_admin_token(token)
+
+        bdd = Bdd()
+        totems = await bdd.getTotemInAGroup(group_id)
+        result = await bdd.setGroupParam(group_id, param_name, param_value)        
+
+        if result == 'failed':
+            raise HTTPException(status_code=404, detail="No found")
+        
+        errors = []
+
+        for totem in totems:
+            osc = Osc(totemIP = totem['totem_ip'], totemID = totem["totem_id"])
+            if osc.send(paramName=param_name, value=param_value) == False:
+                errors.append(totem["totem_id"])
+        if(len(errors) > 0 or result == 'failed'):
+            return {'success': result, 'errors': errors}
+        return {'success': result}
+
+    except Exception as e:
+        print(e)
+        return e
+
     # TODO: check if the token is valid, then set the parameter value in the database
+
 
 @app.delete("/admin/group/{group_id}", tags=["admin"])
 async def delete_admin_group(token: str, group_id: int):
@@ -331,6 +355,7 @@ def delete_admin_group_totem(token: str, group_id: int, totem_id: int):
     It removes a totem from a group
     """
 
+    return {"not implemented"}
     
 
     # TODO: check if the token is valid, then remove the totem from the group in the database
