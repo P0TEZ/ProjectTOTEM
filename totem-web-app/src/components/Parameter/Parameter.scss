@@ -1,0 +1,10 @@
+.parameter {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	&-input {
+		width: 100%;
+		accent-color: var(--primary-color);
+	}
+}

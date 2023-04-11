@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, HTMLInputTypeAttribute } from "react";
 import useFetchOnChange from "../../hooks/useFetchOnChangePut";
 import { UserContext } from "../../context/User";
+import "./Parameter.scss";
 
 interface Props {
 	value: number;
@@ -8,6 +9,8 @@ interface Props {
 	param_name: string;
 	group: number;
 	max: number;
+	setValue: any;
+	type: HTMLInputTypeAttribute;
 }
 
 export default function Parameter(props: Props) {
@@ -29,6 +32,7 @@ export default function Parameter(props: Props) {
 
 	const handleChange = (e: any) => {
 		setValue(e.target.value);
+		props.setValue(e.target.value);
 	};
 
 	useEffect(() => {
@@ -36,9 +40,16 @@ export default function Parameter(props: Props) {
 	}, [props.value]);
 
 	return (
-		<div>
-			<p>{props.label}</p>
-			<input type="range" min={0} max={props.max} value={value} onChange={handleChange} />
+		<div className="parameter">
+			<input
+				type={props.type}
+				min={0}
+				max={props.max}
+				value={value}
+				onChange={handleChange}
+				className="parameter-input"
+			/>
+			<p className="parameter-label bold c-onBackground center fs-body-1">{props.label}</p>
 		</div>
 	);
 }

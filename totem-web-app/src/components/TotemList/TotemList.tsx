@@ -8,7 +8,11 @@ import { UserContext } from "../../context/User";
 
 import { BsChevronRight, BsSliders2Vertical } from "react-icons/bs";
 
-export default function TotemList() {
+interface Props {
+	setGroup: (group: number) => void;
+}
+
+export default function TotemList(props: Props) {
 	const [items, setItems] = React.useState<any[]>([]);
 	const { userInfo } = React.useContext(UserContext);
 
@@ -147,7 +151,7 @@ export default function TotemList() {
 			<Nestable
 				items={items}
 				renderItem={({ item, collapseIcon }) => (
-					<TotemItem item={item} icon={collapseIcon} />
+					<TotemItem item={item} icon={collapseIcon} setGroup={props.setGroup} />
 				)}
 				renderCollapseIcon={({ isCollapsed }) => <ExpandIcon isCollapsed={isCollapsed} />}
 				collapsed={false}
@@ -161,13 +165,30 @@ export default function TotemList() {
 }
 
 const TotemItem = (props: any) => {
+	const handleClick = () => {
+		if (props.item.group) {
+			if (props.item.id !== "newGroup") {
+				props.setGroup(props.item.totem_id);
+			}
+		} else {
+			props.setGroup(props.item.groupe_id);
+		}
+	};
+
 	return (
 		<>
 			{props.item.group ? (
-				<div className={`totem-group ${props.item.id === "newGroup" ? "newGroup" : ""}`}>
+				<div
+					className={`totem-group ${props.item.id === "newGroup" ? "newGroup" : ""}`}
+					onClick={handleClick}
+				>
 					<div className="totem-group-name">
-						<span className="collapseIcon">{props.icon}</span>
-						<h1 className="fs-headline-4 monument c-onBackground">
+						{props.item.id === "newGroup" ? (
+							""
+						) : (
+							<span className="collapseIcon">{props.icon}</span>
+						)}
+						<h1 className="fs-headline-4 monument c-onBackground center">
 							{props.item.id === "newGroup"
 								? "Nouveau groupe"
 								: "GROUPE # " + props.item.totem_id}
@@ -175,7 +196,7 @@ const TotemItem = (props: any) => {
 					</div>
 				</div>
 			) : (
-				<div className={`totem-item`}>
+				<div className={`totem-item`} onClick={handleClick}>
 					<div className="totem-item-name">
 						<span className="status-indicator"></span>
 						<h1 className="fs-headline-4 monument c-primary">
