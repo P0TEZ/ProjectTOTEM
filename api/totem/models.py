@@ -308,3 +308,41 @@ class Bdd:
         except Exception as e:
             print(e)
             return 'failed'
+        
+    async def setGroupParam(self, groupId, param_name, param_value):
+        """
+        It sets the value of a parameter of a group.
+
+        :param groupId: The ID of the group
+        :param param_name: The name of the parameter
+        :param param_value: The ne value of the parameter
+        :return: The function setGroupParam() is returning is the query was successful or not.
+        """
+
+        try:
+            self.cursor.execute("UPDATE set_to SET set_to_value = %s FROM Groupe WHERE set_to.groupe_id = Groupe.groupe_id AND Groupe.groupe_id = %s AND set_to.setting_name = %s;", (param_value, groupId, param_name))
+            self.conn.commit()
+
+            return 'success'
+        except Exception as e:
+            print(e)
+            return 'failed'
+        
+    async def getTotemInAGroup(self, groupId):
+        """
+        It gets all the totems in a group.
+
+        :param groupId: The ID of the group
+        :return: The function getTotemInAGroup() is returning a list of tuples.
+        """
+
+        try:
+            self.cursor.execute("SELECT t.TOTEM_IP, t.TOTEM_ID FROM TOTEM t JOIN Groupe g ON t.groupe_id = g.groupe_id WHERE g.groupe_id = %s;", (groupId,))
+            totems = self.cursor.fetchall()
+
+            totems = [dict(zip(['totem_ip', 'totem_id'], totem)) for totem in totems]
+
+            return totems
+        except Exception as e:
+            print(e)
+            return None
