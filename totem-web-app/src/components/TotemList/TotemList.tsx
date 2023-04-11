@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { UserContext } from "../../context/User";
 
 import { BsChevronRight, BsSliders2Vertical } from "react-icons/bs";
+import Button from "../Button/Button";
 
 interface Props {
 	setGroup: (group: number) => void;
@@ -70,18 +71,6 @@ export default function TotemList(props: Props) {
 			item.children.forEach((child: any) => {
 				child.id = child.totem_id;
 			});
-		});
-		// add placeholder for an empty group for the user to create a new group
-		// create a group number that is not already existing
-		var newGroupId = 1;
-		while (items.find((item) => item.id.toString() === newGroupId.toString())) {
-			newGroupId++;
-		}
-		items.push({
-			totem_id: "newGroup",
-			id: "newGroup",
-			group: true,
-			children: [],
 		});
 		console.log(items);
 		setItems(items);
@@ -177,12 +166,7 @@ export default function TotemList(props: Props) {
 			<Nestable
 				items={items}
 				renderItem={({ item, collapseIcon }) => (
-					<TotemItem
-						item={item}
-						icon={collapseIcon}
-						setGroup={props.setGroup}
-						newGroup={newGroup}
-					/>
+					<TotemItem item={item} icon={collapseIcon} setGroup={props.setGroup} />
 				)}
 				renderCollapseIcon={({ isCollapsed }) => <ExpandIcon isCollapsed={isCollapsed} />}
 				collapsed={false}
@@ -191,6 +175,7 @@ export default function TotemList(props: Props) {
 					handleItemChange(dragItem, destinationParent)
 				}
 			/>
+			<Button onClick={newGroup}>Nouveau groupe</Button>
 		</div>
 	);
 }
@@ -200,9 +185,6 @@ const TotemItem = (props: any) => {
 		if (props.item.group) {
 			if (props.item.id !== "newGroup") {
 				props.setGroup(props.item.totem_id);
-			} else {
-				console.log("Nouvoooooo grouuupe");
-				props.newGroup();
 			}
 		} else {
 			props.setGroup(props.item.groupe_id);
@@ -212,38 +194,32 @@ const TotemItem = (props: any) => {
 	return (
 		<>
 			{props.item.group ? (
-				<div
-					className={`totem-group ${
-						props.item.totem_id === "newGroup" ? "newGroup" : ""
-					}`}
-					onClick={handleClick}
-				>
+				<div onClick={handleClick}>
 					<div className="totem-group-name">
-						{props.item.totem_id === "newGroup" ? (
-							""
-						) : (
-							<span className="collapseIcon">{props.icon}</span>
-						)}
+						<span className="collapseIcon">{props.icon}</span>
 						<h1 className="fs-headline-4 monument c-onBackground center">
-							{props.item.totem_id === "newGroup"
-								? "Nouveau groupe"
-								: "GROUPE # " + props.item.totem_id}
+							GROUPE # {props.item.totem_id}
 						</h1>
 					</div>
 				</div>
 			) : (
-				<div className={`totem-item`} onClick={handleClick}>
+				<div
+					className={`totem-item ${props.item.totem_id === "newTotem" ? "empty" : ""}`}
+					onClick={handleClick}
+				>
 					<div className="totem-item-name">
-						<span className="status-indicator"></span>
+						{props.item.totem_id !== "newTotem" && (
+							<span className="status-indicator"></span>
+						)}
 						<h1 className="fs-headline-4 monument c-primary">
-							TOTEM <span className="c-onBackground">#{props.item.totem_id}</span>
+							{props.item.totem_id === "newTotem" ? "Groupe vide" : "TOTEM"}
+							{props.item.totem_id !== "newTotem" && (
+								<span className="c-onBackground"> #{props.item.totem_id}</span>
+							)}
 						</h1>
 					</div>
 					<div className="totem-item-id">
 						<p className="fs-subtitle-4 bold c-grey">{props.item.totem_ip}</p>
-					</div>
-					<div className="totem-item-settings">
-						<BsSliders2Vertical />
 					</div>
 				</div>
 			)}
