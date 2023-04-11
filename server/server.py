@@ -3,8 +3,6 @@ import threading
 import time
 import psycopg2
 
-txt = open("bdd.txt", "w")
-
 ###################################### Connexion BDD
 try:
     conn = psycopg2.connect(
