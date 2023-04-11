@@ -45,6 +45,51 @@ export default function TotemParameters(props: Props) {
 							setValue={setParameters}
 							type="range"
 						/>
+						<Parameter
+							value={parameters.intensite_l}
+							param_name="intensite_l"
+							label="Intensité gauche"
+							group={props.group}
+							max={100}
+							setValue={setParameters}
+							type="range"
+						/>
+						<Parameter
+							value={parameters.intensite_r}
+							param_name="intensite_r"
+							label="Intensité droite"
+							group={props.group}
+							max={100}
+							setValue={setParameters}
+							type="range"
+						/>
+						<Parameter
+							value={parameters.preset}
+							param_name="preset"
+							label="Preset"
+							group={props.group}
+							max={10}
+							setValue={setParameters}
+							type="number"
+						/>
+						<Parameter
+							value={parameters.disabled}
+							param_name="disabled"
+							label="Désactivé"
+							group={props.group}
+							max={1}
+							setValue={setParameters}
+							type="number"
+						/>
+						<Parameter
+							value={parameters.status}
+							param_name="status"
+							label="Statut"
+							group={props.group}
+							max={2}
+							setValue={setParameters}
+							type="number"
+						/>
 					</div>
 				</div>
 			</div>

@@ -40,7 +40,7 @@ export default function Parameter(props: Props) {
 	}, [props.value]);
 
 	return (
-		<div className="parameter">
+		<div className="parameter m">
 			<input
 				type={props.type}
 				min={0}
