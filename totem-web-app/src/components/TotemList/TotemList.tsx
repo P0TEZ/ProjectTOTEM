@@ -24,6 +24,10 @@ export default function TotemList(props: Props) {
 		});
 	}, []);
 
+	useEffect(() => {
+		console.log(items);
+	}, [items]);
+
 	const getTotems = () => {
 		return new Promise((resolve, reject) => {
 			fetch(
@@ -74,7 +78,7 @@ export default function TotemList(props: Props) {
 			newGroupId++;
 		}
 		items.push({
-			totem_id: "" + newGroupId,
+			totem_id: "newGroup",
 			id: "newGroup",
 			group: true,
 			children: [],
@@ -84,26 +88,23 @@ export default function TotemList(props: Props) {
 	};
 
 	const handleItemChange = (dragItem: any, destinationParent: any) => {
+		console.log("dragItem", dragItem);
 		if (!destinationParent) return false;
-		if (destinationParent.id === "newGroup") return false;
+		if (dragItem.id === "newTotem") return false;
+		if (dragItem.totem_id === "newTotem") return false;
+		if (destinationParent.totem_id === "newGroup") return false;
+		if (destinationParent.id.toString() === dragItem.groupe_id.toString()) return false;
 		if (dragItem.group) return false;
 		if (dragItem.totem_id === destinationParent.totem_id) return false;
 		if (dragItem.totem_ip === destinationParent.totem_ip) return false;
 		if (dragItem.totem_id === destinationParent.id) return false;
 		if (dragItem.totem_ip === destinationParent.ip) return false;
 
-		var destination = "";
-		if (destinationParent) {
-			destination = destinationParent.id;
-		} else {
-			destination = "" + items.length;
-		}
-
 		console.log(
 			"moving totem " +
 				dragItem.totem_id +
 				" to group " +
-				destination +
+				destinationParent.totem_id +
 				" with ip " +
 				dragItem.totem_ip
 		);
@@ -112,7 +113,7 @@ export default function TotemList(props: Props) {
 			"http://" +
 			process.env.REACT_APP_CENTRAL_ADRESS +
 			":5050/admin/group/" +
-			destination +
+			destinationParent.totem_id +
 			"/" +
 			dragItem.totem_id +
 			"/" +
@@ -146,12 +147,42 @@ export default function TotemList(props: Props) {
 		});
 	};
 
+	const newGroup = () => {
+		// add an empty group to the local items
+		// find a group number that is not already existing
+		var newGroupId = 1;
+		while (items.find((item) => item.totem_id.toString() === newGroupId.toString())) {
+			newGroupId++;
+		}
+		const newItems = items;
+		newItems.push({
+			totem_id: "" + newGroupId,
+			id: "newGroup",
+			group: true,
+			children: [
+				{
+					totem_id: "newTotem",
+					id: "newTotem",
+					group: false,
+					children: [],
+				},
+			],
+		});
+		console.log(newItems);
+		setItems(newItems);
+	};
+
 	return (
 		<div className="nestableContainer">
 			<Nestable
 				items={items}
 				renderItem={({ item, collapseIcon }) => (
-					<TotemItem item={item} icon={collapseIcon} setGroup={props.setGroup} />
+					<TotemItem
+						item={item}
+						icon={collapseIcon}
+						setGroup={props.setGroup}
+						newGroup={newGroup}
+					/>
 				)}
 				renderCollapseIcon={({ isCollapsed }) => <ExpandIcon isCollapsed={isCollapsed} />}
 				collapsed={false}
@@ -169,6 +200,9 @@ const TotemItem = (props: any) => {
 		if (props.item.group) {
 			if (props.item.id !== "newGroup") {
 				props.setGroup(props.item.totem_id);
+			} else {
+				console.log("Nouvoooooo grouuupe");
+				props.newGroup();
 			}
 		} else {
 			props.setGroup(props.item.groupe_id);
@@ -179,17 +213,19 @@ const TotemItem = (props: any) => {
 		<>
 			{props.item.group ? (
 				<div
-					className={`totem-group ${props.item.id === "newGroup" ? "newGroup" : ""}`}
+					className={`totem-group ${
+						props.item.totem_id === "newGroup" ? "newGroup" : ""
+					}`}
 					onClick={handleClick}
 				>
 					<div className="totem-group-name">
-						{props.item.id === "newGroup" ? (
+						{props.item.totem_id === "newGroup" ? (
 							""
 						) : (
 							<span className="collapseIcon">{props.icon}</span>
 						)}
 						<h1 className="fs-headline-4 monument c-onBackground center">
-							{props.item.id === "newGroup"
+							{props.item.totem_id === "newGroup"
 								? "Nouveau groupe"
 								: "GROUPE # " + props.item.totem_id}
 						</h1>
