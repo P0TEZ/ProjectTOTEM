@@ -1,10 +1,10 @@
 -- create a group
-CREATE OR REPLACE FUNCTION create_new_group(groupe_id INT)
+CREATE OR REPLACE FUNCTION create_new_group(new_groupe_id INT)
 RETURNS VOID AS $$
 BEGIN
   WITH new_groupe AS (
     INSERT INTO Groupe (groupe_id)
-    VALUES (groupe_id)
+    VALUES (new_groupe_id)
     RETURNING groupe_id
   )
   INSERT INTO set_to (groupe_id, setting_name, set_to_value)
@@ -72,13 +72,13 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION remove_empty_groups()
 RETURNS void AS $$
 DECLARE
-  groupe_id INT;
+  current_groupe_id INT;
 BEGIN
-  FOR groupe_id IN SELECT groupe_id FROM Groupe LOOP
-    IF NOT EXISTS(SELECT 1 FROM TOTEM WHERE groupe_id = groupe_id) THEN
-      IF EXISTS(SELECT 1 FROM Groupe WHERE groupe_id = groupe_id) THEN
-        DELETE FROM set_to WHERE groupe_id = groupe_id;
-        DELETE FROM Groupe WHERE groupe_id = groupe_id;
+  FOR current_groupe_id IN SELECT groupe_id FROM Groupe LOOP
+    IF NOT EXISTS(SELECT 1 FROM TOTEM WHERE groupe_id = current_groupe_id) THEN
+      IF EXISTS(SELECT 1 FROM Groupe WHERE groupe_id = current_groupe_id) THEN
+        DELETE FROM set_to WHERE groupe_id = current_groupe_id;
+        DELETE FROM Groupe WHERE groupe_id = current_groupe_id;
       END IF;
     END IF;
   END LOOP;
@@ -122,7 +122,7 @@ $$ LANGUAGE plpgsql;
 --SELECT move_totem_to_group(<ip>, <id>, <new_groupe_id>);
 
 --remove a groupe with a certian id 
-CREATE OR REPLACE FUNCTION remove_groupe_with_id(groupe_id INTEGER)
+CREATE OR REPLACE FUNCTION remove_groupe_with_id(current_groupe_id INTEGER)
 RETURNS VOID AS $$
 DECLARE
   totem_data RECORD;
@@ -130,7 +130,7 @@ DECLARE
 BEGIN
   
   -- move each totem linked to the groupe to a new group
-  FOR totem_data IN SELECT totem_ip, totem_id FROM TOTEM WHERE groupe_id = groupe_id LOOP
+  FOR totem_data IN SELECT totem_ip, totem_id FROM TOTEM WHERE groupe_id = current_groupe_id LOOP
     -- get a new groupe id for moving the totems to
     new_groupe_id := get_new_groupe_id();
     PERFORM move_totem_to_group(totem_data.totem_ip, totem_data.totem_id, new_groupe_id);
@@ -149,7 +149,7 @@ BEGIN
   -- Récupérer le groupe_id associé au totem à supprimer
   SELECT groupe_id INTO current_groupe_id FROM totem WHERE totem.totem_id = delete_totem_id AND totem.totem_ip = delete_totem_ip;
 
-  IF groupe_id IS NOT NULL THEN
+  IF current_groupe_id IS NOT NULL THEN
         -- Delete the totem
         DELETE FROM TOTEM WHERE TOTEM_ID = totem_id AND TOTEM_IP = totem_ip;
 
