@@ -4,6 +4,8 @@ div.nestableContainer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow-y: scroll;
+	height: 100%;
 }
 div.nestable {
 	& .nestable-list:not(.nestable-group) {
@@ -23,7 +25,7 @@ div.nestable {
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
-		transition: transform 0.2s ease-in-out;
+		transition: all 0.2s ease-in-out;
 		cursor: pointer;
 		&:active {
 			cursor: grabbing;
@@ -58,8 +60,8 @@ div.nestable {
 		}
 		&:hover {
 			transform: scale(1.02);
-			transition: transform 0.2s ease-in-out;
 			box-shadow: var(--farthest-shadow);
+			transition: all 0.2s ease-in-out;
 			& .totem-item-settings {
 				width: 2ch;
 				transition: all 0.2s ease-in-out;

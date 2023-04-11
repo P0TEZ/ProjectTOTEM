@@ -5,6 +5,7 @@
 
 	background: var(--primary-color);
 	color: var(--onBackground-color);
+	box-shadow: var(--close-shadow);
 	border: none;
 	outline: none;
 	border-radius: var(--medium-radius);
@@ -40,6 +41,11 @@
 	transition: transform 0.3s ease-in-out;
 	&:active {
 		transform: scale(0.9) !important;
-		transition: transform 0.2s ease-in-out !important;
+		transition: all 0.2s ease-in-out !important;
+	}
+	&:hover {
+		transition: all 0.2s ease-in-out;
+		box-shadow: var(--farthest-shadow);
+		transform: scale(1.08);
 	}
 }

@@ -4,6 +4,9 @@ import "./AdminLogin.scss";
 import Button from "../../components/Button/Button";
 import { UserContext } from "../../context/User";
 
+// import warning icon from react-icons
+import { BsExclamationTriangle } from "react-icons/bs";
+
 import { toast } from "react-hot-toast";
 
 export default function AdminLogin(props: any) {
@@ -29,18 +32,14 @@ export default function AdminLogin(props: any) {
 			})
 				.then((res) => {
 					if (!res.ok) {
-						reject(
-							new Error("Mot de passe administrateur incorrect")
-						);
+						reject(new Error("Mot de passe administrateur incorrect"));
 						setAllUserInfo({ TotemId: "", token: "" });
 					}
 					return res.json();
 				})
 				.then((res) => {
 					if (res.length === 0) {
-						reject(
-							new Error("Mot de passe administrateur incorrect")
-						);
+						reject(new Error("Mot de passe administrateur incorrect"));
 						setAllUserInfo({ TotemId: "", token: "" });
 					} else {
 						props.setConnected(true);
@@ -58,17 +57,21 @@ export default function AdminLogin(props: any) {
 		<>
 			<div id="adminWelcome">
 				<div className="texts">
+					<BsExclamationTriangle className="c-red fs-headline-1" />
 					<h1 className="fs-headline-2 monument c-red">Page admin</h1>
 					<h3 className="c-grey center">
-						Cette page est réservée à l'organisateur et
-						admnistrateur de l'évenement. Si ce n'est pas votre cas,
-						veuillez{" "}
+						Cette page est réservée à l'organisateur et admnistrateur de l'évenement. Si
+						ce n'est pas votre cas, veuillez{" "}
 						<a href="/welcome" className="c-red bold">
 							cliquer ici.
 						</a>
 					</h3>
 				</div>
 			</div>
+			<p className="fs-body-1 c-grey center m">
+				Entrez le mot de passe administrateur{" "}
+				<span className="c-onBackground bold">ici</span> si vous possédez les droits.
+			</p>
 			<div id="adminLoginCont">
 				<div id="adminLogin" className="s-far">
 					<input

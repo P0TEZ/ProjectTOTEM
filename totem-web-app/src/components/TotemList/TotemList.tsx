@@ -6,11 +6,13 @@ import { toast } from "react-hot-toast";
 
 import { UserContext } from "../../context/User";
 
-import { BsChevronRight, BsSliders2Vertical } from "react-icons/bs";
+import { BsChevronRight } from "react-icons/bs";
 import Button from "../Button/Button";
+import { TotemItem } from "./TotemItem";
 
 interface Props {
 	setGroup: (group: number) => void;
+	setTotemCount: (totemCount: number) => void;
 }
 
 export default function TotemList(props: Props) {
@@ -49,6 +51,7 @@ export default function TotemList(props: Props) {
 	};
 
 	const convertToItems = (data: any) => {
+		props.setTotemCount(data.length);
 		const newItems = data.reduce((acc: any, obj: any) => {
 			const key = obj.groupe_id;
 			if (!acc[key]) {
@@ -159,6 +162,10 @@ export default function TotemList(props: Props) {
 		});
 		console.log(newItems);
 		setItems(newItems);
+		// get the id of the first group
+		const firstGroupId = items[0].totem_id;
+		props.setGroup(firstGroupId); // DO NOT REMOVE THIS LINE
+		props.setGroup(firstGroupId); // I DON'T KNOW WHY BUT IT WORKS ONLY IF IT IS CALLED TWICE
 	};
 
 	return (
@@ -175,57 +182,12 @@ export default function TotemList(props: Props) {
 					handleItemChange(dragItem, destinationParent)
 				}
 			/>
-			<Button onClick={newGroup}>Nouveau groupe</Button>
+			<Button onClick={newGroup} className="m">
+				Nouveau groupe
+			</Button>
 		</div>
 	);
 }
-
-const TotemItem = (props: any) => {
-	const handleClick = () => {
-		if (props.item.group) {
-			if (props.item.id !== "newGroup") {
-				props.setGroup(props.item.totem_id);
-			}
-		} else {
-			props.setGroup(props.item.groupe_id);
-		}
-	};
-
-	return (
-		<>
-			{props.item.group ? (
-				<div onClick={handleClick}>
-					<div className="totem-group-name">
-						<span className="collapseIcon">{props.icon}</span>
-						<h1 className="fs-headline-4 monument c-onBackground center">
-							GROUPE # {props.item.totem_id}
-						</h1>
-					</div>
-				</div>
-			) : (
-				<div
-					className={`totem-item ${props.item.totem_id === "newTotem" ? "empty" : ""}`}
-					onClick={handleClick}
-				>
-					<div className="totem-item-name">
-						{props.item.totem_id !== "newTotem" && (
-							<span className="status-indicator"></span>
-						)}
-						<h1 className="fs-headline-4 monument c-primary">
-							{props.item.totem_id === "newTotem" ? "Groupe vide" : "TOTEM"}
-							{props.item.totem_id !== "newTotem" && (
-								<span className="c-onBackground"> #{props.item.totem_id}</span>
-							)}
-						</h1>
-					</div>
-					<div className="totem-item-id">
-						<p className="fs-subtitle-4 bold c-grey">{props.item.totem_ip}</p>
-					</div>
-				</div>
-			)}
-		</>
-	);
-};
 
 const ExpandIcon = (props: any) => {
 	return <BsChevronRight className={`collapseIcon ${props.isCollapsed ? "collapsed" : ""}`} />;

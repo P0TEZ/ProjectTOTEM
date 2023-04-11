@@ -12,6 +12,7 @@ type ButtonProps = {
 	onlyIcon?: boolean;
 	outlined?: boolean;
 	style?: React.CSSProperties;
+	className?: string;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
 	outlined,
 	onlyIcon,
 	children,
+	className,
 }) => {
 	const navigate = useNavigate();
 	const handleClick = () => {
@@ -37,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
 		<button
 			className={`btn fs-body-1 s-far ${onlyIcon ? "onlyIcon" : ""} ${
 				outlined ? "outlined" : ""
-			}`}
+			} ${className ? className : ""}`}
 			onClick={handleClick}
 			data-aos={aos ? aos.anim : ""}
 			data-aos-offset={aos ? aos.offset : 0}
