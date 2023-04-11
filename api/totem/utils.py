@@ -7,11 +7,11 @@ def checkForEnvVar():
     necessary variables
     """
     error = []
-    if loadEnvVar("../database_credentials.env") is None:
-        error.append("The file ../database_credentials.env does not exist")
+    if loadEnvVar("../../database_credentials.env") is None:
+        error.append("The file ../../database_credentials.env does not exist")
     else:
-        if not all(key in loadEnvVar("../database_credentials.env") for key in ("DB_HOST","DB_PORT","DB_NAME","DB_USER","DB_PASSWORD")):
-            error.append("The file ../database_credentials.env does not contain all the necessary variables")
+        if not all(key in loadEnvVar("../../database_credentials.env") for key in ("DB_HOST","DB_PORT","DB_NAME","DB_USER","DB_PASSWORD")):
+            error.append("The file ../../database_credentials.env does not contain all the necessary variables")
             error.append("The variables DB_HOST,DB_PORT,DB_NAME,DB_USER,DB_PASSWORD must be present")
 
     if loadEnvVar("../jwt_secret.env") is None:

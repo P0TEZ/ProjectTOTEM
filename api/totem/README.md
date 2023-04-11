@@ -30,7 +30,7 @@ To use the api, you need to be authenticated. You can authenticate with the [aut
 
 #### database_credentials
 
-The database credentials are stored in the file `../database_credentials.env`. This file is not tracked by git. It should be created with the following content:
+The database credentials are stored in the file `../../database_credentials.env`. This file is not tracked by git. It should be created with the following content:
 
 ```bash
     DB_HOST=YOUR_DB_HOST
