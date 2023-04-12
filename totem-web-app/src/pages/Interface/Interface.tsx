@@ -10,8 +10,9 @@ import PresetSelect from "../../components/PresetSelect/PresetSelect";
 
 import { UserContext } from "../../context/User";
 
-import { IoHandRight } from "react-icons/io5";
 import { toast } from "react-hot-toast";
+import { HelpBtn } from "./HelpBtn";
+import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
 function Interface(props: any) {
 	const navigate = useNavigate();
@@ -60,19 +61,11 @@ function Interface(props: any) {
 
 				<KnobComponent />
 
+				<BalanceSlider />
+
 				<PresetSelect />
 
-				<div
-					className="helpBtn"
-					onClick={() => handleHelp()}
-					data-aos="fade-up"
-					data-aos-delay="800"
-				>
-					<IoHandRight
-						className={`c-primary fs-headline-2 ${helpAsked && "helpAsked"}`}
-					/>
-					<p className="fs-body-1 c-primary">Assistance</p>
-				</div>
+				<HelpBtn handleHelp={handleHelp} helpAsked={helpAsked} />
 			</div>
 		</>
 	);

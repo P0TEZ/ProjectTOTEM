@@ -1,5 +1,8 @@
 .dropdownContainer {
 	& div.p-dropdown {
+		&.p-focus {
+			border-color: var(--primary-color);
+		}
 		background: var(--background-color);
 	}
 }

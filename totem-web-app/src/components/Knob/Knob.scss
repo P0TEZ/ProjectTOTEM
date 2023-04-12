@@ -1,0 +1,13 @@
+#knobContainer {
+	touch-action: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	& .p-knob-value {
+		stroke: var(--primary-color);
+	}
+
+	& .knob-icon {
+		transform: translateY(-150%);
+	}
+}
