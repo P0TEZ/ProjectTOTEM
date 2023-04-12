@@ -4,7 +4,7 @@ import { Knob } from "primereact/knob";
 export default function KnobComponent() {
 	const [value, setValue] = React.useState(50);
 	return (
-		<div>
+		<div style={{ touchAction: "none" }}>
 			<Knob
 				value={value}
 				size={200}

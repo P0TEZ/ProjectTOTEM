@@ -6,6 +6,7 @@ import "./Interface.scss";
 
 import Status from "../../components/Status/Status";
 import KnobComponent from "../../components/Knob/Knob";
+import PresetSelect from "../../components/PresetSelect/PresetSelect";
 
 import { UserContext } from "../../context/User";
 
@@ -58,6 +59,8 @@ function Interface(props: any) {
 				<Status code={userInfo.TotemId} status={status} />
 
 				<KnobComponent />
+
+				<PresetSelect />
 
 				<div
 					className="helpBtn"

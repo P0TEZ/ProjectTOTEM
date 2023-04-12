@@ -10,7 +10,7 @@ import { UserProvider } from "./context/User";
 import "react-nestable/dist/styles/index.css";
 
 //theme
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/themes/viva-dark/theme.css";
 
 //core
 import "primereact/resources/primereact.min.css";

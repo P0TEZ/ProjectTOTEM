@@ -214,3 +214,9 @@ strong {
 .m {
 	margin: var(--default-padding);
 }
+
+.w {
+	&-full {
+		width: 100%;
+	}
+}
