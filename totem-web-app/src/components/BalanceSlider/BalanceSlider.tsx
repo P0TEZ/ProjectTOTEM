@@ -7,8 +7,8 @@ export default function BalanceSlider() {
 
 	return (
 		<div id="sliderContainer">
-			<div className="sliderAndValues">
-				<p>
+			<div className="sliderAndValues fs-body-1">
+				<p className="center monument fs-body-1 c-grey diff-left">
 					{diff[0] > 0 && "+"}
 					{diff[0]}
 				</p>
@@ -19,10 +19,14 @@ export default function BalanceSlider() {
 					}}
 					step={5}
 				/>
-				<p>
+				<p className="center monument fs-body-1 c-grey diff-right">
 					{diff[1] > 0 && "+"}
 					{diff[1]}
 				</p>
+			</div>
+			<div className="sliderLabels p2">
+				<p className="c-primary fs-body-1 bold">Gauche</p>
+				<p className="c-primary fs-body-1 bold">Droite</p>
 			</div>
 		</div>
 	);

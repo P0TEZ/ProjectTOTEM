@@ -5,8 +5,14 @@ export function useKnobSize() {
 
 	useEffect(() => {
 		function handleResize() {
-			if (window.innerWidth <= 30) {
+			if (window.innerWidth <= 350) {
 				setKnobSize(150);
+			}
+			if (window.innerHeight <= 550) {
+				setKnobSize(120);
+			}
+			if (window.innerHeight <= 650) {
+				setKnobSize(90);
 			} else {
 				setKnobSize(250);
 			}

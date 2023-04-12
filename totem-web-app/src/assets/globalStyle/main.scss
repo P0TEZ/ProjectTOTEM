@@ -209,6 +209,9 @@ strong {
 
 .p {
 	padding: var(--default-padding);
+	&2 {
+		padding: calc(var(--default-padding) / 2);
+	}
 }
 
 .m {
