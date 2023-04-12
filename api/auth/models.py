@@ -65,7 +65,7 @@ class Token:
         
 
 
-BDD_CREDENTIALS = loadEnvVar("../database_credentials.env")
+BDD_CREDENTIALS = loadEnvVar("../../database_credentials.env")
 
 class Bdd:
     def __init__(self):

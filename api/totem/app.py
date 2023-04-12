@@ -1,4 +1,4 @@
-from utils import checkForEnvVar
+from utils import checkForEnvVar, loadEnvVar
 checkForEnvVar()
 from models import Token, Bdd
 from osc import Osc
@@ -363,7 +363,7 @@ def delete_admin_group_totem(token: str, group_id: int, totem_id: int):
 
 # --------------------- MAIN ---------------------
 
-
+SERVER_INFO = loadEnvVar("../../centrale_Info.env")['IP']
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=5050)
+    uvicorn.run(app, host=SERVER_INFO, port=5000)

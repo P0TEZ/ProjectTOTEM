@@ -1,22 +1,14 @@
-# TOTEM AUTH API
+# TOTEM API
 
 ## Introduction
 
-This api takes care of the authentication of user and admin. It is used by the totem app to authenticate users and admins.
+This api takes is used by the totem app to edit or get the totem's parameters. It also takes care of the groupe's creation and gestion.
 
 ## Description
 
->The api is written in python using the **fastapi** framework. It uses a postgres database to store the users and admins.
+>The api is written in python using the **fastapi** framework. It uses a postgres database to store the groups and their parameters.
 
-This api takes:
-
-- Admin password as input and hash it using sha256 algorithm. If the password is correct, it generates a JWT token and send it to the client. The token is valid for **12 hours**.
-- TotemId as input. If the totemId is correct, it generates a JWT token and send it to the client. The token is valid for **12 hours**. The token also provide the TotemIp.
-
-Api endpoints:
-
-- **/admin/:password** : authenticate an admin
-- **/totem/:totemId** : authenticate a totem
+To use the api, you need to be authenticated. You can authenticate with the [auth api](../auth/README.md). This api will return the JWT token that you need to use to access the totem api.
 
 ## Installation
 
@@ -32,6 +24,7 @@ Api endpoints:
 - psycopg2 `2.9.5`
 - logging `0.5.1.2`
 - hashlib `3.10`
+- OSC `1.8.1`
 
 ### Needed environment variables
 
@@ -60,7 +53,7 @@ The jwt secret is stored in the file `../jwt_secret.env`. This file is not track
 The centrale info is stored in the file `../../centrale_info.env`. This file is not tracked by git. It should be created with the following content:
 
 ```bash
-    IP=YOUR_CENTRALE_IP_ON_THE_NETWORK
+    IP=127.0.0.1
 ```
 
 ## Usage
@@ -75,4 +68,4 @@ To run the api, you need to have a postgres database running. You can then run t
 
 ## Documentation
 
-The automatically generated documentation documentation of the api can be found [here](http://localhost:5000/docs#).
+The automatically generated documentation documentation of the api can be found [here](http://localhost:5050/docs#).
