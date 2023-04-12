@@ -45,7 +45,7 @@ The database credentials are stored in the file `../../database_credentials.env`
 The jwt secret is stored in the file `../jwt_secret.env`. This file is not tracked by git. It should be created with the following content:
 
 ```bash
-    JWT_KEY=YOUR_JWT_SECRET
+    JWT_KEY=YOUR_CENTRALE_IP_ON_THE_NETWORK
 ```
 
 #### centrale_info
