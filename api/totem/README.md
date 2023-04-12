@@ -48,6 +48,14 @@ The jwt secret is stored in the file `../jwt_secret.env`. This file is not track
     JWT_KEY=YOUR_JWT_SECRET
 ```
 
+#### centrale_info
+
+The centrale info is stored in the file `../../centrale_info.env`. This file is not tracked by git. It should be created with the following content:
+
+```bash
+    IP=127.0.0.1
+```
+
 ## Usage
 
 ### Run the api

@@ -21,6 +21,13 @@ def checkForEnvVar():
             error.append("The file ../jwtKey.env does not contain all the necessary variables")
             error.append("The variable JWT_KEY must be present")
 
+    if loadEnvVar("../../centrale_Info.env") is None:
+        error.append("The file ../../centrale_Info.env does not exist")
+    else:
+        if not all(key in loadEnvVar("../../centrale_Info.env") for key in ("IP",)):
+            error.append("The file ../../centrale_Info.env does not contain all the necessary variables")
+            error.append("The variable CENTRALE_INFO must be present")
+
     if len(error) > 0:
         for err in error:
             logging.error(err)
