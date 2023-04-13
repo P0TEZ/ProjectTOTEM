@@ -2,9 +2,6 @@ import React from "react";
 import { Knob } from "primereact/knob";
 import "./Knob.scss";
 import { useKnobSize } from "../../hooks/useKnobSize";
-import useFetchOnChange from "../../hooks/useFetchOnChange";
-import useFetchState from "../../hooks/useFetchState";
-import { UserContext } from "../../context/User";
 
 import {
 	TbCellSignal1,
@@ -14,24 +11,14 @@ import {
 	TbCellSignal5,
 } from "react-icons/tb";
 
-export default function KnobComponent() {
+interface Props {
+	value: number;
+	setValue: (value: number) => void;
+}
+
+export default function KnobComponent({ value, setValue }: Props) {
 	const knobSize = useKnobSize();
 	//const [value, setValue] = React.useState(50);
-
-	const { userInfo } = React.useContext(UserContext);
-	let token = userInfo.token;
-
-	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
-	adressToFetchForDefaultValue += "/user/param/volume/?token=" + token;
-	// const [knobValue, setKnobValue] = React.useState(0);
-	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, 0);
-
-	var adress = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
-	adress += "/user/param/volume/";
-
-	const [data, loading, error, refetch] = useFetchOnChange(adress, value, token);
-
-	console.log(data, loading, error, refetch);
 
 	const volumeIcon = () => {
 		var classTmp = "center c-grey fs-headline-4 knob-icon";

@@ -76,6 +76,8 @@ export default function TotemList(props: Props) {
 			});
 		});
 		console.log(items);
+		const firstGroupId = items[0].totem_id;
+		props.setGroup(parseInt(firstGroupId));
 		setItems(items);
 	};
 

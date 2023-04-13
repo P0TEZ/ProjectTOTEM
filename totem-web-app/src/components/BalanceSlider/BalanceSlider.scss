@@ -12,8 +12,20 @@
 		justify-content: space-between;
 		& .p-slider {
 			width: calc(100% - 10ch);
-			&-range {
+			&-range,
+			&-horizontal {
 				background-color: var(--primary-color);
+			}
+			&::after {
+				position: absolute;
+				content: "";
+				width: 0.3ch;
+				height: 300%;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				background: var(--grey-color);
+				border-radius: 1rem;
 			}
 		}
 		& p.diff {
