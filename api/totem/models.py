@@ -141,8 +141,12 @@ class Bdd:
         try:
             self.cursor.execute("SELECT st.setting_name, st.set_to_value FROM set_to st JOIN TOTEM t ON st.groupe_id = t.groupe_id WHERE t.TOTEM_ID = %s AND t.TOTEM_IP = %s;", (totemID, totemIP))
             params = self.cursor.fetchall()
-            params = [dict(zip(['param_name', 'param_value'], param)) for param in params]
-            return params
+            # add every params to an object with the name a key and the value a value
+            paramList = {}
+            for param in params:
+                paramList[param[0]] = param[1]
+            return paramList
+
         except Exception as e:
             print(e)
             return None
