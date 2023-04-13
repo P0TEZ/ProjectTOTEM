@@ -27,6 +27,12 @@ The database credentials are stored in the file `../database_credentials.env`. T
     DB_PASSWORD=YOUR_DB_PASSWORD
 ```
 
+The server IP is stored in the file `../centrale_Info.env`. This file is not tracked by git. It should be created with the following content:
+
+```bash
+    IP=YOUR_SERVER_IP
+```
+
 ## Usage
 
 ### Run the server

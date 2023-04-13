@@ -3,25 +3,49 @@ import threading
 import time
 import psycopg2
 
-UDP_IP_ADDRESS = "localhost"
+from utils import checkForEnvVar, loadEnvVar
+checkForEnvVar()
+
+UDP_IP_ADDRESS = loadEnvVar("../centrale_Info.env")['IP']
 UDP_PORT_NO = 6000
 TIME_PING = 50
 
 ###################################### Connexion BDD
+BDD_CREDENTIALS = loadEnvVar("../database_credentials.env")
+
 try:
     conn = psycopg2.connect(
-        host="localhost",
-        database="postgres",
-        user="postgres",
-        password="011001",
-        port="8000"
+        host=BDD_CREDENTIALS['DB_HOST'],
+        database=BDD_CREDENTIALS['DB_NAME'],
+        user=BDD_CREDENTIALS['DB_USER'],
+        password=BDD_CREDENTIALS['DB_PASSWORD'],
+        port=BDD_CREDENTIALS['DB_PORT']
     )
+
+    cur = conn.cursor()
 except (Exception, psycopg2.DatabaseError) as error:
     print(error)
 
 ###################################### Ping
 table = []
 
+def findInBDD(totemID, totemIP):
+    requestIdInBDD = """SELECT totem_id, totem_ip FROM totem WHERE totem_id = %s AND totem_ip = %s;"""
+    try:
+        cur.execute(requestIdInBDD, (totemID, totemIP,))
+        row = cur.fetchone()
+
+        if row is not None:
+            # return the totem id and ip of the totem
+            print(row)
+            return row
+        else:
+            return None
+
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        return None
+    
 def findIdInBDD():
     requestIdInBDD = """SELECT totem_id, totem_ip FROM totem"""
     try:
@@ -40,7 +64,6 @@ def findIdInBDD():
     return listIdBDD, listIpBDD
 
 
-
 def endChrono(table):
     tableId = []
     infoBDD = findIdInBDD()
@@ -54,6 +77,7 @@ def endChrono(table):
         for j in range(len(listIdBDD)):
             if(listIdBDD[j] == listToRemove[i]):
                 deleteInput(int(listIdBDD[j]), str(listIpBDD[j]))
+                print("deleting" + str(listIdBDD[j]) + " " + str(listIpBDD[j]))
 
 
     
@@ -67,8 +91,14 @@ def ping():
         addr = socket.recvfrom(1024)   
         if(addr not in table):
             table.append(addr)
-            if(int(addr[0]) not in findIdInBDD()[0]):
-                insertInput(int(addr[0]), str(addr[1]))  
+
+            totem_id = int(addr[0])
+            totem_ip = str(addr[1]).split("'")[1]
+
+            if findInBDD(totem_id, totem_ip) is None:
+                insertInput(totem_id, totem_ip)  
+                print("pong")
+                print("inserting" + str(totem_id) + " " + str(totem_ip))
 
 def checkPing():
     global table
@@ -119,3 +149,10 @@ socket.bind((UDP_IP_ADDRESS, UDP_PORT_NO))
 
 print("UDP server up and listening")
 checkPing()
+if __name__ == "__main__":
+    try:
+        checkPing()
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt")
+        socket.close()
+        conn.close()
