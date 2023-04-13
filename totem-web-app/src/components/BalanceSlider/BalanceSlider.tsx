@@ -20,9 +20,9 @@ export default function BalanceSlider({ setBalance, balance, diff }: Props) {
 					onChange={(e) => {
 						setBalance(e.value as number | [number, number]);
 					}}
-					min={-5}
-					max={5}
-					step={0.5}
+					min={-50}
+					max={50}
+					step={5}
 				/>
 				<p className="center monument fs-body-1 c-grey diff-right">
 					{diff[1] > 0 && "+"}

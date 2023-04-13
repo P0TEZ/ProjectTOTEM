@@ -39,6 +39,14 @@ export default function TotemParameters(props: Props) {
 	);
 	// BALANCE
 	const [balance, diff, setBalance] = useBalance();
+	// SET BALANCE
+	var adressToFetchForChangeBalance = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangeBalance += "/admin/group/param/" + props.group + "/balance/";
+	const [dataBalance, loadingBalance, errorBalance, refetchBalance] = useFetchOnChange(
+		adressToFetchForChangeBalance,
+		balance as number,
+		token
+	);
 
 	useEffect(() => {
 		console.log("value", value);

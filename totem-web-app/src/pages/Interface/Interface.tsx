@@ -13,32 +13,17 @@ import { useBalance } from "../../hooks/useBalance";
 import useFetchState from "../../hooks/useFetchState";
 import useFetchOnChange from "../../hooks/useFetchOnChange";
 
-import { toast } from "react-hot-toast";
 import { HelpBtn } from "./HelpBtn";
 import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
 function Interface(props: any) {
 	const navigate = useNavigate();
 	const [status, setStatus] = useState("Connexion");
-	const [helpAsked, setHelpAsked] = useState(false);
 	const { userInfo } = React.useContext(UserContext);
 	let token = userInfo.token;
 
-	// VOLUME
-	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
-	adressToFetchForDefaultValue += "/user/param/volume/?token=" + token;
-	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, 0);
-	var adress = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
-	adress += "/user/param/volume/";
-	const [data, loading, error, refetch] = useFetchOnChange(adress, value, token);
-	console.log(data, loading, error, refetch);
-
-	// BALANCE
-	const [balance, diff, setBalance] = useBalance();
-
 	useEffect(() => {
 		document.title = "TOTEM";
-		// console.log(userInfo)
 		if (
 			userInfo.TotemId === "" ||
 			userInfo.token === "" ||
@@ -54,42 +39,62 @@ function Interface(props: any) {
 		setStatus("Connecté");
 	}, [userInfo, navigate]);
 
-	// Assistance
-	const handleHelp = () => {
-		setHelpAsked(!helpAsked);
-		console.log(helpAsked);
-	};
+	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForDefaultValue += "/user/?token=" + token;
+	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, {
+		volume: 0,
+		balance: 50,
+		preset: 0,
+		disabled: 0,
+	});
+
+	// VOLUME
+	const [volume, setVolume] = React.useState(50);
+
+	// SET VOLUME
+	var adressToFetchForChangeValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangeValue += "/user/param/volume/";
+	const [data, loading, error, refetch] = useFetchOnChange(
+		adressToFetchForChangeValue,
+		volume,
+		token
+	);
+	// BALANCE
+	const [balance, diff, setBalance] = useBalance();
+	// SET BALANCE
+	var adressToFetchForChangeBalance = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangeBalance += "/user/param/balance/";
+	const [dataBalance, loadingBalance, errorBalance, refetchBalance] = useFetchOnChange(
+		adressToFetchForChangeBalance,
+		balance as number,
+		token
+	);
 
 	useEffect(() => {
-		if (helpAsked) {
-			toast.promise(
-				new Promise((resolve, reject) => {
-					setTimeout(() => {
-						setHelpAsked(false);
-						resolve("ok");
-					}, 5000);
-				}),
-				{
-					loading: "Demande d'assistance en cours...",
-					success: <b>Assistance terminée !</b>,
-					error: <b>Assistance échouée !</b>,
-				}
-			);
+		console.log("value", value);
+		if (value.volume !== undefined && value.volume !== null) {
+			setVolume(value.volume);
 		}
-	}, [helpAsked]);
+		if (value.disabled === 1) {
+			setVolume(0);
+		}
+		if (value.balance !== undefined && value.balance !== null) {
+			setBalance(value.balance);
+		}
+	}, [value]);
 
 	return (
 		<>
 			<div id="InterfacePage" className="PAGE_CONTAINER">
 				<Status code={userInfo.TotemId} status={status} />
 
-				<KnobComponent setValue={setValue} value={value} />
+				<KnobComponent setValue={setVolume} value={volume} />
 
 				<BalanceSlider setBalance={setBalance} balance={balance} diff={diff} />
 
 				<PresetSelect />
 
-				<HelpBtn handleHelp={handleHelp} helpAsked={helpAsked} />
+				<HelpBtn />
 			</div>
 		</>
 	);
