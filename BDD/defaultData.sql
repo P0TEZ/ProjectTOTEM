@@ -7,7 +7,6 @@ INSERT INTO public.settings(
 	VALUES 
         ('preset', 0, 2, 0),
         ('volume', 0, 100, 50),
-        ('intensite_r', 0, 100, 50),
-        ('intensite_l', 0, 100, 50),
+        ('balance', 0, 100, 50),
         ('status', 0, 1, 1),
         ('disable', 0, 1, 0);
