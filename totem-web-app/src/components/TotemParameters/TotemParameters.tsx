@@ -3,21 +3,39 @@ import "./TotemParameters.scss";
 
 import Parameter from "../Parameter/Parameter";
 import useFetchState from "../../hooks/useFetchState";
-import useFetchOnChange from "../../hooks/useFetchOnChange";
 import { UserContext } from "../../context/User";
+import { useBalance } from "../../hooks/useBalance";
+import BalanceSlider from "../BalanceSlider/BalanceSlider";
 
 interface Props {
 	group: number;
 }
 
+const parameters = {
+	volume: {
+		type: "range",
+		label: "Volume",
+		max: 100,
+		min: 0,
+		default: 0,
+	},
+	balance: {
+		type: "range",
+		label: "Balance",
+		max: 100,
+		min: 0,
+		default: 0,
+	},
+};
+
 export default function TotemParameters(props: Props) {
 	const { userInfo } = React.useContext(UserContext);
+	const [balance, diff, setBalance] = useBalance();
 
 	const fetchAdressDefault = `http://${process.env.REACT_APP_CENTRAL_ADRESS}:5050/admin/group/${props.group}/?token=${userInfo.token}`;
 	const [parameters, setParameters] = useFetchState(fetchAdressDefault, {
 		volume: 0,
-		intensite_l: 0,
-		intensite_r: 0,
+		balance: 0,
 		preset: 0,
 		disabled: 0,
 		status: 0,
@@ -36,60 +54,7 @@ export default function TotemParameters(props: Props) {
 				</h3>
 				<div className="parametersContainer">
 					<div className="parameters">
-						<Parameter
-							value={parameters.volume}
-							param_name="volume"
-							label="Volume"
-							group={props.group}
-							max={100}
-							setValue={setParameters}
-							type="range"
-						/>
-						<Parameter
-							value={parameters.intensite_l}
-							param_name="intensite_l"
-							label="Intensité gauche"
-							group={props.group}
-							max={100}
-							setValue={setParameters}
-							type="range"
-						/>
-						<Parameter
-							value={parameters.intensite_r}
-							param_name="intensite_r"
-							label="Intensité droite"
-							group={props.group}
-							max={100}
-							setValue={setParameters}
-							type="range"
-						/>
-						<Parameter
-							value={parameters.preset}
-							param_name="preset"
-							label="Preset"
-							group={props.group}
-							max={10}
-							setValue={setParameters}
-							type="number"
-						/>
-						<Parameter
-							value={parameters.disabled}
-							param_name="disabled"
-							label="Désactivé"
-							group={props.group}
-							max={1}
-							setValue={setParameters}
-							type="number"
-						/>
-						<Parameter
-							value={parameters.status}
-							param_name="status"
-							label="Statut"
-							group={props.group}
-							max={2}
-							setValue={setParameters}
-							type="number"
-						/>
+						<BalanceSlider balance={balance} setBalance={setBalance} diff={diff} />
 					</div>
 				</div>
 			</div>

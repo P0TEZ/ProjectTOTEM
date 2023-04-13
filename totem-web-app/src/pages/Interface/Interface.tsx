@@ -9,6 +9,7 @@ import KnobComponent from "../../components/Knob/Knob";
 import PresetSelect from "../../components/PresetSelect/PresetSelect";
 
 import { UserContext } from "../../context/User";
+import { useBalance } from "../../hooks/useBalance";
 
 import { toast } from "react-hot-toast";
 import { HelpBtn } from "./HelpBtn";
@@ -20,10 +21,20 @@ function Interface(props: any) {
 	const [helpAsked, setHelpAsked] = useState(false);
 	const { userInfo } = React.useContext(UserContext);
 
+	const [balance, diff, setBalance] = useBalance();
+
 	useEffect(() => {
 		document.title = "TOTEM";
 		// console.log(userInfo)
-		if (userInfo.TotemId === "" || userInfo.token === "") {
+		if (
+			userInfo.TotemId === "" ||
+			userInfo.token === "" ||
+			userInfo.TotemId === undefined ||
+			userInfo.token === undefined ||
+			userInfo.TotemId === null ||
+			userInfo.token === null ||
+			userInfo.TotemId === "admin"
+		) {
 			console.log("Nope !");
 			navigate("/code");
 		}
@@ -61,7 +72,7 @@ function Interface(props: any) {
 
 				<KnobComponent />
 
-				<BalanceSlider />
+				<BalanceSlider setBalance={setBalance} balance={balance} diff={diff} />
 
 				<PresetSelect />
 

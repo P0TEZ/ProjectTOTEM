@@ -1,10 +1,13 @@
 import "./BalanceSlider.scss";
 import { Slider } from "primereact/slider";
-import { useBalance } from "../../hooks/useBalance";
 
-export default function BalanceSlider() {
-	const [balance, diff, setBalance] = useBalance();
+interface Props {
+	setBalance: any;
+	balance: number | [number, number];
+	diff: [number, number];
+}
 
+export default function BalanceSlider({ setBalance, balance, diff }: Props) {
 	return (
 		<div id="sliderContainer">
 			<div className="sliderAndValues fs-body-1">
