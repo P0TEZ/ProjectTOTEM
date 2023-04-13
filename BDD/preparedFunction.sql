@@ -151,7 +151,8 @@ BEGIN
 
   IF current_groupe_id IS NOT NULL THEN
         -- Delete the totem
-        DELETE FROM TOTEM WHERE TOTEM_ID = totem_id AND TOTEM_IP = totem_ip;
+        DELETE FROM TOTEM WHERE TOTEM_ID = delete_totem_id AND TOTEM_IP = delete_totem_ip;
+
 
         -- Check if the groupe is empty and delete it if necessary
         PERFORM remove_empty_groups();
