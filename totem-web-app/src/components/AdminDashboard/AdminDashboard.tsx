@@ -17,7 +17,11 @@ export default function AdminDashboard() {
 						connecté(s).
 					</p>
 					<div className="dashboardContainer">
-						<TotemList setGroup={setSelectedGroup} setTotemCount={setTotemCount} />
+						<TotemList
+							selectedGroup={selectedGroup}
+							setGroup={setSelectedGroup}
+							setTotemCount={setTotemCount}
+						/>
 						<TotemParameters group={selectedGroup} />
 					</div>
 				</>

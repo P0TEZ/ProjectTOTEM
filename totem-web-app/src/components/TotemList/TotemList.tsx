@@ -12,6 +12,7 @@ import { TotemItem } from "./TotemItem";
 
 interface Props {
 	setGroup: (group: number) => void;
+	selectedGroup: number;
 	setTotemCount: (totemCount: number) => void;
 }
 
@@ -175,7 +176,12 @@ export default function TotemList(props: Props) {
 			<Nestable
 				items={items}
 				renderItem={({ item, collapseIcon }) => (
-					<TotemItem item={item} icon={collapseIcon} setGroup={props.setGroup} />
+					<TotemItem
+						item={item}
+						icon={collapseIcon}
+						setGroup={props.setGroup}
+						selectedGroup={props.selectedGroup}
+					/>
 				)}
 				renderCollapseIcon={({ isCollapsed }) => <ExpandIcon isCollapsed={isCollapsed} />}
 				collapsed={false}
