@@ -8,6 +8,7 @@ import { useBalance } from "../../hooks/useBalance";
 import BalanceSlider from "../BalanceSlider/BalanceSlider";
 import KnobComponent from "../Knob/Knob";
 import PresetSelect from "../PresetSelect/PresetSelect";
+import DisabledSwitch from "../DisabledSwitch/DisabledSwitch";
 
 interface Props {
 	group: number;
@@ -39,6 +40,7 @@ export default function TotemParameters(props: Props) {
 	);
 	// BALANCE
 	const [balance, diff, setBalance] = useBalance();
+
 	// SET BALANCE
 	var adressToFetchForChangeBalance = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
 	adressToFetchForChangeBalance += "/admin/group/param/" + props.group + "/balance/";
@@ -47,6 +49,9 @@ export default function TotemParameters(props: Props) {
 		balance as number,
 		token
 	);
+
+	// Status
+	const [disabled, setDisabled] = React.useState(false);
 
 	useEffect(() => {
 		console.log("value", value);
@@ -70,6 +75,7 @@ export default function TotemParameters(props: Props) {
 				</h3>
 				<div className="parametersContainer">
 					<div className="parameters">
+						<DisabledSwitch checked={disabled} setChecked={setDisabled} />
 						<KnobComponent value={volume} setValue={setVolume} />
 						<BalanceSlider balance={balance} setBalance={setBalance} diff={diff} />
 						<PresetSelect />

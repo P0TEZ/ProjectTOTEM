@@ -1,0 +1,10 @@
+#switchContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	gap: calc(var(--default-padding) / 2);
+	& span.p-button-label {
+		margin-right: calc(var(--default-padding) / 2);
+	}
+}
