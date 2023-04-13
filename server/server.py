@@ -48,16 +48,12 @@ def endChrono(table):
     listIpBDD = infoBDD[1]
     for i in range(len(table)):
         tableId.append(int(table[i][0]))
-    print("1 : " + str(listIdBDD) + " " + str(tableId))
     listToRemove = list(set(listIdBDD) - set(tableId))
-    print("to remove : " + str(listToRemove))
 
     for i in range(len(listToRemove)):
         for j in range(len(listIdBDD)):
             if(listIdBDD[j] == listToRemove[i]):
-                print(("truc qui va être supprimé : " + str(int(listIdBDD[j]))) + " " + str(listIpBDD[j]))
                 deleteInput(int(listIdBDD[j]), str(listIpBDD[j]))
-                print("Tnput deleted")
 
 
     
@@ -69,12 +65,8 @@ def ping():
     global table
     while(True):
         addr = socket.recvfrom(1024)   
-        if(addr):
-            print("ping ! " + str(addr[0]))
         if(addr not in table):
-            print("add : " + str(addr))  
             table.append(addr)
-            print("a: " + str(findIdInBDD()[0]))
             if(int(addr[0]) not in findIdInBDD()[0]):
                 insertInput(int(addr[0]), str(addr[1]))  
 
@@ -89,7 +81,6 @@ def checkPing():
             tPingTime = threading.Thread(target=timing, args=(table,))
             tPingTime.start()
             table = []
-            print("New Cycle")
 
 ###################################### Requêtes BDD
 def insertInput(totemId, totemIp):
