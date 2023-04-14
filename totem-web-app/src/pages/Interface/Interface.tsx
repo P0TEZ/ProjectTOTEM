@@ -45,7 +45,7 @@ function Interface(props: any) {
 		volume: 0,
 		balance: 50,
 		preset: 0,
-		disabled: 0,
+		disable: 0,
 	});
 
 	// VOLUME
@@ -82,16 +82,15 @@ function Interface(props: any) {
 		token
 	);
 
-	useEffect(() => {
-		console.log(dataPreset, loadingPreset, errorPreset);
-	}, [dataPreset, loadingPreset, errorPreset]);
+	// DISABLEd
+	const [disabled, setDisabled] = React.useState(false);
 
 	useEffect(() => {
 		console.log("value", value);
 		if (value.volume !== undefined && value.volume !== null) {
 			setVolume(value.volume);
 		}
-		if (value.disabled === 1) {
+		if (value.disable === 1) {
 			setVolume(0);
 		}
 		if (value.balance !== undefined && value.balance !== null) {
@@ -100,18 +99,26 @@ function Interface(props: any) {
 		if (value.preset !== undefined && value.preset !== null) {
 			setPreset(value.preset);
 		}
+		if (value.disable !== undefined && value.disable !== null) {
+			setDisabled(value.disable === 1 ? true : false);
+		}
 	}, [value]);
 
 	return (
 		<>
 			<div id="InterfacePage" className="PAGE_CONTAINER">
-				<Status code={userInfo.TotemId} status={status} />
+				<Status code={userInfo.TotemId} status={status} disabled={disabled} />
 
-				<KnobComponent setValue={setVolume} value={volume} />
+				<KnobComponent setValue={setVolume} value={volume} disabled={disabled} />
 
-				<BalanceSlider setBalance={setBalance} balance={balance} diff={diff} />
+				<BalanceSlider
+					setBalance={setBalance}
+					balance={balance}
+					diff={diff}
+					disabled={disabled}
+				/>
 
-				<PresetSelect value={preset} setValue={setPreset} />
+				<PresetSelect value={preset} setValue={setPreset} disabled={disabled} />
 
 				<HelpBtn />
 			</div>

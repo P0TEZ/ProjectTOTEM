@@ -7,9 +7,10 @@ const presets = ["soft", "hard", "medium", "custom"];
 interface Props {
 	value: number;
 	setValue: (value: number) => void;
+	disabled?: boolean;
 }
 
-export default function PresetSelect({ value, setValue }: Props) {
+export default function PresetSelect({ value, setValue, disabled }: Props) {
 	const [selectedPreset, setSelectedPreset] = useState(presets[value]);
 
 	const handleChange = (e: any) => {
@@ -33,7 +34,7 @@ export default function PresetSelect({ value, setValue }: Props) {
 				onChange={handleChange}
 				placeholder="Selectionnez un preset"
 				className="w-full"
-				disabled={false}
+				disabled={disabled}
 			/>
 		</div>
 	);

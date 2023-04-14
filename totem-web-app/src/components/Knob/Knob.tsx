@@ -14,9 +14,10 @@ import {
 interface Props {
 	value: number;
 	setValue: (value: number) => void;
+	disabled?: boolean;
 }
 
-export default function KnobComponent({ value, setValue }: Props) {
+export default function KnobComponent({ value, setValue, disabled }: Props) {
 	const knobSize = useKnobSize();
 	//const [value, setValue] = React.useState(50);
 
@@ -43,7 +44,7 @@ export default function KnobComponent({ value, setValue }: Props) {
 				onChange={(e) => {
 					setValue(e.value);
 				}}
-				disabled={false}
+				disabled={disabled}
 			/>
 			{volumeIcon()}
 		</div>
