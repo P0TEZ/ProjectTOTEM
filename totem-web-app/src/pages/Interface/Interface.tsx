@@ -16,7 +16,18 @@ import useFetchOnChange from "../../hooks/useFetchOnChange";
 import { HelpBtn } from "./HelpBtn";
 import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
+import { io } from 'socket.io-client';
+
 function Interface(props: any) {
+	const SOCKET_IP = process.env.REACT_APP_CENTRAL_ADRESS + ":4000";
+	const socket = io(SOCKET_IP, {
+	  transports: ['websocket']});
+	
+	socket.on('connect', () => {
+	  console.log('Connected to server');
+	});
+
+
 	const navigate = useNavigate();
 	const [status, setStatus] = useState("Connexion");
 	const { userInfo } = React.useContext(UserContext);
