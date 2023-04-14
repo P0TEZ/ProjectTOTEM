@@ -70,6 +70,22 @@ function Interface(props: any) {
 		token
 	);
 
+	// PRESET
+	const [preset, setPreset] = React.useState(0);
+
+	// SET PRESET
+	var adressToFetchForChangePreset = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangePreset += "/user/param/preset/";
+	const [dataPreset, loadingPreset, errorPreset, refetchPreset] = useFetchOnChange(
+		adressToFetchForChangePreset,
+		preset,
+		token
+	);
+
+	useEffect(() => {
+		console.log(dataPreset, loadingPreset, errorPreset);
+	}, [dataPreset, loadingPreset, errorPreset]);
+
 	useEffect(() => {
 		console.log("value", value);
 		if (value.volume !== undefined && value.volume !== null) {
@@ -80,6 +96,9 @@ function Interface(props: any) {
 		}
 		if (value.balance !== undefined && value.balance !== null) {
 			setBalance(value.balance);
+		}
+		if (value.preset !== undefined && value.preset !== null) {
+			setPreset(value.preset);
 		}
 	}, [value]);
 
@@ -92,7 +111,7 @@ function Interface(props: any) {
 
 				<BalanceSlider setBalance={setBalance} balance={balance} diff={diff} />
 
-				<PresetSelect />
+				<PresetSelect value={preset} setValue={setPreset} />
 
 				<HelpBtn />
 			</div>
