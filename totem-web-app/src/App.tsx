@@ -17,11 +17,26 @@ import 'aos/dist/aos.css';
 
 import 'react-nestable/dist/styles/index.css';
 
+import useWebSocket from 'react-use-websocket';
 
 function App() {
   useEffect(() => {
     AOS.init();
   }, [])
+
+  ////////////////////////////////////////////////////////////////
+  const serverUrl = 'ws://localhost:4000'; // replace with your server URL
+  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(serverUrl);
+
+  const handleSendClick = () => {
+    const message = { type: 'hello', text: 'world' };
+    sendJsonMessage(message);
+  };
+
+  ////////////////////////////////////////////////////////////////
+
+
+  // send message to websocket
 
   const location = useLocation();
   const [animation, setAnimation] = useState("moveToLeftFromRight");
@@ -50,6 +65,7 @@ function App() {
               <Route path="/:code" element={<Interface/>}/>
               <Route path="*/*" element={<p className='PAGE_CONTAINER'>404</p>}/>
           </Routes>
+        <button onClick={handleSendClick}>Send Message</button>
 
         </PageTransition>
     </div>
