@@ -23,6 +23,7 @@ export default function BalanceSlider({ setBalance, balance, diff }: Props) {
 					min={-50}
 					max={50}
 					step={5}
+					disabled={false}
 				/>
 				<p className="center monument fs-body-1 c-grey diff-right">
 					{diff[1] > 0 && "+"}

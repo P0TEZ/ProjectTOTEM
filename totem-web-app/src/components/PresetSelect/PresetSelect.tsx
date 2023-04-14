@@ -33,6 +33,7 @@ export default function PresetSelect({ value, setValue }: Props) {
 				onChange={handleChange}
 				placeholder="Selectionnez un preset"
 				className="w-full"
+				disabled={false}
 			/>
 		</div>
 	);

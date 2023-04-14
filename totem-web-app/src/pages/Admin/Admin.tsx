@@ -12,7 +12,7 @@ export default function Admin() {
 	}, []);
 
 	return (
-		<div className="PAGE_CONTAINER" id="AdminPage">
+		<div className="PAGE_CONTAINER_WITH_SCROLL" id="AdminPage">
 			{connected ? (
 				<>
 					<AdminDashboard />

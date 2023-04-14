@@ -55,6 +55,19 @@ body,
 	height: 100dvh;
 	width: 100dvw;
 }
+.PAGE_CONTAINER_WITH_SCROLL {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: var(--default-padding);
+	padding-top: var(--header-height);
+
+	width: 100dvw;
+	height: 100dvh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
 
 /////////////////////////////////////////////////
 // Font sizes

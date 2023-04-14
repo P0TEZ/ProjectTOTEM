@@ -43,6 +43,7 @@ export default function KnobComponent({ value, setValue }: Props) {
 				onChange={(e) => {
 					setValue(e.value);
 				}}
+				disabled={false}
 			/>
 			{volumeIcon()}
 		</div>
