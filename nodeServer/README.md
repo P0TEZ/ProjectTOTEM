@@ -31,5 +31,5 @@ Before running the server, you need to install the dependencies.
 Then you can run the server with the following command:
 
 ```bash
-    npm start
+    node index.js
 ```
