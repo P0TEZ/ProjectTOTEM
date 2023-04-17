@@ -1,6 +1,7 @@
 import socket
 import threading
 import time
+import sys
 import psycopg2
 
 from utils import checkForEnvVar, loadEnvVar
@@ -28,7 +29,7 @@ except (Exception, psycopg2.DatabaseError) as error:
 
 ###################################### Ping
 table = []
-
+over = False
 def findInBDD(totemID, totemIP):
     requestIdInBDD = """SELECT totem_id, totem_ip FROM totem WHERE totem_id = %s AND totem_ip = %s;"""
     try:
@@ -45,6 +46,8 @@ def findInBDD(totemID, totemIP):
     except(Exception, psycopg2.DatabaseError) as error:
         print(error)
         return None
+    except KeyboardInterrupt:
+        sys.exit()
     
 def findIdInBDD():
     requestIdInBDD = """SELECT totem_id, totem_ip FROM totem"""
@@ -65,53 +68,71 @@ def findIdInBDD():
 
 
 def endChrono(table):
-    tableId = []
-    infoBDD = findIdInBDD()
-    listIdBDD = infoBDD[0]
-    listIpBDD = infoBDD[1]
-    for i in range(len(table)):
-        tableId.append(int(table[i][0]))
-    listToRemove = list(set(listIdBDD) - set(tableId))
+    try:
+        tableId = []
+        infoBDD = findIdInBDD()
+        listIdBDD = infoBDD[0]
+        listIpBDD = infoBDD[1]
+        for i in range(len(table)):
+            tableId.append(int(table[i][0]))
+        listToRemove = list(set(listIdBDD) - set(tableId))
 
-    for i in range(len(listToRemove)):
-        for j in range(len(listIdBDD)):
-            if(listIdBDD[j] == listToRemove[i]):
-                deleteInput(int(listIdBDD[j]), str(listIpBDD[j]))
-                print("deleting" + str(listIdBDD[j]) + " " + str(listIpBDD[j]))
-
+        for i in range(len(listToRemove)):
+            for j in range(len(listIdBDD)):
+                if(listIdBDD[j] == listToRemove[i]):
+                    deleteInput(int(listIdBDD[j]), str(listIpBDD[j]))
+                    print("deleting" + str(listIdBDD[j]) + " " + str(listIpBDD[j]))
+    except KeyboardInterrupt:
+        sys.exit()              
 
     
 def timing(table):
-    time.sleep(TIME_PING)
-    endChrono(table)
+    try:
+        time.sleep(TIME_PING)
+        endChrono(table)
+    except KeyboardInterrupt:
+        sys.exit()    
 
 def ping():
     global table
-    while(True):
-        addr = socket.recvfrom(1024)   
-        if(addr not in table):
-            table.append(addr)
+    global over
+    while(not over):
+        try:
+            if(socket):
+                addr = socket.recvfrom(1024)   
+                if(addr not in table):
+                    table.append(addr)
 
-            totem_id = int(addr[0])
-            totem_ip = str(addr[1]).split("'")[1]
+                    totem_id = int(addr[0])
+                    totem_ip = str(addr[1]).split("'")[1]
 
-            if findInBDD(totem_id, totem_ip) is None:
-                insertInput(totem_id, totem_ip)  
-                print("pong")
-                print("inserting" + str(totem_id) + " " + str(totem_ip))
+                    if findInBDD(totem_id, totem_ip) is None:
+                        insertInput(totem_id, totem_ip)  
+                        print("pong")
+                        print("inserting" + str(totem_id) + " " + str(totem_ip))
+        except KeyboardInterrupt:
+            sys.exit()
 
 def checkPing():
     global table
+    global over
     tPingTime = threading.Thread(target=timing, args=(table,))
+    tPingTime.daemon = True
     tPingTime.start()
     tPing = threading.Thread(target=ping)
+    tPing.daemon = True
     tPing.start()
-    while(True):
-        if(tPingTime.is_alive() == False):
-            tPingTime = threading.Thread(target=timing, args=(table,))
-            tPingTime.start()
-            table = []
-
+    while(not over):
+        try:
+            if(tPingTime.is_alive() == False):
+                tPingTime = threading.Thread(target=timing, args=(table,))
+                tPingTime.start()
+                table = []
+        except KeyboardInterrupt:
+            over = True
+            print("The UDP server has been stopped")
+            sys.exit()
+        
 ###################################### Requêtes BDD
 def insertInput(totemId, totemIp):
     request = """SELECT create_new_totem(%s, %s);"""
