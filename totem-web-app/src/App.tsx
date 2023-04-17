@@ -16,6 +16,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import 'react-nestable/dist/styles/index.css';
+import { SocketContext } from './context/Socket';
 
 function App() {
   useEffect(() => {
@@ -34,6 +35,10 @@ function App() {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   //console.log("Dark mode : "+isDarkMode)
 
+  // use socketProvider
+
+  const { socket, lastUpdateTime, sendUpdated} = useContext(SocketContext);
+
   return (
     <div className={"App ".concat(isDarkMode ? "darkTheme":"lightTheme")}>
       <Toaster position='top-center'/>
@@ -46,6 +51,21 @@ function App() {
               <Route path="/code" element={<Code/>}/>
               <Route path="/admin" element={<Admin/>} />
               <Route path="/help" element={<p className='help'>Page HELP</p>} />
+
+              <Route path="/testONLY" element={
+                // add a button that call sendUpdated
+                <div>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <button onClick={() => sendUpdated()}>Send updated</button>
+                </div>
+              }
+              />
+
               <Route path="/:code" element={<Interface/>}/>
               <Route path="*/*" element={<p className='PAGE_CONTAINER'>404</p>}/>
           </Routes>

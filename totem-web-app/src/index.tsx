@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter } from "react-router-dom";
-import { AppThemeProvider } from "./context/AppTheme";
+import { AppThemeProvider} from "./context/AppTheme";
 import { UserProvider } from "./context/User";
 
 import "react-nestable/dist/styles/index.css";
@@ -18,13 +18,18 @@ import "primereact/resources/primereact.min.css";
 //icons
 import "primeicons/primeicons.css";
 
+import { SocketProvider } from "./context/Socket";
+
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
 root.render(
 	<AppThemeProvider>
 		<UserProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
+			<SocketProvider url={""}>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</SocketProvider>
 		</UserProvider>
 	</AppThemeProvider>
 );

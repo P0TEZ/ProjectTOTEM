@@ -16,23 +16,16 @@ import useFetchOnChange from "../../hooks/useFetchOnChange";
 import { HelpBtn } from "./HelpBtn";
 import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
-import { io } from 'socket.io-client';
+import { url } from "inspector";
 
 function Interface(props: any) {
 	const SOCKET_IP = process.env.REACT_APP_CENTRAL_ADRESS + ":4000";
-	const socket = io(SOCKET_IP, {
-	  transports: ['websocket']});
-	
-	socket.on('connect', () => {
-	  console.log('Connected to server');
-	});
-
 
 	const navigate = useNavigate();
 	const [status, setStatus] = useState("Connexion");
 	const { userInfo } = React.useContext(UserContext);
 	let token = userInfo.token;
-
+	
 	useEffect(() => {
 		document.title = "TOTEM";
 		if (
@@ -52,12 +45,15 @@ function Interface(props: any) {
 
 	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
 	adressToFetchForDefaultValue += "/user/?token=" + token;
-	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, {
+	const [value, setValue] = useFetchState(
+		adressToFetchForDefaultValue, 
+	{
 		volume: 0,
 		balance: 50,
 		preset: 0,
 		disable: 0,
-	});
+	}
+	);
 
 	// VOLUME
 	const [volume, setVolume] = React.useState(50);
@@ -68,7 +64,7 @@ function Interface(props: any) {
 	const [data, loading, error, refetch] = useFetchOnChange(
 		adressToFetchForChangeValue,
 		volume,
-		token
+		token,
 	);
 	// BALANCE
 	const [balance, diff, setBalance] = useBalance();
@@ -78,7 +74,8 @@ function Interface(props: any) {
 	const [dataBalance, loadingBalance, errorBalance, refetchBalance] = useFetchOnChange(
 		adressToFetchForChangeBalance,
 		balance as number,
-		token
+		token,
+		500
 	);
 
 	// PRESET

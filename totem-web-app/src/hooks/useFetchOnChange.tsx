@@ -13,7 +13,8 @@
  * `error`, and `refetch`.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext} from 'react';
+import { SocketContext } from '../context/Socket';
 
 function useFetchOnChange<T>(
   url: string,
@@ -24,6 +25,9 @@ function useFetchOnChange<T>(
   const [data, setData] = useState<T>(variable);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+
+  
+  const { socket, lastUpdateTime, sendUpdated} = useContext(SocketContext);
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -44,6 +48,10 @@ function useFetchOnChange<T>(
           .then((result) => setData(variable))
           .catch((error) => setError(error))
           .finally(() => setLoading(false));
+
+          sendUpdated();
+
+
       }, debounceDelay);
     }
     return () => {

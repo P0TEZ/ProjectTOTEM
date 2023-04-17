@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext} from "react";
+import { SocketContext } from "../context/Socket";
 
 function useFetchState<T>(
 	url: string,
 	defaultValue: T
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
 	const [state, setState] = useState<T>(defaultValue);
+	
+	const { socket, lastUpdateTime, sendUpdated} = useContext(SocketContext);
 
 	useEffect(() => {
 		// console.log('Fetching data from URL: ' + url);
@@ -29,7 +32,7 @@ function useFetchState<T>(
 				}
 			})
 			.catch((error) => console.error(error));
-	}, [url]);
+	}, [url, lastUpdateTime]);
 
 	// console.log(state);
 

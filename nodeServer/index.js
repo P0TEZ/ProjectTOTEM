@@ -5,10 +5,10 @@ io.on('connection', (client) => {
     console.log('Client connected...');
     client.on('disconnect', () => { console.log('Client disconnected...') });
 
-    client.on('infoUpdated', (data) => {
+    client.on('updated', (data) => {
 
         try{
-            console.log('infoUpdated', data);
+            console.log('infoUpdated');
             console.log ('By client: ', client.id);
     
             console.log('Broadcasting to all clients...');
@@ -21,8 +21,6 @@ io.on('connection', (client) => {
     });
 
 });
-
-
 
 const PORT = 4000
 io.listen(PORT);
