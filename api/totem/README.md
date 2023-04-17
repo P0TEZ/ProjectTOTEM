@@ -24,7 +24,7 @@ To use the api, you need to be authenticated. You can authenticate with the [aut
 - psycopg2 `2.9.5`
 - logging `0.5.1.2`
 - hashlib `3.10`
-- OSC `1.8.1`
+- python-osc `1.8.1`
 
 ### Needed environment variables
 
