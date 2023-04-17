@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import "./AdminLogin.scss";
 
@@ -13,7 +15,7 @@ interface Props {
 }
 
 export default function AdminLogin(props: Props) {
-	const [password, setPassword] = React.useState<string>("T0TEM@dmin");
+	const [password, setPassword] = React.useState<string>("");
 	const adress = process.env.REACT_APP_CENTRAL_ADRESS + ":5000";
 	const { setAllUserInfo } = React.useContext(UserContext);
 
