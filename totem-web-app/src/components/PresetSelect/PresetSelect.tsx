@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { HTMLInputTypeAttribute, useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import "./PresetSelect.scss";
 

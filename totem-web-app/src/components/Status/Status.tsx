@@ -3,7 +3,12 @@ import { useState } from "react";
 
 import "./Status.scss";
 
-export default function Status(props: any) {
+interface Props {
+	status: string;
+	code: string;
+}
+
+export default function Status(props: Props) {
 	const [statusClass, setStatusClass] = useState("status connecting");
 
 	useEffect(() => {

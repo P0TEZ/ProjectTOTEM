@@ -26,8 +26,7 @@ function useFetchOnChange<T>(
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<Error | null>(null);
 
-	
-	const { socket, lastUpdateTime, sendUpdated} = useContext(SocketContext);
+	const { socket, lastUpdateTime, sendUpdated } = useContext(SocketContext);
 
 	useEffect(() => {
 		let timeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -37,7 +36,6 @@ function useFetchOnChange<T>(
 				clearTimeout(timeoutId);
 			}
 			timeoutId = setTimeout(() => {
-				// console.log('Fetching data from URL: ' + url);
 				fetch(url + variable + "?token=" + userToken, {
 					method: "PUT",
 				})
@@ -47,7 +45,6 @@ function useFetchOnChange<T>(
 					.finally(() => setLoading(false));
 
 				sendUpdated();
-				
 			}, debounceDelay);
 		}
 		return () => {

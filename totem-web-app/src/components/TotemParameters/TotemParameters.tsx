@@ -61,9 +61,6 @@ export default function TotemParameters(props: Props) {
 		disabled ? 1 : 0,
 		token
 	);
-	useEffect(() => {
-		console.log(dataDisabled, loadingDisabled, errorDisabled);
-	}, [dataDisabled, loadingDisabled, errorDisabled]);
 
 	// PRESET
 	const [preset, setPreset] = React.useState(0);
@@ -78,7 +75,6 @@ export default function TotemParameters(props: Props) {
 	);
 
 	useEffect(() => {
-		console.log("value", value);
 		if (value.volume !== undefined && value.volume !== null) {
 			setVolume(value.volume);
 		}

@@ -16,16 +16,14 @@ import useFetchOnChange from "../../hooks/useFetchOnChange";
 import { HelpBtn } from "./HelpBtn";
 import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
-import { url } from "inspector";
-
-function Interface(props: any) {
+function Interface() {
 	const SOCKET_IP = process.env.REACT_APP_CENTRAL_ADRESS + ":4000";
 
 	const navigate = useNavigate();
 	const [status, setStatus] = useState("Connexion");
 	const { userInfo } = React.useContext(UserContext);
 	let token = userInfo.token;
-	
+
 	useEffect(() => {
 		document.title = "TOTEM";
 		if (
@@ -37,7 +35,6 @@ function Interface(props: any) {
 			userInfo.token === null ||
 			userInfo.TotemId === "admin"
 		) {
-			console.log("Nope !");
 			navigate("/code");
 		}
 		setStatus("Connecté");
@@ -45,15 +42,12 @@ function Interface(props: any) {
 
 	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
 	adressToFetchForDefaultValue += "/user/?token=" + token;
-	const [value, setValue] = useFetchState(
-		adressToFetchForDefaultValue, 
-	{
+	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, {
 		volume: 0,
 		balance: 50,
 		preset: 0,
 		disable: 0,
-	}
-	);
+	});
 
 	// VOLUME
 	const [volume, setVolume] = React.useState(50);
@@ -64,7 +58,7 @@ function Interface(props: any) {
 	const [data, loading, error, refetch] = useFetchOnChange(
 		adressToFetchForChangeValue,
 		volume,
-		token,
+		token
 	);
 	// BALANCE
 	const [balance, diff, setBalance] = useBalance();
@@ -94,7 +88,6 @@ function Interface(props: any) {
 	const [disabled, setDisabled] = React.useState(false);
 
 	useEffect(() => {
-		console.log("value", value);
 		if (value.volume !== undefined && value.volume !== null) {
 			setVolume(value.volume);
 		}
@@ -115,7 +108,7 @@ function Interface(props: any) {
 	return (
 		<>
 			<div id="InterfacePage" className="PAGE_CONTAINER">
-				<Status code={userInfo.TotemId} status={status} disabled={disabled} />
+				<Status code={userInfo.TotemId} status={status} />
 
 				<KnobComponent setValue={setVolume} value={volume} disabled={disabled} />
 

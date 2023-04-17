@@ -28,10 +28,6 @@ export default function TotemList(props: Props) {
 		});
 	}, []);
 
-	useEffect(() => {
-		console.log(items);
-	}, [items]);
-
 	const getTotems = () => {
 		return new Promise((resolve, reject) => {
 			fetch(
@@ -51,7 +47,7 @@ export default function TotemList(props: Props) {
 		});
 	};
 
-	const convertToItems = (data: any) => {
+	const convertToItems = (data: []) => {
 		props.setTotemCount(data.length);
 		const newItems = data.reduce((acc: any, obj: any) => {
 			const key = obj.groupe_id;
@@ -76,14 +72,12 @@ export default function TotemList(props: Props) {
 				child.id = child.totem_id;
 			});
 		});
-		console.log(items);
 		const firstGroupId = items[0].totem_id;
 		props.setGroup(parseInt(firstGroupId));
 		setItems(items);
 	};
 
 	const handleItemChange = (dragItem: any, destinationParent: any) => {
-		console.log("dragItem", dragItem);
 		if (!destinationParent) return false;
 		if (dragItem.id === "newTotem") return false;
 		if (dragItem.totem_id === "newTotem") return false;
@@ -94,15 +88,6 @@ export default function TotemList(props: Props) {
 		if (dragItem.totem_ip === destinationParent.totem_ip) return false;
 		if (dragItem.totem_id === destinationParent.id) return false;
 		if (dragItem.totem_ip === destinationParent.ip) return false;
-
-		console.log(
-			"moving totem " +
-				dragItem.totem_id +
-				" to group " +
-				destinationParent.totem_id +
-				" with ip " +
-				dragItem.totem_ip
-		);
 
 		var query =
 			"http://" +
@@ -163,9 +148,7 @@ export default function TotemList(props: Props) {
 				},
 			],
 		});
-		console.log(newItems);
 		setItems(newItems);
-		// get the id of the first group
 		const firstGroupId = items[0].totem_id;
 		props.setGroup(firstGroupId); // DO NOT REMOVE THIS LINE
 		props.setGroup(firstGroupId); // I DON'T KNOW WHY BUT IT WORKS ONLY IF IT IS CALLED TWICE
@@ -196,7 +179,10 @@ export default function TotemList(props: Props) {
 		</div>
 	);
 }
+interface IconProps {
+	isCollapsed: boolean;
+}
 
-const ExpandIcon = (props: any) => {
+const ExpandIcon = (props: IconProps) => {
 	return <BsChevronRight className={`collapseIcon ${props.isCollapsed ? "collapsed" : ""}`} />;
 };

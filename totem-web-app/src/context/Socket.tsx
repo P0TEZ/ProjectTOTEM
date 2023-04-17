@@ -1,55 +1,59 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+import React, { createContext, useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
 
 interface SocketContextType {
-  socket: Socket | null;
-  lastUpdateTime: Date | null;
-  sendUpdated: () => void;
+	socket: Socket | null;
+	lastUpdateTime: Date | null;
+	sendUpdated: () => void;
 }
 
-const SocketContext = createContext<SocketContextType>({ socket: null, lastUpdateTime: null, sendUpdated: () => {}});
-SocketContext.displayName = 'Socket';
+const SocketContext = createContext<SocketContextType>({
+	socket: null,
+	lastUpdateTime: null,
+	sendUpdated: () => {},
+});
+SocketContext.displayName = "Socket";
 
 interface SocketProviderProps {
-  url: string;
-  children: React.ReactNode;
+	url: string;
+	children: React.ReactNode;
 }
 
-function SocketProvider({children}: SocketProviderProps) {
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
+function SocketProvider({ children }: SocketProviderProps) {
+	const [socket, setSocket] = useState<Socket | null>(null);
+	const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
 
-  const SOCKET_IP = process.env.REACT_APP_CENTRAL_ADRESS + ":4000";
+	const SOCKET_IP = process.env.REACT_APP_CENTRAL_ADRESS + ":4000";
 
-  useEffect(() => {
-    const socket = io(SOCKET_IP, {
-        transports: ['websocket']});
-      
-      socket.on('connect', () => {
-        console.log('Connected to server');
-      });
+	useEffect(() => {
+		const socket = io(SOCKET_IP, {
+			transports: ["websocket"],
+		});
 
-      socket.on('infoUpdated', () => {
-        console.log('Update received');
-        setLastUpdateTime(new Date());
-      });
+		socket.on("connect", () => {
+			console.log("Connected to server");
+		});
 
-      setSocket(socket);
+		socket.on("infoUpdated", () => {
+			setLastUpdateTime(new Date());
+		});
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [URL]);
+		setSocket(socket);
 
-    const sendUpdated = () => {
-        socket?.emit('updated');
-    }
+		return () => {
+			socket.disconnect();
+		};
+	}, [URL]);
 
-  return (
-    <SocketContext.Provider value={{ socket, lastUpdateTime, sendUpdated}}>
-      {children}
-    </SocketContext.Provider>
-  );
+	const sendUpdated = () => {
+		socket?.emit("updated");
+	};
+
+	return (
+		<SocketContext.Provider value={{ socket, lastUpdateTime, sendUpdated }}>
+			{children}
+		</SocketContext.Provider>
+	);
 }
 
 export { SocketContext, SocketProvider };

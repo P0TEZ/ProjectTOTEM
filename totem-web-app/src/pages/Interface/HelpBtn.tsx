@@ -9,7 +9,6 @@ export const HelpBtn = () => {
 	// Assistance
 	const handleHelp = () => {
 		setHelpAsked(!helpAsked);
-		console.log(helpAsked);
 	};
 
 	useEffect(() => {

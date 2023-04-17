@@ -4,12 +4,15 @@ import "./AdminLogin.scss";
 import Button from "../../components/Button/Button";
 import { UserContext } from "../../context/User";
 
-// import warning icon from react-icons
 import { BsExclamationTriangle } from "react-icons/bs";
 
 import { toast } from "react-hot-toast";
 
-export default function AdminLogin(props: any) {
+interface Props {
+	setConnected: (connected: boolean) => void;
+}
+
+export default function AdminLogin(props: Props) {
 	const [password, setPassword] = React.useState<string>("T0TEM@dmin");
 	const adress = process.env.REACT_APP_CENTRAL_ADRESS + ":5000";
 	const { setAllUserInfo } = React.useContext(UserContext);

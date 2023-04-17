@@ -13,57 +13,50 @@
  * `error`, and `refetch`.
  */
 
-import { useState, useEffect, useContext} from 'react';
-import { SocketContext } from '../context/Socket';
+import { useState, useEffect, useContext } from "react";
+import { SocketContext } from "../context/Socket";
 
 function useFetchOnChange<T>(
-  url: string,
-  variable: T,
-  userToken: string,
-  debounceDelay: number = 100
+	url: string,
+	variable: T,
+	userToken: string,
+	debounceDelay: number = 100
 ): [T, boolean, Error | null, () => void] {
-  const [data, setData] = useState<T>(variable);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
+	const [data, setData] = useState<T>(variable);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState<Error | null>(null);
 
-  
-  const { socket, lastUpdateTime, sendUpdated} = useContext(SocketContext);
+	const { socket, lastUpdateTime, sendUpdated } = useContext(SocketContext);
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    if (variable !== data) {
-      setLoading(true);
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        // console.log('Fetching data from URL: ' + url);
-        fetch(
-            url + variable +"?token="+userToken,
-            {
-                method: 'POST',
-            }
-            )
-          .then((response) => response.json())
-          .then((result) => setData(variable))
-          .catch((error) => setError(error))
-          .finally(() => setLoading(false));
+	useEffect(() => {
+		let timeoutId: ReturnType<typeof setTimeout> | null = null;
+		if (variable !== data) {
+			setLoading(true);
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+			timeoutId = setTimeout(() => {
+				fetch(url + variable + "?token=" + userToken, {
+					method: "POST",
+				})
+					.then((response) => response.json())
+					.then((result) => setData(variable))
+					.catch((error) => setError(error))
+					.finally(() => setLoading(false));
 
-          sendUpdated();
+				sendUpdated();
+			}, debounceDelay);
+		}
+		return () => {
+			if (timeoutId !== null) {
+				clearTimeout(timeoutId);
+			}
+		};
+	}, [url, variable, debounceDelay, data]);
 
+	const refetch = () => setData(variable);
 
-      }, debounceDelay);
-    }
-    return () => {
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [url, variable, debounceDelay, data]);
-
-  const refetch = () => setData(variable);
-
-  return [data, loading, error, refetch];
+	return [data, loading, error, refetch];
 }
 
 export default useFetchOnChange;

@@ -2,7 +2,7 @@ import "./BalanceSlider.scss";
 import { Slider } from "primereact/slider";
 
 interface Props {
-	setBalance: any;
+	setBalance: (balance: number | [number, number]) => void;
 	balance: number | [number, number];
 	diff: [number, number];
 	disabled?: boolean;

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 
 interface Props {
 	item: any;
-	icon: any;
+	icon: ReactNode;
 	setGroup: (group: number) => void;
 	selectedGroup: number;
 }
