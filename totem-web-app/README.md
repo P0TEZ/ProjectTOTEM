@@ -2,10 +2,7 @@
 
 # TOTEM Web App - Frontend (React typescript)
 
-## Summary
-
 -   [TOTEM Web App - Frontend (React typescript)](#totem-web-app---frontend-react-typescript)
-    -   [Summary](#summary)
     -   [Quick Start](#quick-start)
     -   [File Structure](#file-structure)
         -   [Folders :](#folders-)
