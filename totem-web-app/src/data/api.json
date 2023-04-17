@@ -1,8 +1,0 @@
-{
-    "authentification": {
-        "port": 5000
-    },
-    "totem": {
-        "port": 5050
-    }
-}
