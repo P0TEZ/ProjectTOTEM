@@ -6,9 +6,12 @@ This server allows exchanges between the Centrale C and the totems. Active totem
 
 ## Description
 
-This server uses the UDP protocol to create the connexions. The informations received by the server are put in a postgres database.
+>This server uses the UDP protocol to create the connexions. The informations received by the server are put in a postgres database.
 
 ## Installation
+
+`server.py` and `utils.py` must be installed in the Centrale C.
+`client.py` and `number.txt` must be installed in each totem.
 
 ### Requirements
 
@@ -34,6 +37,8 @@ The server IP is stored in the file `../centrale_Info.env`. This file is not tra
     IP=YOUR_SERVER_IP
 ```
 
+Each `number.txt` has a distinct 4 digit number that correspond to the ID of the totem.
+
 ## Usage
 
 ### Run the server
@@ -46,12 +51,12 @@ To run the server, you need to have a postgres database running. You can then ru
 
 ## Change the ping
 
-To change the interval time between ping from the server (to check which totems are still connected), change the value (in seconds) in server.py : TIME_PING
+To change the interval time between ping from the server (to check which totems are still connected), change the value (in seconds) in `server.py` : `TIME_PING`
 
-To change the interval between ping from the totems (messages sent to the server to show its connexion), change the value (in seconds) in client.py : TIME_PING
+To change the interval between ping from the totems (messages sent to the server to show its connexion), change the value (in seconds) in `client.py` : `TIME_PING`
 
-TIME_PING from server.py must be bigger than TIME_PING from client.py
+`TIME_PING` from `server.py` must be bigger than `TIME_PING` from `client.py`
 
 ## Change the IP Address
 
-To ensure a connexion between the server and the totems, the IP address between server.py and client.py must be the same, the IP coming from the server side.
+To ensure a connexion between the server and the totems, the IP address between `server.py` and `client.py` must be the same, the IP coming from the server side.
