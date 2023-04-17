@@ -2,10 +2,11 @@
 
 ## Introduction
 
-This server allows exchanges between the Centrale C and the totems. 
+This server allows exchanges between the Centrale C and the totems. Active totems can be detected and are inserted/deleted in a dynamic way into the database.
 
 ## Description
 
+This server uses the UDP protocol to create the connexions. The informations received by the server are put in a postgres database.
 
 ## Installation
 
