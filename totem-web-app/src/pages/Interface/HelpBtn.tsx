@@ -30,7 +30,7 @@ export const HelpBtn = () => {
 
 	useEffect(() => {		
 		// Si l'admin valide la demande d'assistance
-		socket?.on("broadcastAskForHelp", (totemId: string) => {
+		socket?.on("fixHelp", (totemId: string) => {
 			console.log("Demande d'assistance terminée");
 			setHelpAsked(false);
 		});
