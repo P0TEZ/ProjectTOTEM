@@ -46,15 +46,18 @@ export default function AdminLogin(props: Props) {
 			})
 				.then((res) => {
 					if (!res.ok) {
-						reject(new Error("Mot de passe administrateur incorrect"));
 						setAllUserInfo({ TotemId: "", token: "" });
+						props.setConnected(false);
+						reject(new Error("Mot de passe administrateur incorrect"));
+					} else {
+						return res.json();
 					}
-					return res.json();
 				})
 				.then((res) => {
 					if (res.length === 0) {
-						reject(new Error("Mot de passe administrateur incorrect"));
 						setAllUserInfo({ TotemId: "", token: "" });
+						props.setConnected(false);
+						reject(new Error("Mot de passe administrateur incorrect"));
 					} else {
 						props.setConnected(true);
 						setAllUserInfo({ TotemId: "admin", token: res[0] });
@@ -62,6 +65,8 @@ export default function AdminLogin(props: Props) {
 					}
 				})
 				.catch((err) => {
+					setAllUserInfo({ TotemId: "", token: "" });
+					props.setConnected(false);
 					reject(new Error("Erreur lors de la connexion"));
 				});
 		});

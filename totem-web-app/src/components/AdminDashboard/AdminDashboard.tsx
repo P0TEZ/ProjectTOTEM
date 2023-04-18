@@ -1,9 +1,15 @@
 /** @format */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
+
 import TotemList from "../TotemList/TotemList";
 import TotemParameters from "../TotemParameters/TotemParameters";
+import Button from "../Button/Button";
 import "./AdminDashboard.scss";
+
+import { SocketContext } from "../../context/Socket";
+
+import toast from "react-hot-toast";
 /*
  * AdminDashboard component
  * To allow admin to manage the totems
@@ -17,9 +23,39 @@ export default function AdminDashboard() {
 	const [selectedGroup, setSelectedGroup] = useState<number>(1);
 	const [totemCount, setTotemCount] = useState<number>(1000);
 
+	const { socket } = useContext(SocketContext);
+
+	// Handle help request from user
+	const handleHelpRequest = () => {
+		toast(
+			(t) => (
+				<div className="helpToast">
+					<p>
+						Le TOTEM <strong className="bold">1234</strong> nécessite de l'aide.
+					</p>
+					<Button
+						className="confirmButton"
+						onClick={() => {
+							toast.dismiss(t.id);
+							// Your code here
+						}}
+					>
+						OK
+					</Button>
+				</div>
+			),
+			{
+				duration: 8000,
+				icon: "🚨",
+				position: "bottom-left",
+			}
+		);
+	};
+
 	return (
 		<div id="adminDashboard">
 			<h1 className="fs-headline-3 c-red monument center bold">PAGE ADMINISTRATEUR</h1>
+			<button onClick={handleHelpRequest}>Test</button>
 			{totemCount > 0 ? (
 				<>
 					<p className="fs-subtitle-1 c-grey bold">
