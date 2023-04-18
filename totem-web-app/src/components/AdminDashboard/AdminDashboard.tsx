@@ -25,19 +25,24 @@ export default function AdminDashboard() {
 
 	const { socket } = useContext(SocketContext);
 
+	socket?.on("broadcastAskForHelp", (totemId: string) => {
+		console.log("Demande d'assistance reçue");
+		handleHelpRequest(totemId);
+	});
+
 	// Handle help request from user
-	const handleHelpRequest = () => {
+	const handleHelpRequest = (totemId: string) => {
 		toast(
 			(t) => (
 				<div className="helpToast">
 					<p>
-						Le TOTEM <strong className="bold">1234</strong> nécessite de l'aide.
+						Le TOTEM <strong className="bold">{totemId}</strong> nécessite de l'aide.
 					</p>
 					<Button
 						className="confirmButton"
 						onClick={() => {
 							toast.dismiss(t.id);
-							// Your code here
+							socket?.emit("helpFixed", totemId);
 						}}
 					>
 						OK
@@ -55,7 +60,6 @@ export default function AdminDashboard() {
 	return (
 		<div id="adminDashboard">
 			<h1 className="fs-headline-3 c-red monument center bold">PAGE ADMINISTRATEUR</h1>
-			<button onClick={handleHelpRequest}>Test</button>
 			{totemCount > 0 ? (
 				<>
 					<p className="fs-subtitle-1 c-grey bold">
