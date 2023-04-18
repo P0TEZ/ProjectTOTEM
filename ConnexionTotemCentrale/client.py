@@ -17,6 +17,7 @@ client = socket.socket(socket.AF_INET, # Internet
 if __name__ == "__main__":
 
     while(True):
+        time.sleep(1)
         try:
             client.connect((UDP_IP, UDP_PORT))
             client.sendto(str.encode(number), (UDP_IP, UDP_PORT))
