@@ -268,7 +268,7 @@ In the user page, you can change the parameters of the TOTEM.
 
 **Default admin credentials:** "T0TEM@dmin"
 
-**Network name:**
+**Network name:** "TotemNetwork"
 
 **Network password:** "totemmdp"
 
