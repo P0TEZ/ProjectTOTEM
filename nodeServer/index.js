@@ -32,7 +32,7 @@ io.on('connection', (client) => {
             console.log ('By client: ', client.id);
     
             console.log('Broadcasting to all clients...');
-            client.broadcast.emit('askForHelp', data);
+            client.broadcast.emit('broadcastAskForHelp', data);
             console.log('Broadcasting to all clients... done');
         }
         catch(err){
