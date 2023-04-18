@@ -70,6 +70,14 @@ You can access the user page using the following link: `http://<Centrale C IP>:3
 
 In the user page, you can change the parameters of the TOTEM.
 
+## Information
+
+**Default admin credentials:** "T0TEM@dmin"
+
+**Network name:**
+
+**Network password:** "totemmdp"
+
 ## Authors
 
 - [P0TEZ Alexandre](https://github.com/P0TEZ)
