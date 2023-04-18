@@ -22,43 +22,49 @@ import toast from "react-hot-toast";
 export default function AdminDashboard() {
 	const [selectedGroup, setSelectedGroup] = useState<number>(1);
 	const [totemCount, setTotemCount] = useState<number>(1000);
+	const [toasts, setToasts] = useState<any[]>([]);
 
 	const { socket } = useContext(SocketContext);
 
 	useEffect(() => {
-
 		socket?.on("broadcastAskForHelp", (totemId: string) => {
-			console.log("Demande d'assistance reçue");
 			handleHelpRequest(totemId);
 		});
-	}, [socket]);	
 
+		socket?.on("helpFixed", (totemId: string) => {
+			toast.dismiss(toasts.find((t) => t.id === totemId));
+		});
+	}, [socket]);
 
 	// Handle help request from user
 	const handleHelpRequest = (totemId: string) => {
-		toast(
-			(t) => (
-				<div className="helpToast">
-					<p>
-						Le TOTEM <strong className="bold">{totemId}</strong> nécessite de l'aide.
-					</p>
-					<Button
-						className="confirmButton"
-						onClick={() => {
-							toast.dismiss(t.id);
-							socket?.emit("helpFixed", totemId);
-						}}
-					>
-						OK
-					</Button>
-				</div>
+		setToasts([
+			...toasts,
+			toast(
+				(t) => (
+					<div className="helpToast">
+						<p>
+							Le TOTEM <strong className="bold">{totemId}</strong> nécessite de
+							l'aide.
+						</p>
+						<Button
+							className="confirmButton"
+							onClick={() => {
+								toast.dismiss(t.id);
+								socket?.emit("fixHelp", totemId);
+							}}
+						>
+							OK
+						</Button>
+					</div>
+				),
+				{
+					duration: 8000,
+					icon: "🚨",
+					position: "bottom-left",
+				}
 			),
-			{
-				duration: 8000,
-				icon: "🚨",
-				position: "bottom-left",
-			}
-		);
+		]);
 	};
 
 	return (

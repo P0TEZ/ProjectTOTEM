@@ -1,3 +1,5 @@
+/** @format */
+
 import { useState, useEffect, useContext } from "react";
 import { IoHandRight } from "react-icons/io5";
 
@@ -6,52 +8,41 @@ import { SocketContext } from "../../context/Socket";
 import { UserContext, UserInfo } from "../../context/User";
 import React from "react";
 
-
 export const HelpBtn = () => {
 	const [helpAsked, setHelpAsked] = useState(false);
-	
+	const [helpToast, setHelpToast] = useState("");
+
 	const { userInfo } = React.useContext(UserContext);
 	const { socket } = useContext(SocketContext);
 
 	// Assistance
 	const handleHelp = () => {
 		setHelpAsked(!helpAsked);
-		
+
 		if (!helpAsked) {
 			// demande d'assistance a envoyer au serveur
 			socket?.emit("askForHelp", userInfo.TotemId);
 			console.log("Demande d'assistance");
-		}
-		else {
+		} else {
 			// annulation de la demande d'assistance
 			socket?.emit("fixHelp", userInfo.TotemId);
 		}
 	};
 
-	useEffect(() => {		
+	useEffect(() => {
 		// Si l'admin valide la demande d'assistance
-		socket?.on("fixHelp", (totemId: string) => {
+		socket?.on("helpFixed", (totemId: string) => {
 			console.log("Demande d'assistance terminée");
 			setHelpAsked(false);
+			toast.dismiss(helpToast);
 		});
-	}, [socket]);	
-
+	}, [socket]);
 
 	useEffect(() => {
 		if (helpAsked) {
-			toast.promise(
-				new Promise((resolve) => {
-					setTimeout(() => {
-						setHelpAsked(false);
-						resolve("ok");
-					}, 5000);
-				}),
-				{
-					loading: "Demande d'assistance en cours...",
-					success: <b>Assistance terminée !</b>,
-					error: <b>Assistance échouée !</b>,
-				}
-			);
+			setHelpToast(toast.loading("Demande d'assistance en cours..."));
+		} else {
+			toast.dismiss(helpToast);
 		}
 	}, [helpAsked]);
 	return (
