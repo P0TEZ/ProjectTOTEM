@@ -13,10 +13,19 @@ TIME_PING = 20
 
 client = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
-client.connect((UDP_IP, UDP_PORT))
 
 if __name__ == "__main__":
-    while(True):
-        client.sendto(str.encode(number), (UDP_IP, UDP_PORT))
-        print("Ping")
-        time.sleep(TIME_PING)
+
+    try:
+        client.connect((UDP_IP, UDP_PORT))
+        while(True):
+            client.sendto(str.encode(number), (UDP_IP, UDP_PORT))
+            print("Ping" + " " + time.strftime("%H:%M:%S"))
+            time.sleep(TIME_PING)
+
+    except KeyboardInterrupt:
+        print("Fermeture du client")
+        client.close()
+
+    except Exception as e:
+        print("Erreur : ", e)

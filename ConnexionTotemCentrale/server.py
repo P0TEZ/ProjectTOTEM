@@ -81,7 +81,7 @@ def endChrono(table):
             for j in range(len(listIdBDD)):
                 if(listIdBDD[j] == listToRemove[i]):
                     deleteInput(int(listIdBDD[j]), str(listIpBDD[j]))
-                    print("deleting" + str(listIdBDD[j]) + " " + str(listIpBDD[j]))
+                    print("deleting" + str(listIdBDD[j]) + " " + str(listIpBDD[j])+ " " + time.strftime("%H:%M:%S"))
     except KeyboardInterrupt:
         sys.exit()              
 
@@ -109,7 +109,7 @@ def ping():
                     if findInBDD(totem_id, totem_ip) is None:
                         insertInput(totem_id, totem_ip)  
                         print("pong")
-                        print("inserting" + str(totem_id) + " " + str(totem_ip))
+                        print("inserting" + str(totem_id) + " " + str(totem_ip) + " " + time.strftime("%H:%M:%S"))
         except KeyboardInterrupt:
             sys.exit()
 
