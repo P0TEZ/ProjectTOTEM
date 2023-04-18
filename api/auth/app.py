@@ -1,8 +1,10 @@
-from utils import checkForEnvVar
+from utils import checkForEnvVar, loadEnvVar
 checkForEnvVar()
 from models import Token, Bdd
 
 from fastapi import FastAPI, HTTPException
+# import cors
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 
@@ -19,6 +21,15 @@ app = FastAPI(
     license_info={
         "name": "MIT",
     },
+)
+
+# add cors middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
@@ -52,6 +63,7 @@ async def totem(totemID: int):
     else:
         raise HTTPException(status_code=401, detail="Invalid totem code")
 
+SERVER_INFO = loadEnvVar("../../centrale_Info.env")['IP']
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=5000)
+    uvicorn.run(app, host=SERVER_INFO, port=5000)

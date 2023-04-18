@@ -10,10 +10,13 @@ import Code from './pages/Code/Code';
 import Redirect from './utils/Redirect';
 import Header from './components/Header/Header';
 import Interface from './pages/Interface/Interface';
-import KnobPage from './pages/Knob/Knob';
+import Admin from './pages/Admin/Admin';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import 'react-nestable/dist/styles/index.css';
+import { SocketContext } from './context/Socket';
 
 function App() {
   useEffect(() => {
@@ -30,7 +33,11 @@ function App() {
   }, [location.pathname]);
 
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
-  console.log("Dark mode : "+isDarkMode)
+  //console.log("Dark mode : "+isDarkMode)
+
+  // use socketProvider
+
+  const { socket, lastUpdateTime, sendUpdated} = useContext(SocketContext);
 
   return (
     <div className={"App ".concat(isDarkMode ? "darkTheme":"lightTheme")}>
@@ -41,11 +48,26 @@ function App() {
           <Routes>
               <Route path="/" element={<Redirect to="welcome" />} />
               <Route path="/welcome" element={<Onboarding />}/>
-              <Route path="/code" element={<Code />}/>
+              <Route path="/code" element={<Code/>}/>
+              <Route path="/admin" element={<Admin/>} />
+              <Route path="/help" element={<p className='help'>Page HELP</p>} />
+
+              <Route path="/testONLY" element={
+                // add a button that call sendUpdated
+                <div>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <button onClick={() => sendUpdated()}>Send updated</button>
+                </div>
+              }
+              />
+
               <Route path="/:code" element={<Interface/>}/>
-              <Route path="/admin" element={<p className='admin'>Page ADMINNN</p>} />
-              <Route path="/knobtest" element={<KnobPage/>} />
-              <Route path="/*" element={<p>404</p>}/>
+              <Route path="*/*" element={<p className='PAGE_CONTAINER'>404</p>}/>
           </Routes>
 
         </PageTransition>

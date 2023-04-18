@@ -1,62 +1,129 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-import './Interface.scss'
+import "./Interface.scss";
 
-import Status from '../../components/Status/Status'
-import Button from '../../components/Button/Button'
+import Status from "../../components/Status/Status";
+import KnobComponent from "../../components/Knob/Knob";
+import PresetSelect from "../../components/PresetSelect/PresetSelect";
 
-import {RiVolumeVibrateLine, RiVolumeDownLine} from 'react-icons/ri'
-import {IoHandRight} from 'react-icons/io5'
+import { UserContext } from "../../context/User";
+import { useBalance } from "../../hooks/useBalance";
+import useFetchState from "../../hooks/useFetchState";
+import useFetchOnChange from "../../hooks/useFetchOnChange";
+
+import { HelpBtn } from "./HelpBtn";
+import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
 function Interface() {
-    const {code} = useParams<{code: string}>();
-    const [status, setStatus] = useState("Connexion")
-    const [helpAsked, setHelpAsked] = useState(false)
 
-    const handleHelp = () => {
-        setHelpAsked(!helpAsked)
-    }
+	const navigate = useNavigate();
+	const [status, setStatus] = useState("Connexion");
+	const { userInfo } = React.useContext(UserContext);
+	let token = userInfo.token;
 
-    useEffect(() => {
-        document.title = "TOTEM"
-        setStatus("Connecté")
-    }, []);
+	useEffect(() => {
+		document.title = "TOTEM";
+		if (
+			userInfo.TotemId === "" ||
+			userInfo.token === "" ||
+			userInfo.TotemId === undefined ||
+			userInfo.token === undefined ||
+			userInfo.TotemId === null ||
+			userInfo.token === null ||
+			userInfo.TotemId === "admin"
+		) {
+			navigate("/code");
+		}
+		setStatus("Connecté");
+	}, [userInfo, navigate]);
 
+	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForDefaultValue += "/user/?token=" + token;
+	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, {
+		volume: 0,
+		balance: 50,
+		preset: 0,
+		disable: 0,
+	});
 
-    return (
-        <div id="InterfacePage" className='PAGE_CONTAINER'>
+	// VOLUME
+	const [volume, setVolume] = React.useState(50);
 
-            <Status code={code} status={status}/>
+	// SET VOLUME
+	var adressToFetchForChangeValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangeValue += "/user/param/volume/";
+	const [data, loading, error, refetch] = useFetchOnChange(
+		adressToFetchForChangeValue,
+		volume,
+		token
+	);
+	// BALANCE
+	const [balance, diff, setBalance] = useBalance();
+	// SET BALANCE
+	var adressToFetchForChangeBalance = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangeBalance += "/user/param/balance/";
+	const [dataBalance, loadingBalance, errorBalance, refetchBalance] = useFetchOnChange(
+		adressToFetchForChangeBalance,
+		balance as number,
+		token,
+		500
+	);
 
-            <div className="btnContainer">
-                <Button 
-                    onClick={() => console.log("Button 1")} 
-                    icon={<RiVolumeVibrateLine className='fs-headline-4'  style={{transform:'scaleX(-1)'}}/>}
-                    label="Gauche"
-                    onlyIcon={true}
-                />
-                <Button 
-                    onClick={() => console.log("Button 2")} 
-                    icon={<RiVolumeDownLine className='fs-headline-4'/>}
-                    label="Volume"
-                    onlyIcon={true}
-                />
-                <Button 
-                    onClick={() => console.log("Button 3")} 
-                    icon={<RiVolumeVibrateLine className='fs-headline-4'/>}
-                    label="Droite"
-                    onlyIcon={true}
-                />
-                <div className="helpBtn" onClick={()=>handleHelp()}>
-                    <IoHandRight className={`c-primary fs-headline-2 ${helpAsked ? "helpAsked":""}`}/>
-                    <p className='fs-body-1 c-primary'>Assistance</p>
-                </div>
-            </div>
-            
-        </div>
-    )
+	// PRESET
+	const [preset, setPreset] = React.useState(0);
+
+	// SET PRESET
+	var adressToFetchForChangePreset = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
+	adressToFetchForChangePreset += "/user/param/preset/";
+	const [dataPreset, loadingPreset, errorPreset, refetchPreset] = useFetchOnChange(
+		adressToFetchForChangePreset,
+		preset,
+		token
+	);
+
+	// DISABLEd
+	const [disabled, setDisabled] = React.useState(false);
+
+	useEffect(() => {
+		if (value.volume !== undefined && value.volume !== null) {
+			setVolume(value.volume);
+		}
+		if (value.disable === 1) {
+			setVolume(0);
+		}
+		if (value.balance !== undefined && value.balance !== null) {
+			setBalance(value.balance);
+		}
+		if (value.preset !== undefined && value.preset !== null) {
+			setPreset(value.preset);
+		}
+		if (value.disable !== undefined && value.disable !== null) {
+			setDisabled(value.disable === 1 ? true : false);
+		}
+	}, [value]);
+
+	return (
+		<>
+			<div id="InterfacePage" className="PAGE_CONTAINER">
+				<Status code={userInfo.TotemId} status={status} />
+
+				<KnobComponent setValue={setVolume} value={volume} disabled={disabled} />
+
+				<BalanceSlider
+					setBalance={setBalance}
+					balance={balance}
+					diff={diff}
+					disabled={disabled}
+				/>
+
+				<PresetSelect value={preset} setValue={setPreset} disabled={disabled} />
+
+				<HelpBtn />
+			</div>
+		</>
+	);
 }
 
-export default Interface
+export default Interface;

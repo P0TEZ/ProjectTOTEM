@@ -1,0 +1,24 @@
+/** @format */
+
+#knobContainer {
+	touch-action: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	& .p-knob {
+		& svg {
+			filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.25));
+		}
+		&-value {
+			stroke: var(--primary-color);
+		}
+		&-text {
+			fill: var(--onBackground-color);
+			font-family: "Monument-ExtraBold", sans-serif;
+		}
+	}
+
+	& .knob-icon {
+		transform: translateY(-150%);
+	}
+}

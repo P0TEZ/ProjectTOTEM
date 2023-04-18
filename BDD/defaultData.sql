@@ -5,9 +5,8 @@ INSERT INTO public.admin(
 INSERT INTO public.settings(
 	setting_name, setting_min_value, setting_max_value, setting_default_value)
 	VALUES 
-        ('preset', 0, 2, 0),
+        ('preset', 0, 3, 0),
         ('volume', 0, 100, 50),
-        ('intensite_r', 0, 100, 50),
-        ('intensite_l', 0, 100, 50),
+        ('balance', -50, 50, 0),
         ('status', 0, 1, 1),
         ('disable', 0, 1, 0);

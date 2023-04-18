@@ -1,0 +1,35 @@
+#adminWelcome {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	flex-grow: 1;
+	& div.texts {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		& > * {
+			margin: var(--default-padding);
+		}
+	}
+}
+
+#adminLogin {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	border: 1px solid var(--primary-color);
+	border-radius: var(--medium-radius);
+	& input.input-password {
+		padding: var(--default-padding);
+		height: 100%;
+		color: var(--onBackground-color);
+		border-radius: var(--medium-radius);
+		background-color: transparent;
+	}
+	& button {
+		transform-origin: right;
+	}
+}

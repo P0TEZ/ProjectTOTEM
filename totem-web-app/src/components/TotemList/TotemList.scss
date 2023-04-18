@@ -1,0 +1,131 @@
+div.nestableContainer {
+	width: 60%;
+	max-width: 800px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: scroll;
+	height: 100%;
+}
+div.nestable {
+	& .nestable-list:not(.nestable-group) {
+		padding-left: calc(4 * var(--default-padding));
+	}
+
+	& div.totem-item {
+		padding: var(--default-padding);
+
+		border: 1px solid var(--grey-color);
+		&.selected {
+			outline: 0.2rem solid var(--primary-color);
+			border-color: transparent;
+		}
+		background: transparentize(hsl(233, 80%, 63%), 0.95);
+		backdrop-filter: blur(5px);
+		border-radius: var(--medium-radius);
+		box-shadow: var(--close-shadow);
+
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		transition: all 0.2s ease-in-out;
+		cursor: pointer;
+		&:active {
+			cursor: grabbing;
+		}
+
+		& .status-indicator {
+			height: 1rem;
+			width: 1rem;
+			margin: 0;
+			border-radius: 50%;
+			background-color: var(--success-color);
+			border: 0.2rem solid green;
+			aspect-ratio: 1/1;
+			&.error {
+				background-color: var(--error-color);
+			}
+		}
+		&-id,
+		&-name {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: row;
+			& > * {
+				margin: 0 var(--default-padding);
+			}
+		}
+		&-settings {
+			width: 0%;
+			overflow: hidden;
+			transition: all 0.2s ease-in-out;
+		}
+		&:hover {
+			transform: scale(1.02);
+			box-shadow: var(--farthest-shadow);
+			transition: all 0.2s ease-in-out;
+			& .totem-item-settings {
+				width: 2ch;
+				transition: all 0.2s ease-in-out;
+			}
+		}
+	}
+	& div.totem-group {
+		padding-top: var(--default-padding);
+
+		&-name {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			& > * {
+				margin: 0 var(--default-padding);
+			}
+			& .collapseIcon {
+				cursor: pointer;
+				font-size: 125%;
+				vertical-align: center;
+
+				& svg {
+					transition: transform 0.2s ease-in-out;
+					transform: rotate(90deg);
+					vertical-align: center;
+					color: var(--lightGrey-color);
+					height: 100%;
+				}
+
+				&.collapsed {
+					transform: rotate(0deg);
+					transition: transform 0.2s ease-in-out;
+				}
+				&:hover svg {
+					color: var(--onBackground-color);
+				}
+			}
+		}
+	}
+	& div.empty.totem-item {
+		border: 0.3rem dashed var(--grey-color);
+		padding: var(--default-padding);
+		border-radius: var(--medium-radius);
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			border: 0.3rem dashed var(--onBackground-color);
+			transition: all 0.2s ease-in-out;
+			& h1 {
+				color: var(--onBackground-color) !important;
+			}
+		}
+		& .totem-item-name {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+		& h1 {
+			color: var(--grey-color) !important;
+		}
+	}
+}

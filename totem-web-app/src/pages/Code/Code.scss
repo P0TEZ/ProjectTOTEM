@@ -1,63 +1,64 @@
-#CodePage{
-    justify-content: flex-start;
-    gap: 1rem;
-    .textContainer{
-        width: 100%;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        margin: 2rem auto;
-    
-        gap: 1rem;
-    
-        text-align: left;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    .codeContainer{
-        width:100%;
-        padding-left:1rem;
-        padding-right:1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: .5rem;
-    
-        & .react-code-input{
-            width:100%;
-            display: flex !important;
-            justify-content: space-around;
-            align-items: center;
-    
-            & input{
-                appearance: textfield;
+/** @format */
 
-                aspect-ratio: 2/3;
-                padding:.5ch;
-                
-                font-size: 28 * 0.0625rem;
-                text-align: center;
-                font-weight: bold;
-                font-family: "Monument-Regular";
-    
-                background: transparent;
-                color:var(--onBackgroud-color);
-                border:.15rem solid var(--onBackgroud-color);
-                outline: none;
+#CodePage {
+	justify-content: flex-start;
+	gap: 1rem;
+	.textContainer {
+		width: 100%;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		margin: 2rem auto;
 
-                width: 15dvw;
-                max-width: 10rem;
-    
-                &:focus{
-                    border-color: var(--primary-color);
-                    box-shadow: 0 0 0 .3rem var(--primary-color);
-                }
-                &:not(:placeholder-shown){
-                    border-color: var(--primary-color);
-                    box-shadow: 0 0 0 .3rem var(--primary-color);
-                }
-            }
-        }
-    }
+		gap: 1rem;
+
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.codeContainer {
+		width: 100dvw;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+
+		& .react-code-input {
+			width: 100%;
+			display: flex !important;
+			justify-content: space-around;
+			align-items: center;
+
+			& input {
+				appearance: textfield;
+
+				aspect-ratio: 2/3;
+				padding: 0.5ch;
+
+				max-width: 20dvw;
+
+				font-size: 28 * 0.0625rem;
+				text-align: center;
+				font-weight: bold;
+				font-family: "Monument-ExtraBold", sans-serif;
+
+				background: transparent;
+				color: var(--onBackground-color);
+				border: 0.15rem solid var(--onBackground-color);
+				outline: none;
+
+				&:focus {
+					border-color: var(--primary-color);
+					box-shadow: 0 0 0 0.3rem var(--primary-color);
+				}
+				&:not(:placeholder-shown) {
+					border-color: var(--primary-color);
+					box-shadow: 0 0 0 0.3rem var(--primary-color);
+				}
+			}
+		}
+	}
 }

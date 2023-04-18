@@ -1,197 +1,240 @@
+/** @format */
+
 @import "reset.scss";
 @import "variables.scss";
 
-// import monument font
+// import our monument font
 @font-face {
-    font-family: 'Monument-Regular';
-    src: url("./../fonts/Monument/MonumentExtended-Regular.otf");
+	font-family: "Monument-Regular";
+	src: url("./../fonts/Monument/MonumentExtended-Regular.otf");
 }
 @font-face {
-    font-family: "Monument-ExtraBold";
-    src: url("./../fonts/Monument/MonumentExtended-Ultrabold.otf");
+	font-family: "Monument-ExtraBold";
+	src: url("./../fonts/Monument/MonumentExtended-Ultrabold.otf");
 }
-
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow: hidden;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}  
-
-html, body, #root, .App {
-    overflow-x: hidden;
-    overflow: overlay;
-    height: 100%;
-    // width: 100vw;
-    max-width: 100%;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-*{
-    box-sizing: border-box;
+html,
+body,
+#root,
+.App {
+	overflow-x: hidden;
+	overflow: overlay;
+	height: 100%;
+	// width: 100vw;
+	max-width: 100%;
 }
 
-.App{
-    background-color: var(--background-color);
-    color: var(--onBackgroud-color);
+* {
+	box-sizing: border-box;
 }
 
-.PAGE_CONTAINER{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
+.App {
+	background-color: var(--background-color);
+	color: var(--onBackground-color);
+}
 
-    padding: var(--default-padding);
-    padding-top: var(--header-height);
-    
-    height: 100dvh;
-    width: 100dvw;
+.PAGE_CONTAINER {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: var(--default-padding);
+	padding-top: var(--header-height);
+
+	height: 100dvh;
+	width: 100dvw;
+}
+.PAGE_CONTAINER_WITH_SCROLL {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: var(--default-padding);
+	padding-top: var(--header-height);
+
+	width: 100dvw;
+	height: 100dvh;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 /////////////////////////////////////////////////
 // Font sizes
-.fs{
-    &-headline{
-        &-1{
-            font-size: 82 * 0.0625rem;
-            letter-spacing: -1.5px;
-            font-weight: light;
-        }
-        &-2{
-            font-size: 51 * 0.0625rem;
-            letter-spacing: -0.5px;
-            font-weight: light;
-        }
-        &-3{
-            font-size: 41 * 0.0625rem;
-            letter-spacing: 0px;
-            font-weight: normal;
-        }
-        &-4{
-            font-size: 30 * 0.0625rem;
-            letter-spacing: 0.25px;
-            font-weight: normal;
-        }
-        &-5{
-            font-size: 20 * 0.0625rem;
-            letter-spacing: 0px;
-            font-weight: normal;
-        }
-        &-6{
-            font-size: 16 * 0.0625rem;
-            letter-spacing: 0.15px;
-            font-weight: medium;
-        }
-    }
-    &-subtitle{
-        &-1{
-            font-size: 14 * 0.0625rem;
-            letter-spacing: 0.15px;
-            font-weight: normal;
-        }
-        &-2{
-            font-size: 12 * 0.0625rem;
-            letter-spacing: 0.1px;
-            font-weight: medium;
-        }
-    }
-    &-body{
-        &-1{
-            font-size: 16 * 0.0625rem;
-            letter-spacing: 0.5px;
-            font-weight: normal;
-        }
-        &-2{
-            font-size: 14 * 0.0625rem;
-            letter-spacing: 0.25px;
-            font-weight: normal;
-        }
-    }
-    &-caption{
-        font-size: 12 * 0.0625rem;
-        letter-spacing: 0.4px;
-        font-weight: normal;
-    }
-    &-overline{
-        font-size: 10 * 0.0625rem;
-        letter-spacing: 1.5px;
-        font-weight: normal;
-    }
-    &-button{
-        font-size: 16 * 0.0625rem;
-        letter-spacing: 1.25px;
-        font-weight: 500;
-    }
+.fs {
+	&-headline {
+		&-1 {
+			font-size: 82 * 0.0625rem;
+			letter-spacing: -1.5px;
+			font-weight: light;
+		}
+		&-2 {
+			font-size: 51 * 0.0625rem;
+			letter-spacing: -0.5px;
+			font-weight: light;
+		}
+		&-3 {
+			font-size: 41 * 0.0625rem;
+			letter-spacing: 0px;
+			font-weight: normal;
+		}
+		&-4 {
+			font-size: 30 * 0.0625rem;
+			letter-spacing: 0.25px;
+			font-weight: normal;
+		}
+		&-5 {
+			font-size: 20 * 0.0625rem;
+			letter-spacing: 0px;
+			font-weight: normal;
+		}
+		&-6 {
+			font-size: 16 * 0.0625rem;
+			letter-spacing: 0.15px;
+			font-weight: medium;
+		}
+	}
+	&-subtitle {
+		&-1 {
+			font-size: 14 * 0.0625rem;
+			letter-spacing: 0.15px;
+			font-weight: normal;
+		}
+		&-2 {
+			font-size: 12 * 0.0625rem;
+			letter-spacing: 0.1px;
+			font-weight: medium;
+		}
+	}
+	&-body {
+		&-1 {
+			font-size: 16 * 0.0625rem;
+			letter-spacing: 0.5px;
+			font-weight: normal;
+		}
+		&-2 {
+			font-size: 14 * 0.0625rem;
+			letter-spacing: 0.25px;
+			font-weight: normal;
+		}
+	}
+	&-caption {
+		font-size: 12 * 0.0625rem;
+		letter-spacing: 0.4px;
+		font-weight: normal;
+	}
+	&-overline {
+		font-size: 10 * 0.0625rem;
+		letter-spacing: 1.5px;
+		font-weight: normal;
+	}
+	&-button {
+		font-size: 16 * 0.0625rem;
+		letter-spacing: 1.25px;
+		font-weight: 500;
+	}
 }
 
 // font color
-.c{
-    &-primary{
-        color: var(--primary-color);
-    }
-    &-background{
-        color: var(--background-color);
-    }
-    &-onBackground{
-        color: var(--onBackgroud-color);
-    }
-    &-onSurface{
-        color: var(--onSurface-color);
-    }
-    &-grey{
-        color: var(--grey-color);
-    }
-    &-lightGrey{
-        color: var(--lightGrey-color);
-    }
+.c {
+	&-primary {
+		color: var(--primary-color);
+	}
+	&-background {
+		color: var(--background-color);
+	}
+	&-onBackground {
+		color: var(--onBackground-color);
+	}
+	&-onSurface {
+		color: var(--onSurface-color);
+	}
+	&-grey {
+		color: var(--grey-color);
+	}
+	&-lightGrey {
+		color: var(--lightGrey-color);
+	}
+	&-red {
+		color: var(--danger-color);
+	}
 }
 // background color
-.b{
-    &-primary{
-        background-color: var(--primary-color);
-    }
-    &-background{
-        background-color: var(--background-color);
-    }
-    &-onBackground{
-        background-color: var(--onBackgroud-color);
-    }
-    &-onSurface{
-        background-color: var(--onSurface-color);
-    }
+.b {
+	&-primary {
+		background-color: var(--primary-color);
+	}
+	&-background {
+		background-color: var(--background-color);
+	}
+	&-onBackground {
+		background-color: var(--onBackground-color);
+	}
+	&-onSurface {
+		background-color: var(--onSurface-color);
+	}
 }
 // shadows
-.s{
-    &-close{
-        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
-    }
-    &-medium{
-        box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
-    }
-    &-far{
-        box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
-    }
-    &-farthest{
-        box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2), 0px 12px 17px 2px rgba(0,0,0,0.14), 0px 5px 22px 4px rgba(0,0,0,0.12);
-    }
+.s {
+	&-close {
+		box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+			0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+	}
+	&-medium {
+		box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+			0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+	}
+	&-far {
+		box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+			0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+	}
+	&-farthest {
+		box-shadow: 0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14),
+			0px 5px 22px 4px rgba(0, 0, 0, 0.12);
+	}
 }
 
-strong{
-    color: var(--primary-color);
+strong {
+	color: var(--primary-color);
 }
 
-.bold{
-    font-weight: bold;
+.bold {
+	font-weight: bold;
 }
 
-.monument{
-    font-family: "Monument-ExtraBold";
+.monument {
+	font-family: "Monument-ExtraBold", sans-serif;
+}
+
+.center {
+	text-align: center;
+}
+
+.p {
+	padding: var(--default-padding);
+	&2 {
+		padding: calc(var(--default-padding) / 2);
+	}
+}
+
+.m {
+	margin: var(--default-padding);
+}
+
+.w {
+	&-full {
+		width: 100%;
+	}
 }

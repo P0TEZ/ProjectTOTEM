@@ -37,7 +37,7 @@ Api endpoints:
 
 #### database_credentials
 
-The database credentials are stored in the file `../database_credentials.env`. This file is not tracked by git. It should be created with the following content:
+The database credentials are stored in the file `../../database_credentials.env`. This file is not tracked by git. It should be created with the following content:
 
 ```bash
     DB_HOST=YOUR_DB_HOST
@@ -53,6 +53,14 @@ The jwt secret is stored in the file `../jwt_secret.env`. This file is not track
 
 ```bash
     JWT_KEY=YOUR_JWT_SECRET
+```
+
+#### centrale_info
+
+The centrale info is stored in the file `../../centrale_info.env`. This file is not tracked by git. It should be created with the following content:
+
+```bash
+    IP=YOUR_CENTRALE_IP_ON_THE_NETWORK
 ```
 
 ## Usage
