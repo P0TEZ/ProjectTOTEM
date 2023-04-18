@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+/** @format */
+
+import { useEffect } from "react";
 import { useState } from "react";
 
 import "./Status.scss";
@@ -7,10 +9,17 @@ interface Props {
 	status: string;
 	code: string;
 }
-
+/*
+ * Status component
+ * To display the status of the totem
+ * @param {string} status - The status of the totem
+ * @param {string} code - The code of the totem
+ * @returns {JSX.Element} - The Status component
+ */
 export default function Status(props: Props) {
 	const [statusClass, setStatusClass] = useState("status connecting");
 
+	// Set the status class to change colors according to the status
 	useEffect(() => {
 		switch (props.status) {
 			case "Connecté":

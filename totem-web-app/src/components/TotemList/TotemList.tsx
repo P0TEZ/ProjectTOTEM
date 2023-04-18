@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useEffect } from "react";
 import "./TotemList.scss";
 
@@ -16,10 +18,19 @@ interface Props {
 	setTotemCount: (totemCount: number) => void;
 }
 
+/*
+ * TotemList component
+ * To display the list of TOTEMs inside the admin dashboard
+ * @param {function} setGroup - The function to set the selected group
+ * @param {number} selectedGroup - The selected group
+ * @param {function} setTotemCount - The function to set the number of TOTEMs
+ * @returns {JSX.Element} - The TotemList component
+ */
 export default function TotemList(props: Props) {
 	const [items, setItems] = React.useState<any[]>([]);
 	const { userInfo } = React.useContext(UserContext);
 
+	// Get the list of TOTEMs when the component is mounted while displaying a loading toast
 	useEffect(() => {
 		toast.promise(getTotems(), {
 			loading: "Chargement des totems...",
@@ -28,6 +39,7 @@ export default function TotemList(props: Props) {
 		});
 	}, []);
 
+	// Get the list of TOTEMs from the Centrale C server
 	const getTotems = () => {
 		return new Promise((resolve, reject) => {
 			fetch(
@@ -47,6 +59,7 @@ export default function TotemList(props: Props) {
 		});
 	};
 
+	// Convert the data from the Centrale C server to the format required by the Nestable component (nested object instead of array)
 	const convertToItems = (data: []) => {
 		props.setTotemCount(data.length);
 		const newItems = data.reduce((acc: any, obj: any) => {
@@ -77,6 +90,7 @@ export default function TotemList(props: Props) {
 		setItems(items);
 	};
 
+	// Handle the drag and drop of TOTEMs
 	const handleItemChange = (dragItem: any, destinationParent: any) => {
 		if (!destinationParent) return false;
 		if (dragItem.id === "newTotem") return false;
@@ -101,6 +115,7 @@ export default function TotemList(props: Props) {
 			"?token=" +
 			userInfo.token;
 
+		// display a toast while moving the TOTEM to its new group
 		toast.promise(moveToGoup(query), {
 			loading: "Déplacement en cours...",
 			success: "Déplacement réussi",
@@ -110,6 +125,7 @@ export default function TotemList(props: Props) {
 		return true;
 	};
 
+	// Move a TOTEM to a new group by sending a request to the Centrale C server
 	const moveToGoup = (query: string) => {
 		return new Promise((resolve, reject) => {
 			fetch(query, {
@@ -127,9 +143,9 @@ export default function TotemList(props: Props) {
 		});
 	};
 
+	// Handle the click on the "new group" button
 	const newGroup = () => {
-		// add an empty group to the local items
-		// find a group number that is not already existing
+		// Add an empty group to the local items and find a group number that is not already existing
 		var newGroupId = 1;
 		while (items.find((item) => item.totem_id.toString() === newGroupId.toString())) {
 			newGroupId++;
@@ -151,7 +167,7 @@ export default function TotemList(props: Props) {
 		setItems(newItems);
 		const firstGroupId = items[0].totem_id;
 		props.setGroup(firstGroupId); // DO NOT REMOVE THIS LINE
-		props.setGroup(firstGroupId); // I DON'T KNOW WHY BUT IT WORKS ONLY IF IT IS CALLED TWICE
+		props.setGroup(firstGroupId); // I DON'T KNOW WHY BUT IT WORKS ONCE ONLY IF IT IS CALLED TWICE
 	};
 
 	return (

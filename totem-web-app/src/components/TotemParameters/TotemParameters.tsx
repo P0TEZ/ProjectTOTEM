@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useEffect } from "react";
 import "./TotemParameters.scss";
 
@@ -13,11 +15,17 @@ import DisabledSwitch from "../DisabledSwitch/DisabledSwitch";
 interface Props {
 	group: number;
 }
-
+/*
+ * TotemParameters component
+ * To display the parameters of a TOTEM group
+ * @param {number} group - The group to display
+ * @returns {JSX.Element} - The TotemParameters component
+ */
 export default function TotemParameters(props: Props) {
 	const { userInfo } = React.useContext(UserContext);
 	var token = userInfo.token;
 
+	// Get the parameters of the current group
 	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
 	adressToFetchForDefaultValue += "/admin/group/" + props.group + "/?token=" + token;
 	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, {
@@ -74,6 +82,7 @@ export default function TotemParameters(props: Props) {
 		token
 	);
 
+	// When the value change, update the state
 	useEffect(() => {
 		if (value.volume !== undefined && value.volume !== null) {
 			setVolume(value.volume);

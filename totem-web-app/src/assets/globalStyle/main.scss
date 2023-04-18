@@ -1,7 +1,9 @@
+/** @format */
+
 @import "reset.scss";
 @import "variables.scss";
 
-// import monument font
+// import our monument font
 @font-face {
 	font-family: "Monument-Regular";
 	src: url("./../fonts/Monument/MonumentExtended-Regular.otf");
@@ -213,7 +215,7 @@ strong {
 }
 
 .monument {
-	font-family: "Monument-ExtraBold";
+	font-family: "Monument-ExtraBold", sans-serif;
 }
 
 .center {

@@ -1,3 +1,5 @@
+/** @format */
+
 #knobContainer {
 	touch-action: none;
 	display: flex;
@@ -12,7 +14,7 @@
 		}
 		&-text {
 			fill: var(--onBackground-color);
-			font-family: "Monument Extended", sans-serif;
+			font-family: "Monument-ExtraBold", sans-serif;
 		}
 	}
 

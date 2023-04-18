@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import "./Button.scss";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +16,19 @@ type ButtonProps = {
 	style?: React.CSSProperties;
 	className?: string;
 };
-
+/*
+ * Button component
+ * To display a button and attach a function or route to it
+ * @param {function} onClick - The function to execute when the button is clicked
+ * @param {JSX.Element} icon - The icon to display in the button
+ * @param {string} to - The route to navigate to when the button is clicked
+ * @param {string} label - The label to display in the button
+ * @param {boolean} onlyIcon - If the button should only display the icon
+ * @param {boolean} outlined - If the button should be outlined
+ * @param {React.CSSProperties} style - The style of the button
+ * @param {string} className - The class of the button
+ * @returns {JSX.Element} - The Button component
+ */
 const Button: React.FC<ButtonProps> = ({
 	onClick,
 	aos,
@@ -28,6 +42,7 @@ const Button: React.FC<ButtonProps> = ({
 	className,
 }) => {
 	const navigate = useNavigate();
+	// If the button has a route, navigate to it, otherwise execute the function passed to it
 	const handleClick = () => {
 		if (to) {
 			navigate(to);

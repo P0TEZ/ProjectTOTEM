@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { ReactNode, useEffect } from "react";
 
 interface Props {
@@ -7,8 +9,19 @@ interface Props {
 	selectedGroup: number;
 }
 
+/*
+ * TotemItem component
+ * To display a TOTEM item (or group) inside the list of TOTEMs
+ * @param {any} item - The item to display
+ * @param {ReactNode} icon - The icon to display
+ * @param {function} setGroup - The function to set the selected group
+ * @param {number} selectedGroup - The selected group
+ * @returns {JSX.Element} - The TotemItem component
+ */
 export const TotemItem = (props: Props) => {
 	const [selected, setSelected] = React.useState(false);
+
+	// Set the selected state to true if the item is the selected group
 	useEffect(() => {
 		if (props.item.group) {
 			if (props.item.totem_id === props.selectedGroup) {
@@ -25,6 +38,7 @@ export const TotemItem = (props: Props) => {
 		}
 	}, [props.selectedGroup]);
 
+	// Set the selected group when user clicks on the item
 	const handleClick = () => {
 		if (props.item.group) {
 			if (props.item.id !== "newGroup") {

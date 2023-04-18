@@ -1,3 +1,5 @@
+/** @format */
+
 import "./BalanceSlider.scss";
 import { Slider } from "primereact/slider";
 
@@ -7,7 +9,16 @@ interface Props {
 	diff: [number, number];
 	disabled?: boolean;
 }
-
+/*
+ * BalanceSlider component
+ * To allow the user to set the balance of the totem
+ * @param {function} setBalance - The function to set the balance state
+ * @param {number | [number, number]} balance - The balance state
+ * @param {[number, number]} diff - The difference between the left and right balance
+ * @param {boolean} disabled - If the slider is disabled
+ * @returns {JSX.Element} - The BalanceSlider component
+ * @see https://www.primefaces.org/primereact/showcase/#/slider
+ */
 export default function BalanceSlider({ setBalance, balance, diff, disabled }: Props) {
 	return (
 		<div id="sliderContainer">

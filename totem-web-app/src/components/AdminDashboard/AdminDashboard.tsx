@@ -1,11 +1,21 @@
-import React from "react";
+/** @format */
+
+import { useState } from "react";
 import TotemList from "../TotemList/TotemList";
 import TotemParameters from "../TotemParameters/TotemParameters";
 import "./AdminDashboard.scss";
-
+/*
+ * AdminDashboard component
+ * To allow admin to manage the totems
+ * @param {number} selectedGroup - The group selected by the admin
+ * @param {function} setSelectedGroup - The function to set the selected group
+ * @param {number} totemCount - The number of totems connected
+ * @param {function} setTotemCount - The function to set the number of totems connected
+ * @returns {JSX.Element} - The AdminDashboard component
+ */
 export default function AdminDashboard() {
-	const [selectedGroup, setSelectedGroup] = React.useState<number>(1);
-	const [totemCount, setTotemCount] = React.useState<number>(1000);
+	const [selectedGroup, setSelectedGroup] = useState<number>(1);
+	const [totemCount, setTotemCount] = useState<number>(1000);
 
 	return (
 		<div id="adminDashboard">

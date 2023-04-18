@@ -13,16 +13,23 @@ import { toast } from "react-hot-toast";
 interface Props {
 	setConnected: (connected: boolean) => void;
 }
-
+/*
+ * AdminLogin component
+ * To allow admin to connect to his dashboard
+ * @param {function} setConnected - The function to set the connected state
+ * @returns {JSX.Element} - The AdminLogin component
+ */
 export default function AdminLogin(props: Props) {
 	const [password, setPassword] = React.useState<string>("");
 	const adress = process.env.REACT_APP_CENTRAL_ADRESS + ":5000";
 	const { setAllUserInfo } = React.useContext(UserContext);
 
+	// Handle the change of the password input
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 	};
 
+	// Handle the connection to the admin dashboard
 	const handleConnect = () => {
 		toast.promise(connectAdmin(password, adress), {
 			loading: "Connexion en cours...",
@@ -30,6 +37,8 @@ export default function AdminLogin(props: Props) {
 			error: "Erreur lors de la connexion",
 		});
 	};
+
+	// Connect the admin to the admin dashboard by checking the password with the AUTH api
 	const connectAdmin = (password: string, adress: string) => {
 		return new Promise((resolve, reject) => {
 			fetch("http://" + adress + "/admin/" + password, {
