@@ -46,7 +46,7 @@ io.on('connection', (client) => {
             console.log ('By client: ', client.id);
     
             console.log('Broadcasting to all clients...');
-            client.broadcast.emit('fixHelp', data);
+            client.broadcast.emit('helpFixed', data);
             console.log('Broadcasting to all clients... done');
         }
         catch(err){
