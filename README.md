@@ -114,7 +114,7 @@ Then, you need to configure the file `TOTEMCentraleConnexion/.env`. You need to 
 
 #### Totem configuration
 
-<!-- TODO -->
+
 
 ### Services installation
 
