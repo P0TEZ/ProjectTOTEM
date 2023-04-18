@@ -26,6 +26,34 @@ io.on('connection', (client) => {
         }
     });
 
+    client.on('askForHelp', (data) => { 
+        try{
+            console.log('askForHelp');
+            console.log ('By client: ', client.id);
+    
+            console.log('Broadcasting to all clients...');
+            client.broadcast.emit('askForHelp', data);
+            console.log('Broadcasting to all clients... done');
+        }
+        catch(err){
+            console.log('Error: ', err);
+        }
+    });
+
+    client.on('fixHelp', (data) => {
+        try{
+            console.log('fixHelp');
+            console.log ('By client: ', client.id);
+    
+            console.log('Broadcasting to all clients...');
+            client.broadcast.emit('fixHelp', data);
+            console.log('Broadcasting to all clients... done');
+        }
+        catch(err){
+            console.log('Error: ', err);
+        }
+    });
+
 });
 
 /* This code is setting up the socket.io server to listen on port 4000 for incoming client connections.

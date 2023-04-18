@@ -17,7 +17,6 @@ import { HelpBtn } from "./HelpBtn";
 import BalanceSlider from "../../components/BalanceSlider/BalanceSlider";
 
 function Interface() {
-	const SOCKET_IP = process.env.REACT_APP_CENTRAL_ADRESS + ":4000";
 
 	const navigate = useNavigate();
 	const [status, setStatus] = useState("Connexion");

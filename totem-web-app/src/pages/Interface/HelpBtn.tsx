@@ -1,20 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { IoHandRight } from "react-icons/io5";
 
 import { toast } from "react-hot-toast";
+import { SocketContext } from "../../context/Socket";
+import { UserContext, UserInfo } from "../../context/User";
+import React from "react";
+
 
 export const HelpBtn = () => {
 	const [helpAsked, setHelpAsked] = useState(false);
+	
+	const { userInfo } = React.useContext(UserContext);
+	const { socket } = useContext(SocketContext);
 
 	// Assistance
 	const handleHelp = () => {
 		setHelpAsked(!helpAsked);
+		
+		if (!helpAsked) {
+			// demande d'assistance a envoyer au serveur
+			socket?.emit("askForHelp", userInfo.TotemId);
+		}
+		else {
+			// annulation de la demande d'assistance
+			socket?.emit("fixHelp", userInfo.TotemId);
+		}
 	};
+
+	socket?.on("helpFixed", (totemId: string) => {
+		if (totemId === userInfo.TotemId) {
+			setHelpAsked(false);
+		}
+	});
 
 	useEffect(() => {
 		if (helpAsked) {
 			toast.promise(
-				new Promise((resolve, reject) => {
+				new Promise((resolve) => {
 					setTimeout(() => {
 						setHelpAsked(false);
 						resolve("ok");
