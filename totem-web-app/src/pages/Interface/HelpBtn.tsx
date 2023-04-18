@@ -20,6 +20,7 @@ export const HelpBtn = () => {
 		if (!helpAsked) {
 			// demande d'assistance a envoyer au serveur
 			socket?.emit("askForHelp", userInfo.TotemId);
+			console.log("Demande d'assistance");
 		}
 		else {
 			// annulation de la demande d'assistance
@@ -27,9 +28,11 @@ export const HelpBtn = () => {
 		}
 	};
 
+	// Si l'admin valide la demande d'assistance
 	socket?.on("helpFixed", (totemId: string) => {
 		if (totemId === userInfo.TotemId) {
 			setHelpAsked(false);
+			console.log("Assistance terminée");
 		}
 	});
 
