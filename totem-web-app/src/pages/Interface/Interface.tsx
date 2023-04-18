@@ -42,10 +42,10 @@ function Interface() {
 	var adressToFetchForDefaultValue = "http://" + process.env.REACT_APP_CENTRAL_ADRESS + ":5050";
 	adressToFetchForDefaultValue += "/user/?token=" + token;
 	const [value, setValue] = useFetchState(adressToFetchForDefaultValue, {
-		volume: 0,
-		balance: 50,
-		preset: 0,
-		disable: 0,
+		volume: -1,
+		balance: -1,
+		preset: -1,
+		disable: -1,
 	});
 
 	// VOLUME

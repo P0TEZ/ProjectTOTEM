@@ -30,6 +30,11 @@ function useFetchOnChange<T>(
 
 	useEffect(() => {
 		let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+		if(variable == -1 || variable == null) {
+			return;
+		}
+		
 		if (variable !== data) {
 			setLoading(true);
 			if (timeoutId !== null) {
@@ -42,9 +47,9 @@ function useFetchOnChange<T>(
 					.then((response) => response.json())
 					.then((result) => setData(variable))
 					.catch((error) => setError(error))
-					.finally(() => setLoading(false));
+					.finally(() => setLoading(false))
+					.then(() => sendUpdated());
 
-				sendUpdated();
 			}, debounceDelay);
 		}
 		return () => {
