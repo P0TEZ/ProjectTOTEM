@@ -120,10 +120,69 @@ And comment the following lines in the file `/etc/dhcpcd.conf`:
         nohook wpa_supplicant`
 
 Finally, you can restart the dhcpcd service (`sudo systemctl dhcpcd restart`).
+#### Centrale C Bash Script
+
+You first have to create the file `/etc/init.d/boot_centraleC.sh` 
+This is what is going to execute on the raspberry pi's startup, the following commands are necessary : 
+
+	#!/bin/bash
+
+	cd /path/to/install/api/auth
+	python app.py & 
+	cd ../totem
+	python app.py & 
+	cd ../../ConnexionTotemCentrale
+	python server.py &
+	cd ../nodeServer
+	node index.js
+	cd ../totem-web-app
+	npm start & 
+
+Then you have to write the script that is going to execute on the raspberry's shutdown in `/etc/init.d/stop_centraleC.sh` :
+
+	#!/bin/bash
+
+	cd /path/to/install/api/auth
+	pkill -f app.py
+	cd ../totem
+	pkill -f app.py
+	cd ../../ConnexionTotemCentrale
+	pkill -f server.py
+	killall nodeù=ù
+	cd ../BDD
+	sudo su postgres -c "psql -U postgres -d totem -c 'TRUNCATE TABLE totem, set_to, groupe;'"
+
+To finish Centrale C's startup config you have to create the service file in `/lib/systemd/system/centraleC.service` :
+
+	[Unit]
+	Atfer=multi-user.target
+
+	[Service]
+	Description=Démarrage de tous les services totem
+	User=`yourUsername`
+	Group=`yourUsername`
+	Type=oneshot
+	ExecStart=/etc/init.d/boot_centraleC.sh
+	ExecStop=/etc/init.d/stop_centraleC.sh
+	RemainAfterExit=yes
+
+	[Install]
+	WantedBy=multi-user.target
+
+You then have to execute the following commands : 
+
+	sudo systemctl enable centraleC.service
+
+You can then start, stop and check the status of your service at anytime using : 
+
+	sudo systemctl start centraleC.service
+	sudo systemctl stop centraleC.service
+	systemctl status centraleC.service
 
 #### Totem configuration
 
 This configuration takes into consideration the previous installation of this project. To learn about it, go to https://github.com/parthurp/TOTEM/blob/main/INSTALL_pi.md.
+
 Once this pre-configuration is done, there are some additional steps to do to configure the TOTEM.
 First, install on the Raspberry Python 3.7 and pip3.
 Then, install the TOTEM Centrale Connection service.
@@ -131,7 +190,46 @@ Then, you need to configure the file `TOTEMCentraleConnexion/.env`. You need to 
 
     IP_CENTRALE = "192.168.1.1"
 
-#### Totem configuration
+You then have to set the scripts that execute on the totem's startup. 
+They are located in `/etc/init.d/start_totem.sh` :
+
+	#!/bin/bash
+
+	cd /path/to/install/ConnexionTotemCentrale
+	python client.py &
+
+You also have to write the shutdown script in `/etc/init.d/stop_totem.sh`
+
+	#!/bin/bash
+
+	cd /path/to/install/ConnexionTotemCentrale
+	pkill -f client.py
+
+Similarly to the Centrale C you also have to write the service in `/lib/systemd/system/totem.service`
+
+	[Unit]
+	Atfer=multi-user.target
+
+	[Service]
+	Description=Démarrage de tous les services totem
+	Type=oneshot
+	ExecStart=/etc/init.d/start_totem.sh
+	ExecStop=/etc/init.d/stop_totem.sh
+	RemainAfterExit=yes
+
+	[Install]
+	WantedBy=multi-user.target
+
+
+You then have to execute the following commands : 
+
+	sudo systemctl enable totem.service
+
+You can then start, stop and check the status of your service at anytime using : 
+
+	sudo systemctl start totem.service
+	sudo systemctl stop totem.service
+	systemctl status totem.service
 
 ### Services installation
 
