@@ -1,6 +1,6 @@
 /** @format */
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import TotemList from "../TotemList/TotemList";
 import TotemParameters from "../TotemParameters/TotemParameters";
@@ -25,10 +25,14 @@ export default function AdminDashboard() {
 
 	const { socket } = useContext(SocketContext);
 
-	socket?.on("broadcastAskForHelp", (totemId: string) => {
-		console.log("Demande d'assistance reçue");
-		handleHelpRequest(totemId);
-	});
+	useEffect(() => {
+
+		socket?.on("broadcastAskForHelp", (totemId: string) => {
+			console.log("Demande d'assistance reçue");
+			handleHelpRequest(totemId);
+		});
+	}, [socket]);	
+
 
 	// Handle help request from user
 	const handleHelpRequest = (totemId: string) => {

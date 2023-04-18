@@ -28,13 +28,14 @@ export const HelpBtn = () => {
 		}
 	};
 
-	// Si l'admin valide la demande d'assistance
-	socket?.on("helpFixed", (totemId: string) => {
-		if (totemId === userInfo.TotemId) {
+	useEffect(() => {		
+		// Si l'admin valide la demande d'assistance
+		socket?.on("broadcastAskForHelp", (totemId: string) => {
+			console.log("Demande d'assistance terminée");
 			setHelpAsked(false);
-			console.log("Assistance terminée");
-		}
-	});
+		});
+	}, [socket]);	
+
 
 	useEffect(() => {
 		if (helpAsked) {
