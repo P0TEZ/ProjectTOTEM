@@ -1,3 +1,5 @@
+/** @format */
+
 import { useEffect } from "react";
 import characterImg from "./../../assets/images/character.png";
 import { FaArrowRight } from "react-icons/fa";
@@ -14,7 +16,6 @@ export default function Onboarding() {
 	return (
 		<>
 			<div id="OnboardingPage" className="PAGE_CONTAINER">
-				{/*<Blob color={{color1: "var(--primary-color)", color2:"hsl(239, 85%, 80%)"}} speed={3} opacity={.3}/>*/}
 				<div
 					className="characterContainer"
 					data-aos="zoom-in"
@@ -34,9 +35,9 @@ export default function Onboarding() {
 						data-aos="zoom-out"
 						data-aos-delay={startDelay + 400}
 					>
-						<strong>Totem</strong>
+						<strong className="monument">TOTEM</strong>
 						<br />
-						La magie de la musique, pour tous.
+						La magie de la musique, pour tous·tes.
 					</h1>
 					<p
 						className="fs-body-1 c-lightGrey"
