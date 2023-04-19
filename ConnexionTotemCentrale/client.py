@@ -17,16 +17,17 @@ client = socket.socket(socket.AF_INET, # Internet
 if __name__ == "__main__":
 
     while(True):
-        time.sleep(1)
         try:
             client.connect((UDP_IP, UDP_PORT))
             client.sendto(str.encode(number), (UDP_IP, UDP_PORT))
             print("Ping" + " " + time.strftime("%H:%M:%S"))
-            time.sleep(TIME_PING)
 
         except KeyboardInterrupt:
             print("Fermeture du client")
             client.close()
+            exit(0)
 
         except Exception as e:
             print("Erreur : ", e)
+        
+        time.sleep(TIME_PING)
