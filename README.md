@@ -41,7 +41,7 @@ The project is composed of multiple services:
 | [TOTEM API](api/totem/README.md)                              | Python, FastAPI                | 5050         | api/totem              | Centrale C       |
 | [OSC service](api/totem/README.md)                            | Python, python-osc             | 9000         | api/totem              | Centrale C       |
 | [DataBase](BDD/README.md)                                     | PostgreSQL                     | 5432         | BDD                    | Centrale C       |
-| [TOTEM Centrale Connection](ConnexionTotemCentrale/README.md) | Python                         | 6000         | ConnexionTotemCentrale | TOTEM            |
+| [TOTEM Centrale Connection](ConnexionTotemCentrale/README.md) | Python                         | 6000         | ConnexionTotemCentrale | TOTEM, Centrale C            |
 
 ## Installation
 
