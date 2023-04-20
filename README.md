@@ -149,7 +149,7 @@ Then you have to write the script that is going to execute on the raspberry's sh
     pkill -f app.py
     cd ../../ConnexionTotemCentrale
     pkill -f server.py
-    killall nodeù=ù
+    killall node
     cd ../BDD
     sudo su postgres -c "psql -U postgres -d totem -c 'TRUNCATE TABLE totem, set_to, groupe;'"
 
@@ -192,7 +192,7 @@ Then, you need to configure the file `TOTEMCentraleConnexion/.env`. You need to 
     IP_CENTRALE = "192.168.1.1"
 
 You then have to set the scripts that execute on the totem's startup.
-They are located in `/etc/init.d/start_totem.sh` :
+They are located in `/etc/network/if-up.d/start_totem.sh` :
 
     #!/bin/bash
 
@@ -214,7 +214,7 @@ Similarly to the Centrale C you also have to write the service in `/lib/systemd/
     [Service]
     Description=Démarrage de tous les services totem
     Type=oneshot
-    ExecStart=/etc/init.d/start_totem.sh
+    ExecStart=/etc/network/if-up.d/start_totem.sh
     ExecStop=/etc/init.d/stop_totem.sh
     RemainAfterExit=yes
 
