@@ -274,4 +274,9 @@ In the user page, you can change the parameters of the TOTEM.
 
 ## Authors
 
--   [P0TEZ Alexandre](https://github.com/P0TEZ)
+-   [COUSIN Flora](https://github.com/FloraCousin)
+-   [P0TEZE Alexandro](https://github.com/P0TEZ)
+-   [RASCLE Jérôme](https://github.com/jairaume)
+-   [MAVET Valentin](https://github.com/ValentinMavet)
+-   [HENNEMAN Hugo](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+-   [VILLAIN Pierre](https://github.com/Uma-Jan)
