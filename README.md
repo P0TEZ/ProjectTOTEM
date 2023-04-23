@@ -24,6 +24,8 @@
 
 This project is a school project. The goal is to create an application that can be used by a group of people to control a TOTEM (a device that can be used to convert sound into vibration). The application will be used to control the TOTEM's parameters (volume, balance, preset, etc...). The application will also be used by an admin to create groups and to add people to the group. Each group will have its own parameters.
 
+**Decouvrir TOTEM: **https://aeronef.fr/nos-projets/totem-2023
+
 ## Description
 
 -   In this project, there are multiple raspberry pi. Each raspberry pi is running a different service. The raspberry that is running the network and the most services is called the Centrale C. The other raspberry pi are called TOTEM. The TOTEM are connected to the Centrale C using wifi. In this project, there are 1 centrale C and multiple TOTEM.
