@@ -11,6 +11,7 @@ function useFetchState<T>(
 
 	useEffect(() => {
 		var headers = {};
+
 		fetch(url, {
 			method: "GET",
 			mode: "cors",
